@@ -22,7 +22,7 @@ public class FormaPagamentoDAO {
     public FormaPagamento incluirFormaPagamento(FormaPagamento objForma) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO FORMA_PAGAMENTO (DataForma,StatusForma,DescricaoForma,CreditCar,Visa,Master,Outros,Deposito,Dinheiro,Cheque,Boleto,DebitoC,PagtoCartao,PagtoDeposito,PagtoBoleto,PagtoDebito,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO FORMA_PAGAMENTO (DataForma,StatusForma,DescricaoForma,CreditCar,Visa,MasterC,Outros,Deposito,Dinheiro,Cheque,Boleto,DebitoC,PagtoCartao,PagtoDeposito,PagtoBoleto,PagtoDebito,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setTimestamp(1, new java.sql.Timestamp(objForma.getDataForma().getTime()));
             pst.setString(2, objForma.getStatusForma());
             pst.setString(3, objForma.getDescricaoForma());
@@ -53,7 +53,7 @@ public class FormaPagamentoDAO {
     public FormaPagamento alterarFormaPagamento(FormaPagamento objForma) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE FORMA_PAGAMENTO SET DataForma=?,StatusForma=?,DescricaoForma=?,CreditCar=?,Visa=?,Master=?,Outros=?,Deposito=?,Dinheiro=?,Cheque=?,Boleto=?,DebitoC=?,PagtoCartao=?,PagtoDeposito=?,PagtoBoleto=?,PagtoDebito=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdForma='" + objForma.getIdForma() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE FORMA_PAGAMENTO SET DataForma=?,StatusForma=?,DescricaoForma=?,CreditCar=?,Visa=?,MasterC=?,Outros=?,Deposito=?,Dinheiro=?,Cheque=?,Boleto=?,DebitoC=?,PagtoCartao=?,PagtoDeposito=?,PagtoBoleto=?,PagtoDebito=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdForma='" + objForma.getIdForma() + "'");
             pst.setTimestamp(1, new java.sql.Timestamp(objForma.getDataForma().getTime()));
             pst.setString(2, objForma.getStatusForma());
             pst.setString(3, objForma.getDescricaoForma());
