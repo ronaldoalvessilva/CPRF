@@ -5,9 +5,9 @@
  */
 package Visao;
 
+import Dao.ClientesDAO;
 import Dao.ConexaoBancoDados;
 import Dao.ControleLogSistema;
-import Dao.FornecedoresDAO;
 import Modelo.Fornecedor;
 import Modelo.LogSistema;
 import Util.LimiteDigitosAlfa;
@@ -34,7 +34,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     Fornecedor objForn = new Fornecedor();
-    FornecedoresDAO control = new FornecedoresDAO(); 
+    ClientesDAO control = new ClientesDAO();
     //
     ControleLogSistema controlLog = new ControleLogSistema();
     LogSistema objLogSys = new LogSistema();
@@ -940,7 +940,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
                         if (jRazaoSocial.getText().trim().equals(nomeFornecedor)) {
                             JOptionPane.showMessageDialog(rootPane, "Esse Fornecedor já está cadastrado.");
                         } else {
-                            control.incluirFornecedor(objForn);
+                            control.incluirCliente(objForn);
                             buscarId();
                         }
                         Salvar();
@@ -956,7 +956,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
                         verificarDuplicidadeFornecedor();
                         //
                         objForn.setIdForn(Integer.valueOf(jIdFornecedor.getText()));
-                        control.alterarFornecedor(objForn);
+                        control.alterarCliente(objForn);
                         //
                         Salvar();
                         objLog();
@@ -993,10 +993,10 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
             try {
                 conecta.executaSQL("SELECT * FROM CLIENTES WHERE RazaoSocial='" + jPesqNomeFornecedor.getText() + "'");
                 conecta.rs.first();
-                jIdFornecedor.setText(String.valueOf(conecta.rs.getInt("IdForn")));
+                jIdFornecedor.setText(String.valueOf(conecta.rs.getInt("IdClie")));
                 jRazaoSocial.setText(conecta.rs.getString("RazaoSocial"));
-                jComboBoxClass.setSelectedItem(conecta.rs.getString("ClassFor"));
-                jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusFor"));
+                jComboBoxClass.setSelectedItem(conecta.rs.getString("ClassClie"));
+                jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusClie"));
                 jCNPJ.setText(conecta.rs.getString("Cnpj"));
                 jInsEsta.setText(conecta.rs.getString("InsEstadual"));
                 jTelefone.setText(conecta.rs.getString("Telefone"));
@@ -1028,7 +1028,9 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
         if (jPesqNomeFornecedor.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Informe uma letra ou parte do nome para pesquisa.");
         } else {
-            preencherTabelaFornecedor("SELECT * FROM CLIENTES WHERE RazaoSocial LIKE'" + jPesqNomeFornecedor.getText() + "%'AND Modulo='" + modulo  + "'");
+            preencherTabelaFornecedor("SELECT * FROM CLIENTES "
+                    + "WHERE RazaoSocial LIKE'%" + jPesqNomeFornecedor.getText() + "%' "
+                    + "AND Modulo='" + modulo + "'");
         }
     }//GEN-LAST:event_jBtPesqNomeFornecedorActionPerformed
 
@@ -1038,7 +1040,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
             jTabelaFornecedor.setVisible(true);
-            this.preencherTabelaFornecedor("SELECT * FROM CLIENTES WHERE Modulo='" + modulo  + "'");
+            this.preencherTabelaFornecedor("SELECT * FROM CLIENTES WHERE Modulo='" + modulo + "'");
         } else {
             jtotalRegistros.setText("");
             limparTabelaFornecedor();
@@ -1508,7 +1510,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
             int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
                     JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                control.excluirFornecedor(objForn); 
+                control.excluirCliente(objForn);
                 objLog();
                 controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                 JOptionPane.showMessageDialog(rootPane, "Registro EXCLUIDO com sucesso !!!");

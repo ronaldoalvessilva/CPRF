@@ -345,7 +345,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -389,7 +389,6 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
 
         buttonGroup1.add(jRBtCartaoCredito);
         jRBtCartaoCredito.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jRBtCartaoCredito.setSelected(true);
         jRBtCartaoCredito.setText("Cartão Crédito");
         jRBtCartaoCredito.setEnabled(false);
 
@@ -405,7 +404,6 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
 
         buttonGroup2.add(jRBtVisa);
         jRBtVisa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jRBtVisa.setSelected(true);
         jRBtVisa.setText("Visa");
         jRBtVisa.setEnabled(false);
 
@@ -623,6 +621,11 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         jComboBoxDescricaoTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Pagamento em Dinheiro", "Pagamento com Cartão de Crédito", "Pagamento com Cartão de Débito", "Pagamento com Cheque", "Pagamento com Boleto Bancário", "Pagamento a Vista" }));
         jComboBoxDescricaoTipo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxDescricaoTipo.setEnabled(false);
+        jComboBoxDescricaoTipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxDescricaoTipoItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -848,10 +851,12 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        setBounds(300, 30, 527, 391);
+        setBounds(300, 30, 527, 380);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtCodigoPesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCodigoPesqActionPerformed
@@ -1185,6 +1190,23 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
     private void jBtAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAuditoriaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtAuditoriaActionPerformed
+
+    private void jComboBoxDescricaoTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxDescricaoTipoItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento em Dinheiro")) {
+            jRBtDeposito.setSelected(true);
+            jRBtDinheiro.setSelected(true);
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Cartão de Crédito")) {
+            jRBtCartaoCredito.setSelected(true);
+            jRBtVisa.setSelected(true);
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Cartão de Débito")) {
+            jRBtDebitoConta.setSelected(true);
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Boleto Bancário")) {
+            jRBtBoleto.setSelected(true);
+            jRBtDinheiro.setSelected(!true);
+            jRBtVisa.setSelected(!true);
+        }
+    }//GEN-LAST:event_jComboBoxDescricaoTipoItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
