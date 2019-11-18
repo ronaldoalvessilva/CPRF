@@ -22,7 +22,7 @@ public class FormaPagamentoDAO {
     public FormaPagamento incluirFormaPagamento(FormaPagamento objForma) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO FORMA_PAGAMENTO (DataForma,StatusForma,DescricaoForma,CreditCar,Visa,MasterC,Outros,Deposito,Dinheiro,Cheque,Boleto,DebitoC,PagtoCartao,PagtoDeposito,PagtoBoleto,PagtoDebito,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO TIPO_PAGAMENTO (DataForma,StatusForma,DescricaoForma,CreditCar,Visa,MasterC,Outros,Deposito,Dinheiro,Cheque,Boleto,DebitoC,Avista,PagtoCartao,PagtoDeposito,PagtoBoleto,PagtoDebito,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setTimestamp(1, new java.sql.Timestamp(objForma.getDataForma().getTime()));
             pst.setString(2, objForma.getStatusForma());
             pst.setString(3, objForma.getDescricaoForma());
@@ -35,13 +35,14 @@ public class FormaPagamentoDAO {
             pst.setInt(10, objForma.getCheque());
             pst.setInt(11, objForma.getBoleto());
             pst.setInt(12, objForma.getDebitoConta());
-            pst.setInt(13, objForma.getFormaPagtoCartao());
-            pst.setInt(14, objForma.getFormaPagtoDeposito());
-            pst.setInt(15, objForma.getFormaPagtoBoleto());
-            pst.setInt(16, objForma.getFormaPagtoDebito());
-            pst.setString(17, objForma.getUsuarioInsert());
-            pst.setString(18, objForma.getDataInsert());
-            pst.setString(19, objForma.getHorarioInsert());
+            pst.setInt(13, objForma.getAvista());
+            pst.setInt(14, objForma.getFormaPagtoCartao());
+            pst.setInt(15, objForma.getFormaPagtoDeposito());
+            pst.setInt(16, objForma.getFormaPagtoBoleto());
+            pst.setInt(17, objForma.getFormaPagtoDebito());
+            pst.setString(18, objForma.getUsuarioInsert());
+            pst.setString(19, objForma.getDataInsert());
+            pst.setString(20, objForma.getHorarioInsert());
             pst.execute();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível INSERIR os Dados\nERRO: " + ex);
@@ -53,7 +54,7 @@ public class FormaPagamentoDAO {
     public FormaPagamento alterarFormaPagamento(FormaPagamento objForma) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE FORMA_PAGAMENTO SET DataForma=?,StatusForma=?,DescricaoForma=?,CreditCar=?,Visa=?,MasterC=?,Outros=?,Deposito=?,Dinheiro=?,Cheque=?,Boleto=?,DebitoC=?,PagtoCartao=?,PagtoDeposito=?,PagtoBoleto=?,PagtoDebito=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdForma='" + objForma.getIdForma() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE TIPO_PAGAMENTO SET DataForma=?,StatusForma=?,DescricaoForma=?,CreditCar=?,Visa=?,MasterC=?,Outros=?,Deposito=?,Dinheiro=?,Cheque=?,Boleto=?,DebitoC=?,Avista=?,PagtoCartao=?,PagtoDeposito=?,PagtoBoleto=?,PagtoDebito=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdForma='" + objForma.getIdForma() + "'");
             pst.setTimestamp(1, new java.sql.Timestamp(objForma.getDataForma().getTime()));
             pst.setString(2, objForma.getStatusForma());
             pst.setString(3, objForma.getDescricaoForma());
@@ -66,13 +67,14 @@ public class FormaPagamentoDAO {
             pst.setInt(10, objForma.getCheque());
             pst.setInt(11, objForma.getBoleto());
             pst.setInt(12, objForma.getDebitoConta());
-            pst.setInt(13, objForma.getFormaPagtoCartao());
-            pst.setInt(14, objForma.getFormaPagtoDeposito());
-            pst.setInt(15, objForma.getFormaPagtoBoleto());
-            pst.setInt(16, objForma.getFormaPagtoDebito());
-            pst.setString(17, objForma.getUsuarioUp());
-            pst.setString(18, objForma.getDataUp());
-            pst.setString(19, objForma.getHorarioUp());
+            pst.setInt(13, objForma.getAvista());
+            pst.setInt(14, objForma.getFormaPagtoCartao());
+            pst.setInt(15, objForma.getFormaPagtoDeposito());
+            pst.setInt(16, objForma.getFormaPagtoBoleto());
+            pst.setInt(17, objForma.getFormaPagtoDebito());
+            pst.setString(18, objForma.getUsuarioUp());
+            pst.setString(19, objForma.getDataUp());
+            pst.setString(20, objForma.getHorarioUp());
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível ALTERAR os Dados\nERRO: " + ex);
@@ -84,7 +86,7 @@ public class FormaPagamentoDAO {
     public FormaPagamento excluirFormaPagamento(FormaPagamento objForma) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM FORMA_PAGAMENTO WHERE IdForma='" + objForma.getIdForma() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM TIPO_PAGAMENTO WHERE IdForma='" + objForma.getIdForma() + "'");
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível EXCLUIR os Dados\nERRO: " + ex);

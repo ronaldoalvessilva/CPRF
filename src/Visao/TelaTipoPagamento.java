@@ -25,6 +25,7 @@ import static Visao.TelaPrincipal.codUserAcesso;
 import static Visao.TelaPrincipal.codigoUser;
 import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
+import static Visao.TelaPrincipal.jPainelPrincipal;
 import static Visao.TelaPrincipal.nomeTela;
 import static Visao.TelaPrincipal.telaCadastroTiposPagto;
 import static Visao.TelaPrincipal.tipoServidor;
@@ -67,6 +68,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
     int pDEPOSITO_CHEQUE = 0;
     int pBOLETO = 0;
     int pDEBITO_CONTA = 0;
+    int pPAGAMENTO_VISTA = 0;
     int pCODIGO_TIPO_PAGAMENTO = 0;
 
     /**
@@ -141,6 +143,8 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         jPanel11 = new javax.swing.JPanel();
         jPrazoPgtoDebitoConta = new javax.swing.JFormattedTextField();
         jComboBoxDescricaoTipo = new javax.swing.JComboBox<>();
+        btG2 = new javax.swing.JPanel();
+        jRBtPagamentoVista = new javax.swing.JRadioButton();
         jPanel7 = new javax.swing.JPanel();
         jBtNovo = new javax.swing.JButton();
         jBtAlterar = new javax.swing.JButton();
@@ -391,21 +395,41 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         jRBtCartaoCredito.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jRBtCartaoCredito.setText("Cartão Crédito");
         jRBtCartaoCredito.setEnabled(false);
+        jRBtCartaoCredito.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jRBtCartaoCreditoItemStateChanged(evt);
+            }
+        });
 
         buttonGroup2.add(jRBtOutros);
         jRBtOutros.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jRBtOutros.setText("Outros");
         jRBtOutros.setEnabled(false);
+        jRBtOutros.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jRBtOutrosItemStateChanged(evt);
+            }
+        });
 
         buttonGroup2.add(jRBtMaster);
         jRBtMaster.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jRBtMaster.setText("Master Card");
         jRBtMaster.setEnabled(false);
+        jRBtMaster.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jRBtMasterItemStateChanged(evt);
+            }
+        });
 
         buttonGroup2.add(jRBtVisa);
         jRBtVisa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jRBtVisa.setText("Visa");
         jRBtVisa.setEnabled(false);
+        jRBtVisa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jRBtVisaItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -420,7 +444,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                         .addComponent(jRBtVisa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRBtMaster)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1, Short.MAX_VALUE)
                 .addComponent(jRBtOutros)
                 .addContainerGap())
         );
@@ -442,16 +466,31 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         jRBtDeposito.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jRBtDeposito.setText("Depósito");
         jRBtDeposito.setEnabled(false);
+        jRBtDeposito.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jRBtDepositoItemStateChanged(evt);
+            }
+        });
 
         buttonGroup3.add(jRBtCheque);
         jRBtCheque.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jRBtCheque.setText("Cheque");
         jRBtCheque.setEnabled(false);
+        jRBtCheque.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jRBtChequeItemStateChanged(evt);
+            }
+        });
 
         buttonGroup3.add(jRBtDinheiro);
         jRBtDinheiro.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jRBtDinheiro.setText("Dinheiro");
         jRBtDinheiro.setEnabled(false);
+        jRBtDinheiro.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jRBtDinheiroItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -483,6 +522,11 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         jRBtBoleto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jRBtBoleto.setText("Boleto");
         jRBtBoleto.setEnabled(false);
+        jRBtBoleto.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jRBtBoletoItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -507,6 +551,11 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         jRBtDebitoConta.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jRBtDebitoConta.setText("Débito em Conta");
         jRBtDebitoConta.setEnabled(false);
+        jRBtDebitoConta.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jRBtDebitoContaItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout btG1Layout = new javax.swing.GroupLayout(btG1);
         btG1.setLayout(btG1Layout);
@@ -515,7 +564,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
             .addGroup(btG1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jRBtDebitoConta)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         btG1Layout.setVerticalGroup(
             btG1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -618,7 +667,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         );
 
         jComboBoxDescricaoTipo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxDescricaoTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Pagamento em Dinheiro", "Pagamento com Cartão de Crédito", "Pagamento com Cartão de Débito", "Pagamento com Cheque", "Pagamento com Boleto Bancário", "Pagamento a Vista" }));
+        jComboBoxDescricaoTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Pagamento com Depósito em Dinheiro", "Pagamento com Cartão de Crédito - Visa", "Pagamento com Cartão de Crédito - MasterCard", "Pagamento com Cartão de Crédito - Outros", "Pagamento com Cartão de Débito", "Pagamento com Depósito em Cheque", "Pagamento com Boleto Bancário", "Pagamento a Vista" }));
         jComboBoxDescricaoTipo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxDescricaoTipo.setEnabled(false);
         jComboBoxDescricaoTipo.addItemListener(new java.awt.event.ItemListener() {
@@ -626,6 +675,35 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                 jComboBoxDescricaoTipoItemStateChanged(evt);
             }
         });
+
+        btG2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
+
+        buttonGroup1.add(jRBtPagamentoVista);
+        jRBtPagamentoVista.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jRBtPagamentoVista.setText("Pagamento a Vista");
+        jRBtPagamentoVista.setEnabled(false);
+        jRBtPagamentoVista.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jRBtPagamentoVistaItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout btG2Layout = new javax.swing.GroupLayout(btG2);
+        btG2.setLayout(btG2Layout);
+        btG2Layout.setHorizontalGroup(
+            btG2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btG2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jRBtPagamentoVista)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        btG2Layout.setVerticalGroup(
+            btG2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, btG2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jRBtPagamentoVista)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -647,13 +725,18 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3)
                             .addComponent(jDataRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btG1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBoxDescricaoTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jComboBoxDescricaoTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btG1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btG2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -661,7 +744,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                             .addComponent(jLabel5)
                             .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 99, Short.MAX_VALUE)
                             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel10, jPanel11, jPanel8, jPanel9});
@@ -695,13 +778,14 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 39, Short.MAX_VALUE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btG1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 39, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btG1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btG2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5))
         );
 
@@ -946,6 +1030,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
             jBtAlterar.setEnabled(true);
             jBtExcluir.setEnabled(true);
             jBtCancelar.setEnabled(true);
+            jBtAuditoria.setEnabled(true);
             //
             conecta.abrirConexao();
             try {
@@ -953,7 +1038,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                         + "WHERE IdForma='" + IdLanc + "'");
                 conecta.rs.first();
                 jCodigo.setText(String.valueOf(conecta.rs.getInt("IdForma")));
-                jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusTipo"));
+                jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusForma"));
                 jDataRegistro.setDate(conecta.rs.getDate("DataForma"));
                 jComboBoxDescricaoTipo.setSelectedItem(conecta.rs.getString("DescricaoForma"));
                 pCARTAO = conecta.rs.getInt("CreditCar");
@@ -1010,6 +1095,12 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                 } else if (pDEBITO_CONTA == 0) {
                     jRBtDebitoConta.setSelected(!true);
                 }
+                pPAGAMENTO_VISTA = conecta.rs.getInt("Avista");
+                if (pPAGAMENTO_VISTA == 1) {
+                    jRBtPagamentoVista.setSelected(true);
+                } else if (pPAGAMENTO_VISTA == 0) {
+                    jRBtPagamentoVista.setSelected(!true);
+                }
                 jPrazoPgtoCC.setText(conecta.rs.getString("PagtoCartao"));
                 jPrazoPgtoDeposito.setText(conecta.rs.getString("PagtoDeposito"));
                 jPrazoPgtoBoleto.setText(conecta.rs.getString("PagtoBoleto"));
@@ -1042,7 +1133,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(telaCadastroTiposPagto);
         if (codigoUser == codUserAcesso && nomeTela.equals(telaCadastroTiposPagto) && codAlterar == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
-            acao = 1;
+            acao = 2;
             desbloquearCampos();
             bloquearBotoes();
             Alterar();
@@ -1070,6 +1161,9 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                 objLog();
                 controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                 JOptionPane.showMessageDialog(rootPane, "Registro EXCLUIDO com sucesso !!!");
+                bloquearCampos();
+                bloquearBotoes();
+                limparCampos();
                 Excluir();
             }
         } else {
@@ -1142,6 +1236,12 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                 } else if (!jRBtDebitoConta.isSelected()) {
                     pDEBITO_CONTA = 0;
                 }
+                if (jRBtPagamentoVista.isSelected()) {
+                    pPAGAMENTO_VISTA = 1;
+                } else if (!jRBtPagamentoVista.isSelected()) {
+                    pPAGAMENTO_VISTA = 0;
+                }
+                objPagto.setAvista(pPAGAMENTO_VISTA);
                 objPagto.setDebitoConta(pDEBITO_CONTA);
                 objPagto.setFormaPagtoCartao(Integer.valueOf(jPrazoPgtoCC.getText()));
                 objPagto.setFormaPagtoDeposito(Integer.valueOf(jPrazoPgtoDeposito.getText()));
@@ -1155,7 +1255,9 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                     control.incluirFormaPagamento(objPagto);
                     buscarCodigo();
                     objLog();
-                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação             
+                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação  
+                    bloquearCampos();
+                    bloquearBotoes();
                     Salvar();
                     JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
@@ -1167,7 +1269,9 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                     objPagto.setIdForma(Integer.valueOf(jCodigo.getText()));
                     control.alterarFormaPagamento(objPagto);
                     objLog();
-                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação     
+                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação    
+                    bloquearCampos();
+                    bloquearBotoes();
                     Salvar();
                     JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
@@ -1189,28 +1293,200 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
 
     private void jBtAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAuditoriaActionPerformed
         // TODO add your handling code here:
+        TelaAuditoriaTP objAudTP = new TelaAuditoriaTP();
+        jPainelPrincipal.add(objAudTP);
+        objAudTP.show();
     }//GEN-LAST:event_jBtAuditoriaActionPerformed
 
     private void jComboBoxDescricaoTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxDescricaoTipoItemStateChanged
         // TODO add your handling code here:
-        if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento em Dinheiro")) {
+        if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Depósito em Dinheiro")) {
             jRBtDeposito.setSelected(true);
             jRBtDinheiro.setSelected(true);
-        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Cartão de Crédito")) {
+            buttonGroup2.clearSelection();
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Cartão de Crédito - Visa")) {
             jRBtCartaoCredito.setSelected(true);
             jRBtVisa.setSelected(true);
+            buttonGroup3.clearSelection();
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Cartão de Crédito - MasterCard")) {
+            jRBtCartaoCredito.setSelected(true);
+            jRBtMaster.setSelected(true);
+            buttonGroup3.clearSelection();
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Cartão de Crédito - Outros")) {
+            jRBtCartaoCredito.setSelected(true);
+            jRBtOutros.setSelected(true);
+            buttonGroup3.clearSelection();
         } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Cartão de Débito")) {
             jRBtDebitoConta.setSelected(true);
+            buttonGroup2.clearSelection();
+            buttonGroup3.clearSelection();
         } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Boleto Bancário")) {
             jRBtBoleto.setSelected(true);
-            jRBtDinheiro.setSelected(!true);
-            jRBtVisa.setSelected(!true);
+            buttonGroup2.clearSelection();
+            buttonGroup3.clearSelection();
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento com Depósito em Cheque")) {
+            jRBtDeposito.setSelected(true);
+            jRBtCheque.setSelected(true);
+            buttonGroup2.clearSelection();
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxDescricaoTipo.getSelectedItem().equals("Pagamento a Vista")) {
+            jRBtPagamentoVista.setSelected(true);
+            buttonGroup2.clearSelection();
+            buttonGroup3.clearSelection();
         }
+        if (jRBtCartaoCredito.isSelected()) {
+            pCARTAO = 1;
+        } else if (!jRBtCartaoCredito.isSelected()) {
+            pCARTAO = 0;
+        }
+        objPagto.setCartao(pCARTAO);
+        if (jRBtVisa.isSelected()) {
+            pCARTAO_VISA = 1;
+        } else if (!jRBtVisa.isSelected()) {
+            pCARTAO_VISA = 0;
+        }
+        objPagto.setVisa(pCARTAO_VISA);
+        if (jRBtMaster.isSelected()) {
+            pCARTAO_MASTER = 1;
+        } else if (!jRBtMaster.isSelected()) {
+            pCARTAO_MASTER = 0;
+        }
+        objPagto.setMaster(pCARTAO_MASTER);
+        if (jRBtOutros.isSelected()) {
+            pCARTAO_OUTROS = 1;
+        } else if (!jRBtOutros.isSelected()) {
+            pCARTAO_OUTROS = 0;
+        }
+        objPagto.setOutros(pCARTAO_OUTROS);
+        if (jRBtDeposito.isSelected()) {
+            pDEPOSITO = 1;
+        } else if (!jRBtDeposito.isSelected()) {
+            pDEPOSITO = 0;
+        }
+        objPagto.setDeposito(pDEPOSITO);
+        if (jRBtDinheiro.isSelected()) {
+            pDEPOSITO_DINHEIRO = 1;
+        } else if (!jRBtDinheiro.isSelected()) {
+            pDEPOSITO_DINHEIRO = 0;
+        }
+        objPagto.setDinheiro(pDEPOSITO_DINHEIRO);
+        if (jRBtCheque.isSelected()) {
+            pDEPOSITO_CHEQUE = 1;
+        } else if (!jRBtCheque.isSelected()) {
+            pDEPOSITO_CHEQUE = 0;
+        }
+        objPagto.setCheque(pDEPOSITO_CHEQUE);
+        if (jRBtBoleto.isSelected()) {
+            pBOLETO = 1;
+        } else if (!jRBtBoleto.isSelected()) {
+            pBOLETO = 0;
+        }
+        objPagto.setBoleto(pBOLETO);
+        if (jRBtDebitoConta.isSelected()) {
+            pDEBITO_CONTA = 1;
+        } else if (!jRBtDebitoConta.isSelected()) {
+            pDEBITO_CONTA = 0;
+        }
+        objPagto.setDebitoConta(pDEBITO_CONTA);
+        if (jRBtPagamentoVista.isSelected()) {
+            pPAGAMENTO_VISTA = 1;
+        } else if (!jRBtPagamentoVista.isSelected()) {
+            pPAGAMENTO_VISTA = 0;
+        }
+        objPagto.setAvista(pPAGAMENTO_VISTA);
     }//GEN-LAST:event_jComboBoxDescricaoTipoItemStateChanged
+
+    private void jRBtCartaoCreditoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRBtCartaoCreditoItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jRBtCartaoCredito.isSelected()) {
+            jRBtCartaoCredito.setSelected(true);
+            buttonGroup3.clearSelection();
+        }
+    }//GEN-LAST:event_jRBtCartaoCreditoItemStateChanged
+
+    private void jRBtDepositoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRBtDepositoItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jRBtDeposito.isSelected()) {
+            jRBtDeposito.setSelected(true);
+            buttonGroup2.clearSelection();
+        }
+    }//GEN-LAST:event_jRBtDepositoItemStateChanged
+
+    private void jRBtBoletoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRBtBoletoItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jRBtBoleto.isSelected()) {
+            jRBtBoleto.setSelected(true);
+            buttonGroup2.clearSelection();
+            buttonGroup3.clearSelection();
+        }
+    }//GEN-LAST:event_jRBtBoletoItemStateChanged
+
+    private void jRBtDebitoContaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRBtDebitoContaItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jRBtDebitoConta.isSelected()) {
+            jRBtDebitoConta.setSelected(true);
+            buttonGroup2.clearSelection();
+            buttonGroup3.clearSelection();
+        }
+    }//GEN-LAST:event_jRBtDebitoContaItemStateChanged
+
+    private void jRBtPagamentoVistaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRBtPagamentoVistaItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jRBtPagamentoVista.isSelected()) {
+            jRBtPagamentoVista.setSelected(true);
+            buttonGroup2.clearSelection();
+            buttonGroup3.clearSelection();
+        }
+    }//GEN-LAST:event_jRBtPagamentoVistaItemStateChanged
+
+    private void jRBtVisaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRBtVisaItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jRBtVisa.isSelected()) {
+            jRBtVisa.setSelected(true);
+            jRBtCartaoCredito.setSelected(true);
+            buttonGroup3.clearSelection();
+        }
+    }//GEN-LAST:event_jRBtVisaItemStateChanged
+
+    private void jRBtMasterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRBtMasterItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jRBtMaster.isSelected()) {
+            jRBtMaster.setSelected(true);
+            jRBtCartaoCredito.setSelected(true);
+            buttonGroup3.clearSelection();
+        }
+    }//GEN-LAST:event_jRBtMasterItemStateChanged
+
+    private void jRBtOutrosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRBtOutrosItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jRBtOutros.isSelected()) {
+            jRBtOutros.setSelected(true);
+            jRBtCartaoCredito.setSelected(true);
+            buttonGroup3.clearSelection();
+        }
+    }//GEN-LAST:event_jRBtOutrosItemStateChanged
+
+    private void jRBtChequeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRBtChequeItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jRBtCheque.isSelected()) {
+            jRBtCheque.setSelected(true);
+            jRBtDeposito.setSelected(true);
+            buttonGroup2.clearSelection();
+        }
+    }//GEN-LAST:event_jRBtChequeItemStateChanged
+
+    private void jRBtDinheiroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRBtDinheiroItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jRBtDinheiro.isSelected()) {
+            jRBtDinheiro.setSelected(true);
+            jRBtDeposito.setSelected(true);
+            buttonGroup2.clearSelection();
+        }
+    }//GEN-LAST:event_jRBtDinheiroItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btG1;
+    private javax.swing.JPanel btG2;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -1268,6 +1544,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton jRBtDinheiro;
     private javax.swing.JRadioButton jRBtMaster;
     private javax.swing.JRadioButton jRBtOutros;
+    private javax.swing.JRadioButton jRBtPagamentoVista;
     private javax.swing.JRadioButton jRBtVisa;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1300,6 +1577,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         jRBtCheque.setEnabled(!true);
         jRBtBoleto.setEnabled(!true);
         jRBtDebitoConta.setEnabled(!true);
+        jRBtPagamentoVista.setEnabled(!true);
         jPrazoPgtoCC.setEnabled(!true);
         jPrazoPgtoDeposito.setEnabled(!true);
         jPrazoPgtoBoleto.setEnabled(!true);
@@ -1318,6 +1596,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         jRBtCheque.setEnabled(true);
         jRBtBoleto.setEnabled(true);
         jRBtDebitoConta.setEnabled(true);
+        jRBtPagamentoVista.setEnabled(true);
         jPrazoPgtoCC.setEnabled(true);
         jPrazoPgtoDeposito.setEnabled(true);
         jPrazoPgtoBoleto.setEnabled(true);
@@ -1366,7 +1645,6 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         jBtNovo.setEnabled(true);
         jBtAlterar.setEnabled(true);
         jBtExcluir.setEnabled(true);
-        jBtSalvar.setEnabled(true);
         jBtAuditoria.setEnabled(true);
     }
 
@@ -1392,7 +1670,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         try {
             conecta.executaSQL("SELECT * FROM TIPO_PAGAMENTO");
             conecta.rs.last();
-            jCodigo.setText(conecta.rs.getString("IdTipo"));
+            jCodigo.setText(conecta.rs.getString("IdForma"));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Não foi possível obter o código do registro.\nERRO: " + e);
         }

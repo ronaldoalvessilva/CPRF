@@ -508,13 +508,20 @@
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
                                       <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jPanel6" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="btG1" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jComboBoxDescricaoTipo" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="jPanel6" max="32767" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="btG1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="btG2" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -526,7 +533,7 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <EmptySpace min="11" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -566,14 +573,15 @@
                               <Component id="jPanel9" linkSize="8" min="-2" pref="39" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jPanel10" linkSize="7" pref="39" max="32767" attributes="0"/>
                               <Component id="jPanel6" linkSize="7" max="32767" attributes="0"/>
+                              <Component id="btG1" linkSize="6" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btG1" linkSize="6" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="jPanel11" linkSize="6" min="-2" max="-2" attributes="0"/>
+                              <Component id="btG2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       </Group>
@@ -697,7 +705,7 @@
                                       <Component id="jRBtMaster" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="1" max="32767" attributes="0"/>
                               <Component id="jRBtOutros" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -730,6 +738,9 @@
                         <Property name="text" type="java.lang.String" value="Cart&#xe3;o Cr&#xe9;dito"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRBtCartaoCreditoItemStateChanged"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="jRBtOutros">
                       <Properties>
@@ -742,6 +753,9 @@
                         <Property name="text" type="java.lang.String" value="Outros"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRBtOutrosItemStateChanged"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="jRBtMaster">
                       <Properties>
@@ -754,6 +768,9 @@
                         <Property name="text" type="java.lang.String" value="Master Card"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRBtMasterItemStateChanged"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="jRBtVisa">
                       <Properties>
@@ -766,6 +783,9 @@
                         <Property name="text" type="java.lang.String" value="Visa"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRBtVisaItemStateChanged"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -824,6 +844,9 @@
                         <Property name="text" type="java.lang.String" value="Dep&#xf3;sito"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRBtDepositoItemStateChanged"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="jRBtCheque">
                       <Properties>
@@ -836,6 +859,9 @@
                         <Property name="text" type="java.lang.String" value="Cheque"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRBtChequeItemStateChanged"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="jRBtDinheiro">
                       <Properties>
@@ -848,6 +874,9 @@
                         <Property name="text" type="java.lang.String" value="Dinheiro"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRBtDinheiroItemStateChanged"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -898,6 +927,9 @@
                         <Property name="text" type="java.lang.String" value="Boleto"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRBtBoletoItemStateChanged"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -922,7 +954,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jRBtDebitoConta" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="41" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -948,6 +980,9 @@
                         <Property name="text" type="java.lang.String" value="D&#xe9;bito em Conta"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRBtDebitoContaItemStateChanged"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1153,14 +1188,16 @@
                       <Font name="Tahoma" size="11" style="1"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="7">
+                      <StringArray count="9">
                         <StringItem index="0" value="Selecione..."/>
-                        <StringItem index="1" value="Pagamento em Dinheiro"/>
-                        <StringItem index="2" value="Pagamento com Cart&#xe3;o de Cr&#xe9;dito"/>
-                        <StringItem index="3" value="Pagamento com Cart&#xe3;o de D&#xe9;bito"/>
-                        <StringItem index="4" value="Pagamento com Cheque"/>
-                        <StringItem index="5" value="Pagamento com Boleto Banc&#xe1;rio"/>
-                        <StringItem index="6" value="Pagamento a Vista"/>
+                        <StringItem index="1" value="Pagamento com Dep&#xf3;sito em Dinheiro"/>
+                        <StringItem index="2" value="Pagamento com Cart&#xe3;o de Cr&#xe9;dito - Visa"/>
+                        <StringItem index="3" value="Pagamento com Cart&#xe3;o de Cr&#xe9;dito - MasterCard"/>
+                        <StringItem index="4" value="Pagamento com Cart&#xe3;o de Cr&#xe9;dito - Outros"/>
+                        <StringItem index="5" value="Pagamento com Cart&#xe3;o de D&#xe9;bito"/>
+                        <StringItem index="6" value="Pagamento com Dep&#xf3;sito em Cheque"/>
+                        <StringItem index="7" value="Pagamento com Boleto Banc&#xe1;rio"/>
+                        <StringItem index="8" value="Pagamento a Vista"/>
                       </StringArray>
                     </Property>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -1177,6 +1214,59 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
+                <Container class="javax.swing.JPanel" name="btG2">
+                  <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                        <TitledBorder>
+                          <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                            <LineBorder roundedCorners="true">
+                              <Color PropertyName="color" blue="cc" green="cc" red="cc" type="rgb"/>
+                            </LineBorder>
+                          </Border>
+                        </TitledBorder>
+                      </Border>
+                    </Property>
+                  </Properties>
+
+                  <Layout>
+                    <DimensionLayout dim="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jRBtPagamentoVista" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                    <DimensionLayout dim="1">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jRBtPagamentoVista" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                    </DimensionLayout>
+                  </Layout>
+                  <SubComponents>
+                    <Component class="javax.swing.JRadioButton" name="jRBtPagamentoVista">
+                      <Properties>
+                        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                          <ComponentRef name="buttonGroup1"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Tahoma" size="11" style="1"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Pagamento a Vista"/>
+                        <Property name="enabled" type="boolean" value="false"/>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRBtPagamentoVistaItemStateChanged"/>
+                      </Events>
+                    </Component>
+                  </SubComponents>
+                </Container>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel7">

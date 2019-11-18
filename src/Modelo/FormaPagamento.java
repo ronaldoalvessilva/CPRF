@@ -26,10 +26,12 @@ public class FormaPagamento {
     private int dinheiro;
     private int boleto;
     private int debitoConta;
+    private int avista;
     private int formaPagtoCartao;
     private int formaPagtoDeposito;
     private int formaPagtoBoleto;
     private int formaPagtoDebito;
+    private int formaPagtoVista;
     private String UsuarioInsert;
     private String UsuarioUp;
     private String DataInsert;
@@ -40,7 +42,7 @@ public class FormaPagamento {
     public FormaPagamento() {
     }
 
-    public FormaPagamento(int IdForma, Date DataForma, String StatusForma, String DescricaoForma, int cartao, int visa, int master, int outros, int deposito, int cheque, int dinheiro, int boleto, int debitoConta, int formaPagtoCartao, int formaPagtoDeposito, int formaPagtoBoleto, int formaPagtoDebito, String UsuarioInsert, String UsuarioUp, String DataInsert, String DataUp, String HorarioInsert, String HorarioUp) {
+    public FormaPagamento(int IdForma, Date DataForma, String StatusForma, String DescricaoForma, int cartao, int visa, int master, int outros, int deposito, int cheque, int dinheiro, int boleto, int debitoConta, int avista, int formaPagtoCartao, int formaPagtoDeposito, int formaPagtoBoleto, int formaPagtoDebito, int formaPagtoVista, String UsuarioInsert, String UsuarioUp, String DataInsert, String DataUp, String HorarioInsert, String HorarioUp) {
         this.IdForma = IdForma;
         this.DataForma = DataForma;
         this.StatusForma = StatusForma;
@@ -54,10 +56,12 @@ public class FormaPagamento {
         this.dinheiro = dinheiro;
         this.boleto = boleto;
         this.debitoConta = debitoConta;
+        this.avista = avista;
         this.formaPagtoCartao = formaPagtoCartao;
         this.formaPagtoDeposito = formaPagtoDeposito;
         this.formaPagtoBoleto = formaPagtoBoleto;
         this.formaPagtoDebito = formaPagtoDebito;
+        this.formaPagtoVista = formaPagtoVista;
         this.UsuarioInsert = UsuarioInsert;
         this.UsuarioUp = UsuarioUp;
         this.DataInsert = DataInsert;
@@ -249,6 +253,20 @@ public class FormaPagamento {
     }
 
     /**
+     * @return the avista
+     */
+    public int getAvista() {
+        return avista;
+    }
+
+    /**
+     * @param avista the avista to set
+     */
+    public void setAvista(int avista) {
+        this.avista = avista;
+    }
+
+    /**
      * @return the formaPagtoCartao
      */
     public int getFormaPagtoCartao() {
@@ -302,6 +320,20 @@ public class FormaPagamento {
      */
     public void setFormaPagtoDebito(int formaPagtoDebito) {
         this.formaPagtoDebito = formaPagtoDebito;
+    }
+
+    /**
+     * @return the formaPagtoVista
+     */
+    public int getFormaPagtoVista() {
+        return formaPagtoVista;
+    }
+
+    /**
+     * @param formaPagtoVista the formaPagtoVista to set
+     */
+    public void setFormaPagtoVista(int formaPagtoVista) {
+        this.formaPagtoVista = formaPagtoVista;
     }
 
     /**
@@ -391,5 +423,5 @@ public class FormaPagamento {
     @Override
     public String toString() {
         return getDescricaoForma(); //To change body of generated methods, choose Tools | Templates.
-    }    
+    }
 }
