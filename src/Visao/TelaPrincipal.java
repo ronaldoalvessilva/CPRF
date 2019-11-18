@@ -85,7 +85,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaClientes objSoli = null;
     private TelaUsuarios objUser = null;
     private TelaTipoPagamento objTipo = null;
-//    private TelaModuloSistema objModulo = null;
+    private TelaBancosContasBancarias objBancosContas = null;
     private TelaRecados objjAgendaRec = null;
     private TelaAgendaCompromissos objAgendaComp = null;
 //    private TelaChamadoSuporte objChamaSup = null;
@@ -294,6 +294,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenu4 = new javax.swing.JMenu();
         jEmpresa = new javax.swing.JMenuItem();
+        jParametrosSistema = new javax.swing.JMenuItem();
         jUsuarios = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jAgendaRecados = new javax.swing.JMenuItem();
@@ -716,6 +717,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu4.add(jEmpresa);
 
+        jParametrosSistema.setText("Parametros do Sistema");
+        jMenu4.add(jParametrosSistema);
+
         jUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         jUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191009_16.png"))); // NOI18N
         jUsuarios.setMnemonic('U');
@@ -1102,36 +1106,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jModulosSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModulosSistemaActionPerformed
         // TODO add your handling code here:
-//        buscarAcessoUsuario(telaCadastroModulos);
-//        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codAbrir == 1) {
-//            if (objModulo == null || objModulo.isClosed()) {
-//                objModulo = new TelaModuloSistema();
-//                TelaPrincipal.jPainelPrincipal.add(objModulo);
-//                objModulo.setVisible(true);
-//            } else {
-//                if (objModulo.isVisible()) {
-//                    if (objModulo.isIcon()) { // Se esta minimizado
-//                        try {
-//                            objModulo.setIcon(false); // maximiniza
-//                        } catch (PropertyVetoException ex) {
-//                        }
-//                    } else {
-//                        objModulo.toFront(); // traz para frente
-//                        objModulo.pack();//volta frame 
-//                    }
-//                } else {
-//                    objModulo = new TelaModuloSistema();
-//                    TelaPrincipal.jPainelPrincipal.add(objModulo);//adicona frame ao JDesktopPane  
-//                    objModulo.setVisible(true);
-//                }
-//            }
-//            try {
-//                objModulo.setSelected(true);
-//            } catch (java.beans.PropertyVetoException e) {
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-//        }
+        buscarAcessoUsuario(telaCadastroBancosContas);
+        if (codigoUser == codUserAcesso && nomeTela.equals(telaCadastroBancosContas) && codAbrir == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
+            if (objBancosContas == null || objBancosContas.isClosed()) {
+                objBancosContas = new TelaBancosContasBancarias();
+                TelaPrincipal.jPainelPrincipal.add(objBancosContas);
+                objBancosContas.setVisible(true);
+            } else {
+                if (objBancosContas.isVisible()) {
+                    if (objBancosContas.isIcon()) { // Se esta minimizado
+                        try {
+                            objBancosContas.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objBancosContas.toFront(); // traz para frente
+                        objBancosContas.pack();//volta frame 
+                    }
+                } else {
+                    objBancosContas = new TelaBancosContasBancarias();
+                    TelaPrincipal.jPainelPrincipal.add(objBancosContas);//adicona frame ao JDesktopPane  
+                    objBancosContas.setVisible(true);
+                }
+            }
+            try {
+                objBancosContas.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
     }//GEN-LAST:event_jModulosSistemaActionPerformed
 
     private void jAgendaRecadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAgendaRecadosActionPerformed
@@ -2061,6 +2065,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JMenuItem jParametrosSistema;
     private javax.swing.JMenu jRelatorios;
     private javax.swing.JMenuItem jSair;
     private javax.swing.JPopupMenu.Separator jSeparator1;

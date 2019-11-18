@@ -6,21 +6,21 @@
 package Visao;
 
 import Dao.ConexaoBancoDados;
-import static Visao.TelaTipoPagamento.jCodigo;
+import static Visao.TelaBancosContasBancarias.jCodigo;
 import java.sql.SQLException;
 
 /**
  *
  * @author Ronaldo
  */
-public class TelaAuditoriaTP extends javax.swing.JInternalFrame {
+public class TelaAuditoriaBC extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();    
 
     /**
      * Creates new form TelaAuditoriaRolInternas
      */
-    public TelaAuditoriaTP() {
+    public TelaAuditoriaBC() {
         initComponents();
         auditoria();      
     }
@@ -51,7 +51,7 @@ public class TelaAuditoriaTP extends javax.swing.JInternalFrame {
         jUsuarioInsert = new javax.swing.JTextField();
 
         setClosable(true);
-        setTitle("...::: Auditoria  :::...");
+        setTitle("...::: Auditoria :::...");
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -249,7 +249,7 @@ public class TelaAuditoriaTP extends javax.swing.JInternalFrame {
     public void auditoria() {
         try {
             conecta.abrirConexao();
-            conecta.executaSQL("SELECT * FROM TIPO_PAGAMENTO WHERE IdForma='" + jCodigo.getText() + "'");
+            conecta.executaSQL("SELECT * FROM BANCOS_CONTAS WHERE IdBanco='" + jCodigo.getText() + "'");
             conecta.rs.first();
             jUsuarioInsert.setText(conecta.rs.getString("UsuarioInsert"));
             jDataInsert.setText(conecta.rs.getString("DataInsert"));
