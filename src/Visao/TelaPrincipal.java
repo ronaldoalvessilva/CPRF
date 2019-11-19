@@ -86,10 +86,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaUsuarios objUser = null;
     private TelaTipoPagamento objTipo = null;
     private TelaBancosContasBancarias objBancosContas = null;
+    private TelaCentroCusto objCentroCusto = null;
     private TelaRecados objjAgendaRec = null;
     private TelaAgendaCompromissos objAgendaComp = null;
-//    private TelaChamadoSuporte objChamaSup = null;
-//    private TelaChamadoDesenvolvimento objChamaSupDesn = null;
+    private TelaTipoContas objTiposContas = null;
+
     //
     String statusAgenda = "Pendente";
     String usuarioLogado, dataLanc;
@@ -130,18 +131,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static String telaCadastroCopiar = "Cadastro:Usuarios:Copiar";
     public static String telaCadastroTiposPagto = "Cadastro:Tipos de Pagamentos:Manutenção";
     public static String telaCadastroBancosContas = "Cadastro:Bancos/Contas:Manutenção";
+    public static String telaCentroCusto = "Cadastro: Centro de Custo:Manutenção";
+    public static String telaTiposContas = "Cadastro:Tipos de Contas:Manutenção";
     public static String telaAgendaRecado = "Cadastro Agenda Recados:Manutenção";
     public static String telaAgendaCompromisso = "Cadastro Agenda de Compromisso:Manutenção";
     //SUPORTE CHAMADOS
-    public static String telaChamadosSuporte = "Suporte Técnico:Chamados Suporte:Manutenção";
+
     public static String telaItensChamadoSuporte = "Suporte Técnico:Chamados Suporte:Itens";
     public static String botaoEncerrarSup = "Encerrar Chamado no Suporte";
     public static String botaoImprimirSup = "Imprimir Chamado no Suporte";
     public static String botaoEnviarSup = "Enviar Chamado no Suporte";
     public static String botaoReabrirSup = "Reabrir Chamado no Suporte";
     //SUPORTE DESENVOLVIMENTO
-    public static String telaChamadosDesenvolvimento = "Desenvolvimento:Chamados Desenvolvimento:Manutenção";
-    public static String telaItensChamadoDesenvolvimento = "Desenvolvimento:Chamados Desenvolvimento:Itens";
+
     public static String botaoEncerrarDes = "Encerrar Chamado no Desenvolvedor";
     public static String botaoImprimirDes = "Imprimir Chamado no Desenvolvedor";
     public static String botaoEnviarDes = "Enviar Chamado no Desenvolvedor";
@@ -271,7 +273,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jBtTrocarSenha = new javax.swing.JButton();
         jBtLogoff = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jBtSairSistema = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jBtChamadosSuporte = new javax.swing.JButton();
         jBtRelatoriosSuporteTecnico = new javax.swing.JButton();
@@ -289,8 +291,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jClientes = new javax.swing.JMenuItem();
         jSoftware = new javax.swing.JMenuItem();
         jModulosSistema = new javax.swing.JMenuItem();
-        jChamadosDesenvolvimento = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jCentroCusto = new javax.swing.JMenuItem();
+        jTiposContas = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenu4 = new javax.swing.JMenu();
         jEmpresa = new javax.swing.JMenuItem();
@@ -329,7 +331,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel1.setToolTipText("Cadastros");
 
         jBtOcorrencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/250119203502_32.png"))); // NOI18N
-        jBtOcorrencias.setToolTipText("Ocorrências");
+        jBtOcorrencias.setToolTipText("Fornecedores");
         jBtOcorrencias.setContentAreaFilled(false);
         jBtOcorrencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -368,7 +370,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
 
         jBtSistemas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191527_32.png"))); // NOI18N
-        jBtSistemas.setToolTipText("Sistemas");
+        jBtSistemas.setToolTipText("Configurações");
         jBtSistemas.setContentAreaFilled(false);
         jBtSistemas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -492,14 +494,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/shutdown-icone-6920-32.png"))); // NOI18N
-        jButton4.setContentAreaFilled(false);
-        jButton4.setFocusable(false);
-        jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jBtSairSistema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/shutdown-icone-6920-32.png"))); // NOI18N
+        jBtSairSistema.setContentAreaFilled(false);
+        jBtSairSistema.setFocusable(false);
+        jBtSairSistema.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jBtSairSistema.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jBtSairSistema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jBtSairSistemaActionPerformed(evt);
             }
         });
 
@@ -513,14 +515,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtLogoff, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBtSairSistema, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jBtTrocarSenha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jBtLogoff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jBtSairSistema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204))));
@@ -644,9 +646,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jFornecedor.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jFornecedor.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         jFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/250119203457_16.png"))); // NOI18N
-        jFornecedor.setMnemonic('O');
+        jFornecedor.setMnemonic('F');
         jFornecedor.setText("Fornecedor");
         jFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -655,9 +657,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jCadastro.add(jFornecedor);
 
-        jClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119192043_16.png"))); // NOI18N
-        jClientes.setMnemonic('L');
+        jClientes.setMnemonic('C');
         jClientes.setText("Clientes");
         jClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -666,9 +668,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jCadastro.add(jClientes);
 
-        jSoftware.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        jSoftware.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         jSoftware.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
-        jSoftware.setMnemonic('F');
+        jSoftware.setMnemonic('T');
         jSoftware.setText("Tipos de Pagamento");
         jSoftware.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -677,9 +679,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jCadastro.add(jSoftware);
 
-        jModulosSistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
+        jModulosSistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
         jModulosSistema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191718_16.png"))); // NOI18N
-        jModulosSistema.setMnemonic('M');
+        jModulosSistema.setMnemonic('B');
         jModulosSistema.setText("Bancos/Contas Bancárias");
         jModulosSistema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -688,27 +690,34 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jCadastro.add(jModulosSistema);
 
-        jChamadosDesenvolvimento.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
-        jChamadosDesenvolvimento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskMas_16.png"))); // NOI18N
-        jChamadosDesenvolvimento.setMnemonic('D');
-        jChamadosDesenvolvimento.setText("Centro de Custo");
-        jChamadosDesenvolvimento.addActionListener(new java.awt.event.ActionListener() {
+        jCentroCusto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        jCentroCusto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/HelpDeskMas_16.png"))); // NOI18N
+        jCentroCusto.setMnemonic('E');
+        jCentroCusto.setText("Centro de Custo");
+        jCentroCusto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jChamadosDesenvolvimentoActionPerformed(evt);
+                jCentroCustoActionPerformed(evt);
             }
         });
-        jCadastro.add(jChamadosDesenvolvimento);
+        jCadastro.add(jCentroCusto);
 
-        jMenuItem1.setText("Tipos de Contas");
-        jCadastro.add(jMenuItem1);
+        jTiposContas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        jTiposContas.setMnemonic('I');
+        jTiposContas.setText("Tipos de Contas");
+        jTiposContas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTiposContasActionPerformed(evt);
+            }
+        });
+        jCadastro.add(jTiposContas);
         jCadastro.add(jSeparator2);
 
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191524_16.png"))); // NOI18N
         jMenu4.setText("Configurações");
 
-        jEmpresa.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        jEmpresa.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         jEmpresa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119190812_16.png"))); // NOI18N
-        jEmpresa.setMnemonic('E');
+        jEmpresa.setMnemonic('U');
         jEmpresa.setText("Empresa/Unidade Prisional");
         jEmpresa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -717,12 +726,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu4.add(jEmpresa);
 
+        jParametrosSistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jParametrosSistema.setMnemonic('S');
         jParametrosSistema.setText("Parametros do Sistema");
         jMenu4.add(jParametrosSistema);
 
-        jUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        jUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119191009_16.png"))); // NOI18N
-        jUsuarios.setMnemonic('U');
+        jUsuarios.setMnemonic('R');
         jUsuarios.setText("Usuários");
         jUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1213,7 +1224,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosSuporteActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaChamadosSuporte);
+//        buscarAcessoUsuario(telaTiposContas);
 //        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAbrir == 1) {
 //            if (objChamaSup == null || objChamaSup.isClosed()) {
 //                objChamaSup = new TelaChamadoSuporte();
@@ -1256,44 +1267,44 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jConsultasSQLActionPerformed
 
-    private void jChamadosDesenvolvimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosDesenvolvimentoActionPerformed
+    private void jCentroCustoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCentroCustoActionPerformed
         // TODO add your handling code here:TelaChamadoDesenvolvimento
-        buscarAcessoUsuario(telaChamadosDesenvolvimento);
-//        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosDesenvolvimento) && codAbrir == 1) {
-//            if (objChamaSupDesn == null || objChamaSupDesn.isClosed()) {
-//                objChamaSupDesn = new TelaChamadoDesenvolvimento();
-//                TelaPrincipal.jPainelPrincipal.add(objChamaSupDesn);
-//                objChamaSupDesn.setVisible(true);
-//            } else {
-//                if (objChamaSup.isVisible()) {
-//                    if (objChamaSupDesn.isIcon()) { // Se esta minimizado
-//                        try {
-//                            objChamaSupDesn.setIcon(false); // maximiniza
-//                        } catch (PropertyVetoException ex) {
-//                        }
-//                    } else {
-//                        objChamaSupDesn.toFront(); // traz para frente
-//                        objChamaSupDesn.pack();//volta frame 
-//                    }
-//                } else {
-//                    objChamaSupDesn = new TelaChamadoDesenvolvimento();
-//                    TelaPrincipal.jPainelPrincipal.add(objChamaSupDesn);//adicona frame ao JDesktopPane  
-//                    objChamaSupDesn.setVisible(true);
-//                }
-//            }
-//            try {
-//                objChamaSupDesn.setSelected(true);
-//            } catch (java.beans.PropertyVetoException e) {
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-//        }
-    }//GEN-LAST:event_jChamadosDesenvolvimentoActionPerformed
+        buscarAcessoUsuario(telaCentroCusto);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCentroCusto) && codAbrir == 1) {
+            if (objCentroCusto == null || objCentroCusto.isClosed()) {
+                objCentroCusto = new TelaCentroCusto();
+                TelaPrincipal.jPainelPrincipal.add(objCentroCusto);
+                objCentroCusto.setVisible(true);
+            } else {
+                if (objCentroCusto.isVisible()) {
+                    if (objCentroCusto.isIcon()) { // Se esta minimizado
+                        try {
+                            objCentroCusto.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objCentroCusto.toFront(); // traz para frente
+                        objCentroCusto.pack();//volta frame 
+                    }
+                } else {
+                    objCentroCusto = new TelaCentroCusto();
+                    TelaPrincipal.jPainelPrincipal.add(objCentroCusto);//adicona frame ao JDesktopPane  
+                    objCentroCusto.setVisible(true);
+                }
+            }
+            try {
+                objCentroCusto.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jCentroCustoActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jBtSairSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSairSistemaActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_jBtSairSistemaActionPerformed
 
     private void jBtEmpresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtEmpresaActionPerformed
         // TODO add your handling code here:
@@ -1331,70 +1342,70 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtOcorrenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtOcorrenciasActionPerformed
         // TODO add your handling code here:
-//        buscarAcessoUsuario(telaOcorrenciaManu);
-//        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaOcorrenciaManu) && codAbrir == 1) {
-//            if (objOcr == null || objOcr.isClosed()) {
-//                objOcr = new TelaOcorrenciasHD();
-//                TelaPrincipal.jPainelPrincipal.add(objOcr);
-//                objOcr.setVisible(true);
-//            } else {
-//                if (objOcr.isVisible()) {
-//                    if (objOcr.isIcon()) { // Se esta minimizado
-//                        try {
-//                            objOcr.setIcon(false); // maximiniza
-//                        } catch (PropertyVetoException ex) {
-//                        }
-//                    } else {
-//                        objOcr.toFront(); // traz para frente
-//                        objOcr.pack();//volta frame 
-//                    }
-//                } else {
-//                    objOcr = new TelaOcorrenciasHD();
-//                    TelaPrincipal.jPainelPrincipal.add(objOcr);//adicona frame ao JDesktopPane  
-//                    objOcr.setVisible(true);
-//                }
-//            }
-//            try {
-//                objOcr.setSelected(true);
-//            } catch (java.beans.PropertyVetoException e) {
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-//        }
+        buscarAcessoUsuario(telaCadastroFornecedoresManu);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroFornecedoresManu) && codAbrir == 1) {
+            if (objOcr == null || objOcr.isClosed()) {
+                objOcr = new TelaFornecedor();
+                TelaPrincipal.jPainelPrincipal.add(objOcr);
+                objOcr.setVisible(true);
+            } else {
+                if (objOcr.isVisible()) {
+                    if (objOcr.isIcon()) { // Se esta minimizado
+                        try {
+                            objOcr.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objOcr.toFront(); // traz para frente
+                        objOcr.pack();//volta frame 
+                    }
+                } else {
+                    objOcr = new TelaFornecedor();
+                    TelaPrincipal.jPainelPrincipal.add(objOcr);//adicona frame ao JDesktopPane  
+                    objOcr.setVisible(true);
+                }
+            }
+            try {
+                objOcr.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
     }//GEN-LAST:event_jBtOcorrenciasActionPerformed
 
     private void jBtSolicitantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSolicitantesActionPerformed
         // TODO add your handling code here:
-//        buscarAcessoUsuario(telaCadastroSolicitantes);
-//        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroSolicitantes) && codAbrir == 1) {
-//            if (objSoli == null || objSoli.isClosed()) {
-//                objSoli = new TelaSolicitantes();
-//                TelaPrincipal.jPainelPrincipal.add(objSoli);
-//                objSoli.setVisible(true);
-//            } else {
-//                if (objSoli.isVisible()) {
-//                    if (objSoli.isIcon()) { // Se esta minimizado
-//                        try {
-//                            objSoli.setIcon(false); // maximiniza
-//                        } catch (PropertyVetoException ex) {
-//                        }
-//                    } else {
-//                        objSoli.toFront(); // traz para frente
-//                        objSoli.pack();//volta frame 
-//                    }
-//                } else {
-//                    objSoli = new TelaSolicitantes();
-//                    TelaPrincipal.jPainelPrincipal.add(objSoli);//adicona frame ao JDesktopPane  
-//                    objSoli.setVisible(true);
-//                }
-//            }
-//            try {
-//                objSoli.setSelected(true);
-//            } catch (java.beans.PropertyVetoException e) {
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-//        }
+        buscarAcessoUsuario(telaCadastroClientes);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroClientes) && codAbrir == 1) {
+            if (objSoli == null || objSoli.isClosed()) {
+                objSoli = new TelaClientes();
+                TelaPrincipal.jPainelPrincipal.add(objSoli);
+                objSoli.setVisible(true);
+            } else {
+                if (objSoli.isVisible()) {
+                    if (objSoli.isIcon()) { // Se esta minimizado
+                        try {
+                            objSoli.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objSoli.toFront(); // traz para frente
+                        objSoli.pack();//volta frame 
+                    }
+                } else {
+                    objSoli = new TelaClientes();
+                    TelaPrincipal.jPainelPrincipal.add(objSoli);//adicona frame ao JDesktopPane  
+                    objSoli.setVisible(true);
+                }
+            }
+            try {
+                objSoli.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
     }//GEN-LAST:event_jBtSolicitantesActionPerformed
 
     private void jBtUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtUsuariosActionPerformed
@@ -1467,36 +1478,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtModulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtModulosActionPerformed
         // TODO add your handling code here:
-//        buscarAcessoUsuario(telaCadastroModulos);
-//        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaCadastroModulos) && codAbrir == 1) {
-//            if (objModulo == null || objModulo.isClosed()) {
-//                objModulo = new TelaModuloSistema();
-//                TelaPrincipal.jPainelPrincipal.add(objModulo);
-//                objModulo.setVisible(true);
-//            } else {
-//                if (objModulo.isVisible()) {
-//                    if (objModulo.isIcon()) { // Se esta minimizado
-//                        try {
-//                            objModulo.setIcon(false); // maximiniza
-//                        } catch (PropertyVetoException ex) {
-//                        }
-//                    } else {
-//                        objModulo.toFront(); // traz para frente
-//                        objModulo.pack();//volta frame 
-//                    }
-//                } else {
-//                    objModulo = new TelaModuloSistema();
-//                    TelaPrincipal.jPainelPrincipal.add(objModulo);//adicona frame ao JDesktopPane  
-//                    objModulo.setVisible(true);
-//                }
-//            }
-//            try {
-//                objModulo.setSelected(true);
-//            } catch (java.beans.PropertyVetoException e) {
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-//        }
+        buscarAcessoUsuario(telaCadastroBancosContas);
+        if (codigoUser == codUserAcesso && nomeTela.equals(telaCadastroBancosContas) && codAbrir == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
+            if (objBancosContas == null || objBancosContas.isClosed()) {
+                objBancosContas = new TelaBancosContasBancarias();
+                TelaPrincipal.jPainelPrincipal.add(objBancosContas);
+                objBancosContas.setVisible(true);
+            } else {
+                if (objBancosContas.isVisible()) {
+                    if (objBancosContas.isIcon()) { // Se esta minimizado
+                        try {
+                            objBancosContas.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objBancosContas.toFront(); // traz para frente
+                        objBancosContas.pack();//volta frame 
+                    }
+                } else {
+                    objBancosContas = new TelaBancosContasBancarias();
+                    TelaPrincipal.jPainelPrincipal.add(objBancosContas);//adicona frame ao JDesktopPane  
+                    objBancosContas.setVisible(true);
+                }
+            }
+            try {
+                objBancosContas.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
     }//GEN-LAST:event_jBtModulosActionPerformed
 
     private void jBtAgendaRecadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAgendaRecadosActionPerformed
@@ -1569,36 +1580,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jBtChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtChamadosSuporteActionPerformed
         // TODO add your handling code here:
-//        buscarAcessoUsuario(telaChamadosSuporte);
-//        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAbrir == 1) {
-//            if (objChamaSup == null || objChamaSup.isClosed()) {
-//                objChamaSup = new TelaChamadoSuporte();
-//                TelaPrincipal.jPainelPrincipal.add(objChamaSup);
-//                objChamaSup.setVisible(true);
-//            } else {
-//                if (objChamaSup.isVisible()) {
-//                    if (objChamaSup.isIcon()) { // Se esta minimizado
-//                        try {
-//                            objChamaSup.setIcon(false); // maximiniza
-//                        } catch (PropertyVetoException ex) {
-//                        }
-//                    } else {
-//                        objChamaSup.toFront(); // traz para frente
-//                        objChamaSup.pack();//volta frame 
-//                    }
-//                } else {
-//                    objChamaSup = new TelaChamadoSuporte();
-//                    TelaPrincipal.jPainelPrincipal.add(objChamaSup);//adicona frame ao JDesktopPane  
-//                    objChamaSup.setVisible(true);
-//                }
-//            }
-//            try {
-//                objChamaSup.setSelected(true);
-//            } catch (java.beans.PropertyVetoException e) {
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-//        }
+        buscarAcessoUsuario(telaTiposContas);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaTiposContas) && codAbrir == 1) {
+            if (objTiposContas == null || objTiposContas.isClosed()) {
+                objTiposContas = new TelaTipoContas();
+                TelaPrincipal.jPainelPrincipal.add(objTiposContas);
+                objTiposContas.setVisible(true);
+            } else {
+                if (objTiposContas.isVisible()) {
+                    if (objTiposContas.isIcon()) { // Se esta minimizado
+                        try {
+                            objTiposContas.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objTiposContas.toFront(); // traz para frente
+                        objTiposContas.pack();//volta frame 
+                    }
+                } else {
+                    objTiposContas = new TelaTipoContas();
+                    TelaPrincipal.jPainelPrincipal.add(objTiposContas);//adicona frame ao JDesktopPane  
+                    objTiposContas.setVisible(true);
+                }
+            }
+            try {
+                objTiposContas.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
     }//GEN-LAST:event_jBtChamadosSuporteActionPerformed
 
     private void jBtConsultasDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtConsultasDBActionPerformed
@@ -1984,6 +1995,40 @@ public class TelaPrincipal extends javax.swing.JFrame {
 //        }
     }//GEN-LAST:event_jSobreMenuKeyPressed
 
+    private void jTiposContasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTiposContasActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaTiposContas);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaTiposContas) && codAbrir == 1) {
+            if (objTiposContas == null || objTiposContas.isClosed()) {
+                objTiposContas = new TelaTipoContas();
+                TelaPrincipal.jPainelPrincipal.add(objTiposContas);
+                objTiposContas.setVisible(true);
+            } else {
+                if (objTiposContas.isVisible()) {
+                    if (objTiposContas.isIcon()) { // Se esta minimizado
+                        try {
+                            objTiposContas.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objTiposContas.toFront(); // traz para frente
+                        objTiposContas.pack();//volta frame 
+                    }
+                } else {
+                    objTiposContas = new TelaTipoContas();
+                    TelaPrincipal.jPainelPrincipal.add(objTiposContas);//adicona frame ao JDesktopPane  
+                    objTiposContas.setVisible(true);
+                }
+            }
+            try {
+                objTiposContas.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jTiposContasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2034,13 +2079,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jBtOcorrencias;
     private javax.swing.JButton jBtRelatorios;
     private javax.swing.JButton jBtRelatoriosSuporteTecnico;
+    private javax.swing.JButton jBtSairSistema;
     private javax.swing.JButton jBtSistemas;
     private javax.swing.JButton jBtSolicitantes;
     private javax.swing.JButton jBtTrocarSenha;
     private javax.swing.JButton jBtUsuarios;
-    private javax.swing.JButton jButton4;
     private javax.swing.JMenu jCadastro;
-    private javax.swing.JMenuItem jChamadosDesenvolvimento;
+    private javax.swing.JMenuItem jCentroCusto;
     private javax.swing.JMenuItem jChamadosSuporte;
     private javax.swing.JMenuItem jClientes;
     private javax.swing.JMenuItem jConsultasSQL;
@@ -2058,7 +2103,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLoginConectado;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jModulosSistema;
     public static javax.swing.JDesktopPane jPainelPrincipal;
     private javax.swing.JPanel jPanel1;
@@ -2073,6 +2117,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenu jSobre;
     private javax.swing.JMenuItem jSoftware;
+    private javax.swing.JMenuItem jTiposContas;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
@@ -2200,7 +2245,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         //CHAMADOS SUPORTE
         try {
             conecta.executaSQL("SELECT * FROM TELAS "
-                    + "WHERE NomeTela='" + telaChamadosSuporte + "'");
+                    + "WHERE NomeTela='" + telaTiposContas + "'");
             conecta.rs.first();
             pNomeCSU = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
@@ -2243,14 +2288,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         //CHAMADOS DO DESENVOLVIMENTO
         try {
             conecta.executaSQL("SELECT * FROM TELAS "
-                    + "WHERE NomeTela='" + telaChamadosDesenvolvimento + "'");
+                    + "WHERE NomeTela='" + telaCentroCusto + "'");
             conecta.rs.first();
             pNomeCD = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
         try {
             conecta.executaSQL("SELECT * FROM TELAS "
-                    + "WHERE NomeTela='" + telaItensChamadoDesenvolvimento + "'");
+                    + "WHERE NomeTela='" + telaTiposContas + "'");
             conecta.rs.first();
             pNomeCDI = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
@@ -2313,18 +2358,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
             objCadastroTela.setNomeTela(telaCadastroUnidades);
             controle.incluirTelaAcesso(objCadastroTela);
         }
-        //OCORRÊNCIAS
         if (!pNomeOCR.equals(telaCadastroFornecedoresManu) || pNomeOCR == null || pNomeOCR.equals("")) {
             buscarCodigoModulo();
             objCadastroTela.setIdModulo(pCodModulo);
             objCadastroTela.setNomeTela(telaCadastroFornecedoresManu);
             controle.incluirTelaAcesso(objCadastroTela);
         }
-        //SOLICITANTES
         if (!pNomeCS.equals(telaCadastroClientes) || pNomeCS == null || pNomeCS.equals("")) {
             buscarCodigoModulo();
             objCadastroTela.setIdModulo(pCodModulo);
             objCadastroTela.setNomeTela(telaCadastroClientes);
+            controle.incluirTelaAcesso(objCadastroTela);
+        }
+        if (!pNomeCD.equals(telaCentroCusto) || pNomeCD == null || pNomeCD.equals("")) {
+            buscarCodigoModulo();
+            objCadastroTela.setIdModulo(pCodModulo);
+            objCadastroTela.setNomeTela(telaCentroCusto);
             controle.incluirTelaAcesso(objCadastroTela);
         }
         //USUÁRIOS
@@ -2346,7 +2395,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
             objCadastroTela.setNomeTela(telaCadastroCopiar);
             controle.incluirTelaAcesso(objCadastroTela);
         }
-        //SOFTWARE E MÓDULOS 
         if (!pNomeSI.equals(telaCadastroTiposPagto) || pNomeSI == null || pNomeSI.equals("")) {
             buscarCodigoModulo();
             objCadastroTela.setIdModulo(pCodModulo);
@@ -2357,6 +2405,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
             buscarCodigoModulo();
             objCadastroTela.setIdModulo(pCodModulo);
             objCadastroTela.setNomeTela(telaCadastroBancosContas);
+            controle.incluirTelaAcesso(objCadastroTela);
+        }
+         if (!pNomeCDI.equals(telaTiposContas) || pNomeCDI == null || pNomeCDI.equals("")) {
+            buscarCodigoModulo();
+            objCadastroTela.setIdModulo(pCodModulo);
+            objCadastroTela.setNomeTela(telaTiposContas);
+            controle.incluirTelaAcesso(objCadastroTela);
+        }
+        if (!pNomeCSU.equals(telaTiposContas) || pNomeCSU == null || pNomeCSU.equals("")) {
+            buscarCodigoModulo();
+            objCadastroTela.setIdModulo(pCodModulo);
+            objCadastroTela.setNomeTela(telaTiposContas);
             controle.incluirTelaAcesso(objCadastroTela);
         }
         //AGENDAS
@@ -2372,13 +2432,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             objCadastroTela.setNomeTela(telaAgendaCompromisso);
             controle.incluirTelaAcesso(objCadastroTela);
         }
-        //CHAMADOS SUPORTE  
-        if (!pNomeCSU.equals(telaChamadosSuporte) || pNomeCSU == null || pNomeCSU.equals("")) {
-            buscarCodigoModulo();
-            objCadastroTela.setIdModulo(pCodModulo);
-            objCadastroTela.setNomeTela(telaChamadosSuporte);
-            controle.incluirTelaAcesso(objCadastroTela);
-        }
+        
         if (!pNomeCSI.equals(telaItensChamadoSuporte) || pNomeCSI == null || pNomeCSI.equals("")) {
             buscarCodigoModulo();
             objCadastroTela.setIdModulo(pCodModulo);
@@ -2410,18 +2464,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             controle.incluirTelaAcesso(objCadastroTela);
         }
         //DESENVOLVIMENTO
-        if (!pNomeCD.equals(telaChamadosDesenvolvimento) || pNomeCD == null || pNomeCD.equals("")) {
-            buscarCodigoModulo();
-            objCadastroTela.setIdModulo(pCodModulo);
-            objCadastroTela.setNomeTela(telaChamadosDesenvolvimento);
-            controle.incluirTelaAcesso(objCadastroTela);
-        }
-        if (!pNomeCDI.equals(telaItensChamadoDesenvolvimento) || pNomeCDI == null || pNomeCDI.equals("")) {
-            buscarCodigoModulo();
-            objCadastroTela.setIdModulo(pCodModulo);
-            objCadastroTela.setNomeTela(telaItensChamadoDesenvolvimento);
-            controle.incluirTelaAcesso(objCadastroTela);
-        }
+
+       
         if (!pNomeCSQL.equals(telaConsultasSql) || pNomeCSQL == null || pNomeCSQL.equals("")) {
             buscarCodigoModulo();
             objCadastroTela.setIdModulo(pCodModulo);

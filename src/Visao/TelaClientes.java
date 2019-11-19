@@ -95,7 +95,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jIdFornecedor = new javax.swing.JTextField();
+        jIdCliente = new javax.swing.JTextField();
         jComboBoxClass = new javax.swing.JComboBox();
         jComboBoxStatus = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
@@ -317,13 +317,13 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Status:");
 
-        jIdFornecedor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jIdFornecedor.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jIdFornecedor.setEnabled(false);
+        jIdCliente.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jIdCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jIdCliente.setEnabled(false);
 
         jComboBoxClass.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jComboBoxClass.setForeground(new java.awt.Color(153, 0, 102));
-        jComboBoxClass.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Juridica" }));
+        jComboBoxClass.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Juridica", "Fisica" }));
         jComboBoxClass.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxClass.setEnabled(false);
 
@@ -351,7 +351,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jIdFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -372,7 +372,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
                     .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxClass, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jIdFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -955,7 +955,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
                         //
                         verificarDuplicidadeFornecedor();
                         //
-                        objForn.setIdForn(Integer.valueOf(jIdFornecedor.getText()));
+                        objForn.setIdForn(Integer.valueOf(jIdCliente.getText()));
                         control.alterarCliente(objForn);
                         //
                         Salvar();
@@ -993,7 +993,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
             try {
                 conecta.executaSQL("SELECT * FROM CLIENTES WHERE RazaoSocial='" + jPesqNomeFornecedor.getText() + "'");
                 conecta.rs.first();
-                jIdFornecedor.setText(String.valueOf(conecta.rs.getInt("IdClie")));
+                jIdCliente.setText(String.valueOf(conecta.rs.getInt("IdClie")));
                 jRazaoSocial.setText(conecta.rs.getString("RazaoSocial"));
                 jComboBoxClass.setSelectedItem(conecta.rs.getString("ClassClie"));
                 jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusClie"));
@@ -1081,7 +1081,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jEndCob;
     private javax.swing.JTextField jEndereco;
     private javax.swing.JFormattedTextField jFax;
-    public static javax.swing.JTextField jIdFornecedor;
+    public static javax.swing.JTextField jIdCliente;
     private javax.swing.JTextField jInsEsta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -1161,7 +1161,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
     }
 
     public void corCampos() {
-        jIdFornecedor.setBackground(Color.white);
+        jIdCliente.setBackground(Color.white);
         jComboBoxClass.setBackground(Color.white);
         jComboBoxStatus.setBackground(Color.white);
         jRazaoSocial.setBackground(Color.white);
@@ -1186,7 +1186,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
 
     public void Novo() {
         // Limpara campos para inclusão
-        jIdFornecedor.setText("");
+        jIdCliente.setText("");
         jComboBoxClass.setSelectedItem("Jurídica");
         jComboBoxStatus.setSelectedItem("Ativo");
         jRazaoSocial.setText("");
@@ -1270,7 +1270,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
 
     public void Excluir() {
         // Limpara campos para inclusão
-        jIdFornecedor.setText("");
+        jIdCliente.setText("");
         jComboBoxClass.setSelectedItem(null);
         jComboBoxStatus.setSelectedItem(null);
         jRazaoSocial.setText("");
@@ -1386,9 +1386,9 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
     public void buscarId() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM FORNECEDORES_AC");
+            conecta.executaSQL("SELECT * FROM CLIENTES");
             conecta.rs.last();
-            jIdFornecedor.setText(String.valueOf(conecta.rs.getInt("IdForn")));
+            jIdCliente.setText(String.valueOf(conecta.rs.getInt("IdClie")));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não foi possível obter o ID do fornecedor.\nERRO: " + ex);
         }
@@ -1398,19 +1398,19 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
     public void verificarDuplicidadeFornecedor() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM FORNECEDORES_AC WHERE RazaoSocial='" + jRazaoSocial.getText() + "'");
+            conecta.executaSQL("SELECT * FROM CLIENTES WHERE RazaoSocial='" + jRazaoSocial.getText() + "'");
             conecta.rs.first();
             nomeFornecedor = conecta.rs.getString("RazaoSocial");
         } catch (Exception e) {
         }
         // VERIFICAR SE O FORNECEDOR JÁ EXISTE NA TABLEA DE FORNECEDORES_COMPRAS
-        try {
-            conecta.executaSQL("SELECT * FROM FORNECEDORES_COMPRAS WHERE RazaoSocial='" + jRazaoSocial.getText() + "'");
-            conecta.rs.first();
-            nomeFornecedorCompras = conecta.rs.getString("RazaoSocial");
-            codFornecedorCompras = conecta.rs.getString("IdForn");
-        } catch (Exception e) {
-        }
+//        try {
+//            conecta.executaSQL("SELECT * FROM FORNECEDORES_COMPRAS WHERE RazaoSocial='" + jRazaoSocial.getText() + "'");
+//            conecta.rs.first();
+//            nomeFornecedorCompras = conecta.rs.getString("RazaoSocial");
+//            codFornecedorCompras = conecta.rs.getString("IdForn");
+//        } catch (Exception e) {
+//        }
         conecta.desconecta();
     }
 
@@ -1424,7 +1424,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
             do {
                 count = count + 1;
                 jtotalRegistros.setText(Integer.toString(count)); // Converter inteiro em string para exibir na tela
-                dados.add(new Object[]{conecta.rs.getInt("IdForn"), conecta.rs.getString("RazaoSocial"), conecta.rs.getString("StatusFor"), conecta.rs.getString("Cnpj")});
+                dados.add(new Object[]{conecta.rs.getInt("IdClie"), conecta.rs.getString("RazaoSocial"), conecta.rs.getString("StatusClie"), conecta.rs.getString("Cnpj")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem exibidos....");
@@ -1504,7 +1504,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não foi possível selecionar o arquivo.\nERRO: " + ex);
         }
-        if (jIdFornecedor.getText() == null ? codFornecedor == null : jIdFornecedor.getText().equals(codFornecedor)) {
+        if (jIdCliente.getText() == null ? codFornecedor == null : jIdCliente.getText().equals(codFornecedor)) {
             JOptionPane.showMessageDialog(rootPane, "Não é possível excluir esse corredor, o mesmo está sendo utilizado por outro registro.");
         } else {
             int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
@@ -1523,7 +1523,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
         objLogSys.setDataMov(dataModFinal);
         objLogSys.setHorarioMov(horaMov);
         objLogSys.setNomeModuloTela(nomeModuloTela);
-        objLogSys.setIdLancMov(Integer.valueOf(jIdFornecedor.getText()));
+        objLogSys.setIdLancMov(Integer.valueOf(jIdCliente.getText()));
         objLogSys.setNomeUsuarioLogado(nameUser);
         objLogSys.setStatusMov(statusMov);
     }

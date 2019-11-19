@@ -1005,7 +1005,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jOperacao.setText("");
         jEndereco.setText("");
         jCidade.setText("");
-        jComboBoxEstado.setSelectedItem("Selecione...");;
+        jComboBoxEstado.setSelectedItem("Selecione...");
     }
 
     public void bloquearBotoes() {

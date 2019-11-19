@@ -105,7 +105,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         jDataPesqInicial = new com.toedter.calendar.JDateChooser();
         jDataPesqFinal = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTabelaAgendaEventos = new javax.swing.JTable();
+        jTabelaTipoPagamento = new javax.swing.JTable();
         jPanel34 = new javax.swing.JPanel();
         jtotalRegistros = new javax.swing.JLabel();
         jPanel33 = new javax.swing.JPanel();
@@ -258,8 +258,8 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabelaAgendaEventos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTabelaAgendaEventos.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaTipoPagamento.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTabelaTipoPagamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -267,17 +267,17 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
                 "Código", "Data", "Status", "Descrição"
             }
         ));
-        jTabelaAgendaEventos.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTabelaTipoPagamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabelaAgendaEventosMouseClicked(evt);
+                jTabelaTipoPagamentoMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTabelaAgendaEventos);
-        if (jTabelaAgendaEventos.getColumnModel().getColumnCount() > 0) {
-            jTabelaAgendaEventos.getColumnModel().getColumn(0).setPreferredWidth(60);
-            jTabelaAgendaEventos.getColumnModel().getColumn(1).setPreferredWidth(70);
-            jTabelaAgendaEventos.getColumnModel().getColumn(2).setPreferredWidth(70);
-            jTabelaAgendaEventos.getColumnModel().getColumn(3).setPreferredWidth(250);
+        jScrollPane1.setViewportView(jTabelaTipoPagamento);
+        if (jTabelaTipoPagamento.getColumnModel().getColumnCount() > 0) {
+            jTabelaTipoPagamento.getColumnModel().getColumn(0).setPreferredWidth(60);
+            jTabelaTipoPagamento.getColumnModel().getColumn(1).setPreferredWidth(70);
+            jTabelaTipoPagamento.getColumnModel().getColumn(2).setPreferredWidth(70);
+            jTabelaTipoPagamento.getColumnModel().getColumn(3).setPreferredWidth(250);
         }
 
         jPanel34.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -1016,11 +1016,11 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jCheckBoxTodosItemStateChanged
 
-    private void jTabelaAgendaEventosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaAgendaEventosMouseClicked
+    private void jTabelaTipoPagamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaTipoPagamentoMouseClicked
         // TODO add your handling code here:
         flag = 1;
         if (flag == 1) {
-            String IdLanc = "" + jTabelaAgendaEventos.getValueAt(jTabelaAgendaEventos.getSelectedRow(), 0);
+            String IdLanc = "" + jTabelaTipoPagamento.getValueAt(jTabelaTipoPagamento.getSelectedRow(), 0);
             jCodigoPesq.setText(IdLanc);
             //
             bloquearBotoes();
@@ -1109,7 +1109,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
             }
             conecta.desconecta();
         }
-    }//GEN-LAST:event_jTabelaAgendaEventosMouseClicked
+    }//GEN-LAST:event_jTabelaTipoPagamentoMouseClicked
 
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
         // TODO add your handling code here:
@@ -1547,7 +1547,7 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton jRBtVisa;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    public static javax.swing.JTable jTabelaAgendaEventos;
+    public static javax.swing.JTable jTabelaTipoPagamento;
     public static javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
 
@@ -1710,17 +1710,17 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
         }
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaAgendaEventos.setModel(modelo);
-        jTabelaAgendaEventos.getColumnModel().getColumn(0).setPreferredWidth(60);
-        jTabelaAgendaEventos.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaAgendaEventos.getColumnModel().getColumn(1).setPreferredWidth(70);
-        jTabelaAgendaEventos.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaAgendaEventos.getColumnModel().getColumn(2).setPreferredWidth(70);
-        jTabelaAgendaEventos.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaAgendaEventos.getColumnModel().getColumn(3).setPreferredWidth(250);
-        jTabelaAgendaEventos.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaAgendaEventos.setAutoResizeMode(jTabelaAgendaEventos.AUTO_RESIZE_OFF);
-        jTabelaAgendaEventos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTabelaTipoPagamento.setModel(modelo);
+        jTabelaTipoPagamento.getColumnModel().getColumn(0).setPreferredWidth(60);
+        jTabelaTipoPagamento.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaTipoPagamento.getColumnModel().getColumn(1).setPreferredWidth(70);
+        jTabelaTipoPagamento.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaTipoPagamento.getColumnModel().getColumn(2).setPreferredWidth(70);
+        jTabelaTipoPagamento.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaTipoPagamento.getColumnModel().getColumn(3).setPreferredWidth(250);
+        jTabelaTipoPagamento.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaTipoPagamento.setAutoResizeMode(jTabelaTipoPagamento.AUTO_RESIZE_OFF);
+        jTabelaTipoPagamento.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         alinharCamposTabela();
         conecta.desconecta();
     }
@@ -1729,17 +1729,17 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         ArrayList dados = new ArrayList();
         String[] Colunas = new String[]{"Código ", "Data", "Status", "Descrição"};
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaAgendaEventos.setModel(modelo);
-        jTabelaAgendaEventos.getColumnModel().getColumn(0).setPreferredWidth(60);
-        jTabelaAgendaEventos.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaAgendaEventos.getColumnModel().getColumn(1).setPreferredWidth(70);
-        jTabelaAgendaEventos.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaAgendaEventos.getColumnModel().getColumn(2).setPreferredWidth(70);
-        jTabelaAgendaEventos.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaAgendaEventos.getColumnModel().getColumn(3).setPreferredWidth(250);
-        jTabelaAgendaEventos.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaAgendaEventos.setAutoResizeMode(jTabelaAgendaEventos.AUTO_RESIZE_OFF);
-        jTabelaAgendaEventos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        jTabelaTipoPagamento.setModel(modelo);
+        jTabelaTipoPagamento.getColumnModel().getColumn(0).setPreferredWidth(60);
+        jTabelaTipoPagamento.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaTipoPagamento.getColumnModel().getColumn(1).setPreferredWidth(70);
+        jTabelaTipoPagamento.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaTipoPagamento.getColumnModel().getColumn(2).setPreferredWidth(70);
+        jTabelaTipoPagamento.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaTipoPagamento.getColumnModel().getColumn(3).setPreferredWidth(250);
+        jTabelaTipoPagamento.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaTipoPagamento.setAutoResizeMode(jTabelaTipoPagamento.AUTO_RESIZE_OFF);
+        jTabelaTipoPagamento.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         modelo.getLinhas().clear();
     }
 
@@ -1751,9 +1751,9 @@ public class TelaTipoPagamento extends javax.swing.JInternalFrame {
         centralizado.setHorizontalAlignment(SwingConstants.CENTER);
         direita.setHorizontalAlignment(SwingConstants.RIGHT);
         //
-        jTabelaAgendaEventos.getColumnModel().getColumn(0).setCellRenderer(centralizado);
-        jTabelaAgendaEventos.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-        jTabelaAgendaEventos.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+        jTabelaTipoPagamento.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+        jTabelaTipoPagamento.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+        jTabelaTipoPagamento.getColumnModel().getColumn(2).setCellRenderer(centralizado);
     }
 
     public void objLog() {

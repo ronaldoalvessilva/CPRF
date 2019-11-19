@@ -16,12 +16,12 @@
             <MenuItem class="javax.swing.JMenuItem" name="jFornecedor">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+O"/>
+                  <KeyStroke key="Ctrl+F"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/250119203457_16.png"/>
                 </Property>
-                <Property name="mnemonic" type="int" value="79"/>
+                <Property name="mnemonic" type="int" value="70"/>
                 <Property name="text" type="java.lang.String" value="Fornecedor"/>
               </Properties>
               <Events>
@@ -31,12 +31,12 @@
             <MenuItem class="javax.swing.JMenuItem" name="jClientes">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+S"/>
+                  <KeyStroke key="Ctrl+C"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/240119192043_16.png"/>
                 </Property>
-                <Property name="mnemonic" type="int" value="76"/>
+                <Property name="mnemonic" type="int" value="67"/>
                 <Property name="text" type="java.lang.String" value="Clientes"/>
               </Properties>
               <Events>
@@ -46,12 +46,12 @@
             <MenuItem class="javax.swing.JMenuItem" name="jSoftware">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+F"/>
+                  <KeyStroke key="Ctrl+T"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/240119191524_16.png"/>
                 </Property>
-                <Property name="mnemonic" type="int" value="70"/>
+                <Property name="mnemonic" type="int" value="84"/>
                 <Property name="text" type="java.lang.String" value="Tipos de Pagamento"/>
               </Properties>
               <Events>
@@ -61,37 +61,44 @@
             <MenuItem class="javax.swing.JMenuItem" name="jModulosSistema">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+M"/>
+                  <KeyStroke key="Ctrl+B"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/240119191718_16.png"/>
                 </Property>
-                <Property name="mnemonic" type="int" value="77"/>
+                <Property name="mnemonic" type="int" value="66"/>
                 <Property name="text" type="java.lang.String" value="Bancos/Contas Banc&#xe1;rias"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jModulosSistemaActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jChamadosDesenvolvimento">
+            <MenuItem class="javax.swing.JMenuItem" name="jCentroCusto">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+D"/>
+                  <KeyStroke key="Ctrl+E"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Imagens/HelpDeskMas_16.png"/>
                 </Property>
-                <Property name="mnemonic" type="int" value="68"/>
+                <Property name="mnemonic" type="int" value="69"/>
                 <Property name="text" type="java.lang.String" value="Centro de Custo"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jChamadosDesenvolvimentoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCentroCustoActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="jTiposContas">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+I"/>
+                </Property>
+                <Property name="mnemonic" type="int" value="73"/>
                 <Property name="text" type="java.lang.String" value="Tipos de Contas"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTiposContasActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
             </MenuItem>
@@ -106,12 +113,12 @@
                 <MenuItem class="javax.swing.JMenuItem" name="jEmpresa">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                      <KeyStroke key="Ctrl+E"/>
+                      <KeyStroke key="Ctrl+U"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/Imagens/240119190812_16.png"/>
                     </Property>
-                    <Property name="mnemonic" type="int" value="69"/>
+                    <Property name="mnemonic" type="int" value="85"/>
                     <Property name="text" type="java.lang.String" value="Empresa/Unidade Prisional"/>
                   </Properties>
                   <Events>
@@ -120,18 +127,22 @@
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jParametrosSistema">
                   <Properties>
+                    <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                      <KeyStroke key="Ctrl+S"/>
+                    </Property>
+                    <Property name="mnemonic" type="int" value="83"/>
                     <Property name="text" type="java.lang.String" value="Parametros do Sistema"/>
                   </Properties>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jUsuarios">
                   <Properties>
                     <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                      <KeyStroke key="Ctrl+U"/>
+                      <KeyStroke key="Ctrl+R"/>
                     </Property>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/Imagens/240119191009_16.png"/>
                     </Property>
-                    <Property name="mnemonic" type="int" value="85"/>
+                    <Property name="mnemonic" type="int" value="82"/>
                     <Property name="text" type="java.lang.String" value="Usu&#xe1;rios"/>
                   </Properties>
                   <Events>
@@ -474,7 +485,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/250119203502_32.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Ocorr&#xea;ncias"/>
+            <Property name="toolTipText" type="java.lang.String" value="Fornecedores"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -525,7 +536,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/240119191527_32.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Sistemas"/>
+            <Property name="toolTipText" type="java.lang.String" value="Configura&#xe7;&#xf5;es"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -665,7 +676,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jBtLogoff" min="-2" pref="48" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton4" min="-2" pref="38" max="-2" attributes="0"/>
+                  <Component id="jBtSairSistema" min="-2" pref="38" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -674,7 +685,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jBtTrocarSenha" alignment="0" max="32767" attributes="0"/>
               <Component id="jBtLogoff" alignment="0" max="32767" attributes="0"/>
-              <Component id="jButton4" alignment="0" max="32767" attributes="0"/>
+              <Component id="jBtSairSistema" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -709,7 +720,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtLogoffActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="jBtSairSistema">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Imagens/shutdown-icone-6920-32.png"/>
@@ -720,7 +731,7 @@
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtSairSistemaActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

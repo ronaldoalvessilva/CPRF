@@ -417,7 +417,7 @@
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jIdFornecedor" min="-2" pref="68" max="-2" attributes="0"/>
+                                      <Component id="jIdCliente" min="-2" pref="68" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jLabel3" min="-2" pref="81" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -442,7 +442,7 @@
                                   <Component id="jComboBoxStatus" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
                                   <Component id="jComboBoxClass" alignment="2" min="-2" pref="19" max="-2" attributes="0"/>
                                   <Component id="jLabel3" alignment="2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jIdFornecedor" alignment="2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jIdCliente" alignment="2" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel2" alignment="2" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -480,7 +480,7 @@
                         <Property name="text" type="java.lang.String" value="Status:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jIdFornecedor">
+                    <Component class="javax.swing.JTextField" name="jIdCliente">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -503,8 +503,9 @@
                           <Color blue="66" green="0" red="99" type="rgb"/>
                         </Property>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="1">
+                          <StringArray count="2">
                             <StringItem index="0" value="Juridica"/>
+                            <StringItem index="1" value="Fisica"/>
                           </StringArray>
                         </Property>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
