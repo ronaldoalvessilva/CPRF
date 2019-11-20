@@ -5,9 +5,13 @@
  */
 package Visao;
 
+import Dao.BancosContasBancariasDAO;
+import Dao.CentroCustoDAO;
 import Dao.ConexaoBancoDados;
+import Dao.FormaPagamentoDAO;
 import Dao.FornecedoresDAO;
 import Dao.LogSistemaDAO;
+import Dao.TipoContasDAO;
 import Modelo.BancosContas;
 import Modelo.CentroCusto;
 import Modelo.EmpresaUnidade;
@@ -71,6 +75,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     //
     String pTIPO_OPERCAO_DEBITO = "D";
     String pTIPO_OPERCAO_CREDITO = "C";
+    String pSTATUS_BANCO = "Ativo";
 
     /**
      * Creates new form TelaMovimentacaoContasPR
@@ -113,7 +118,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jComboBoxFornecedorCliente = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        jComboBoxBanco = new javax.swing.JComboBox<>();
         jComboBoxContaCorrente = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jComboBoxCentroCusto = new javax.swing.JComboBox<>();
@@ -129,6 +133,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jCodigo = new javax.swing.JTextField();
+        jComboBoxBanco = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTabelaMovimentacao = new javax.swing.JTable();
         jPanel35 = new javax.swing.JPanel();
@@ -239,10 +244,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBtSalvar)
                     .addComponent(jBtNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtAlterar)
+                    .addComponent(jBtExcluir)
+                    .addComponent(jBtCancelar)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jBtAlterar)
-                        .addComponent(jBtExcluir)
-                        .addComponent(jBtCancelar)
                         .addComponent(jBtSair)
                         .addComponent(jBtAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(3, 3, 3))
@@ -318,23 +323,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("BANCO");
 
-        jComboBoxBanco.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxBanco.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jComboBoxBanco.setEnabled(false);
-        jComboBoxBanco.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBoxBancoItemStateChanged(evt);
-            }
-        });
-
         jComboBoxContaCorrente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jComboBoxContaCorrente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxContaCorrente.setEnabled(false);
-        jComboBoxContaCorrente.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBoxContaCorrenteItemStateChanged(evt);
-            }
-        });
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setText("CENTRO DE CUSTO");
@@ -415,6 +406,15 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jCodigo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jCodigo.setEnabled(false);
 
+        jComboBoxBanco.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxBanco.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxBanco.setEnabled(false);
+        jComboBoxBanco.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxBancoItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -423,74 +423,74 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jComboBoxFornecedorCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBoxCentroCusto, 0, 368, Short.MAX_VALUE))
-                        .addGap(3, 3, 3)
+                        .addComponent(jLabel11)
+                        .addGap(624, 624, 624))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(37, 37, 37)
-                                .addComponent(jLabel6)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jBtCadastrarCentroCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)
-                                .addComponent(jComboBoxTipoDespesa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(3, 3, 3)
-                                .addComponent(jBtCadastraDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jBtCadastrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jComboBoxFornecedorCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxCentroCusto, 0, 368, Short.MAX_VALUE))
                                 .addGap(3, 3, 3)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel12)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jComboBoxTipoPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addComponent(jCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jDataEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDataVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jNumeroDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jValorDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jComboBoxBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jBtCadastrarCentroCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jComboBoxTipoDespesa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(3, 3, 3)
+                                        .addComponent(jBtCadastraDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jBtCadastrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(3, 3, 3)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(jLabel12)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addComponent(jComboBoxTipoPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(jScrollPane1)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jComboBoxContaCorrente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(3, 3, 3)
-                                .addComponent(jBtCadastraBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(0, 58, Short.MAX_VALUE))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jDataEmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jDataVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jNumeroDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jValorDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(0, 32, Short.MAX_VALUE))
+                                    .addComponent(jComboBoxBanco, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxContaCorrente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBtCadastraBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel11))
-                        .addGap(3, 3, 3)))
-                .addContainerGap())
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(242, 242, 242))))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBoxCentroCusto, jComboBoxFornecedorCliente});
@@ -516,9 +516,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     .addComponent(jDataVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jNumeroDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jValorDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxContaCorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtCadastraBanco))
+                    .addComponent(jBtCadastraBanco)
+                    .addComponent(jComboBoxBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -825,18 +825,61 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorCliente.getSelectedItem();
             fornecedor.getIdForn();
             fornecedor.getRazaoSocial();
+            //
+            preencherComboBoxContaCorrente();
+            BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
+            try {
+                for (BancosContas b : daoBanc.read()) {
+                    jComboBoxBanco.addItem(b);
+                }
+                BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+                banco.getIdBanco();
+                banco.getAgencia();
+                banco.getDescricaoBanco();
+                banco.getContaCorrente();
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //
+            FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
+            try {
+                for (FormaPagamento f : daoFor.read()) {
+                    jComboBoxTipoPagamento.addItem(f);
+                }
+                FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+                forma.getIdForma();
+                forma.getDescricaoForma();
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //
+            CentroCustoDAO daoCentro = new CentroCustoDAO();
+            try {
+                for (CentroCusto c : daoCentro.read()) {
+                    jComboBoxCentroCusto.addItem(c);
+                }
+                CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+                centro.getIdCentro();
+                centro.getDescricaoCentro();
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //
+            TipoContasDAO daoContas = new TipoContasDAO();
+            try {
+                for (TipoConta t : daoContas.read()) {
+                    jComboBoxTipoDespesa.addItem(t);
+                }
+                TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+                tipo.getIdConta();
+                tipo.getDescricaoConta();
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else if (evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Receber")) {
 
         }
     }//GEN-LAST:event_jComboBoxOperacaoItemStateChanged
-
-    private void jComboBoxBancoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxBancoItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxBancoItemStateChanged
-
-    private void jComboBoxContaCorrenteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxContaCorrenteItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxContaCorrenteItemStateChanged
 
     private void jBtCadastraBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastraBancoActionPerformed
         // TODO add your handling code here:
@@ -874,6 +917,23 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTabelaMovimentacaoMouseClicked
 
+    private void jComboBoxBancoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxBancoItemStateChanged
+        // TODO add your handling code here:
+
+        if (evt.getStateChange() == evt.SELECTED) {
+            jComboBoxContaCorrente.removeAllItems();
+            conecta.abrirConexao();
+            try {
+                conecta.executaSQL("SELECT * FROM BANCOS_CONTAS "
+                        + "WHERE Agencia='" + jComboBoxBanco.getSelectedItem() + "'");
+                conecta.rs.first();
+                jComboBoxContaCorrente.addItem(conecta.rs.getString("ContaCorrente"));
+            } catch (Exception e) {
+            }
+            conecta.desconecta();
+        }
+    }//GEN-LAST:event_jComboBoxBancoItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtAlterar;
@@ -890,13 +950,13 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JTextField jCodigo;
-    private javax.swing.JComboBox<String> jComboBoxBanco;
-    private javax.swing.JComboBox<String> jComboBoxCentroCusto;
+    private javax.swing.JComboBox<Object> jComboBoxBanco;
+    private javax.swing.JComboBox<Object> jComboBoxCentroCusto;
     private javax.swing.JComboBox<String> jComboBoxContaCorrente;
     private javax.swing.JComboBox<Object> jComboBoxFornecedorCliente;
     private javax.swing.JComboBox<String> jComboBoxOperacao;
-    private javax.swing.JComboBox<String> jComboBoxTipoDespesa;
-    private javax.swing.JComboBox<String> jComboBoxTipoPagamento;
+    private javax.swing.JComboBox<Object> jComboBoxTipoDespesa;
+    private javax.swing.JComboBox<Object> jComboBoxTipoPagamento;
     private com.toedter.calendar.JDateChooser jDataEmissao;
     private com.toedter.calendar.JDateChooser jDataVencimento;
     private javax.swing.JTextArea jHistorico;
@@ -1055,6 +1115,22 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             jCodigo.setText(conecta.rs.getString("IdMov"));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Não foi possível obter o código do registro.\nERRO: " + e);
+        }
+        conecta.desconecta();
+    }
+
+    public void preencherComboBoxContaCorrente() {
+        jComboBoxContaCorrente.removeAllItems();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM BANCOS_CONTAS "
+                    + "WHERE StatusBanco='" + pSTATUS_BANCO + "'");
+            conecta.rs.first();
+            do {
+                jComboBoxContaCorrente.addItem(conecta.rs.getString("ContaCorrente"));
+            } while (conecta.rs.next());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não Existe dados a serem exibidos !!!");
         }
         conecta.desconecta();
     }

@@ -278,6 +278,6 @@ public class BancosContas {
 
     @Override
     public String toString() {
-        return getDescricaoBanco(); //To change body of generated methods, choose Tools | Templates.
+        return getAgencia(); //To change body of generated methods, choose Tools | Templates.
     }
 }

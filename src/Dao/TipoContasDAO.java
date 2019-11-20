@@ -8,6 +8,10 @@ package Dao;
 import Modelo.TipoConta;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +22,8 @@ public class TipoContasDAO {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     TipoConta objTipoConta = new TipoConta();
+    //
+    String pSTATUS_CONTAS = "Ativo";
 
     public TipoConta incluirTipoConta(TipoConta objTipoConta) {
         conecta.abrirConexao();
@@ -77,5 +83,26 @@ public class TipoContasDAO {
         }
         conecta.desconecta();
         return objTipoConta;
+    }
+
+    public List<TipoConta> read() throws Exception {
+        conecta.abrirConexao();
+        List<TipoConta> listaContas = new ArrayList<TipoConta>();
+        try {
+            conecta.executaSQL("SELECT * FROM TIPO_CONTA "
+                    + "WHERE StatusConta='" + pSTATUS_CONTAS + "'");
+            while (conecta.rs.next()) {
+                TipoConta pDigiContas = new TipoConta();
+                pDigiContas.setIdConta(conecta.rs.getInt("IdConta"));
+                pDigiContas.setDescricaoConta(conecta.rs.getString("DescricaoConta"));
+                listaContas.add(pDigiContas);
+            }
+            return listaContas;
+        } catch (SQLException ex) {
+            Logger.getLogger(CentroCustoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
     }
 }

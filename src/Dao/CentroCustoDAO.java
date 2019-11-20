@@ -8,6 +8,10 @@ package Dao;
 import Modelo.CentroCusto;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +22,8 @@ public class CentroCustoDAO {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     CentroCusto objCentro = new CentroCusto();
+    //
+    String pSTATUS_CENTRO = "Ativo";
 
     public CentroCusto incluirCentroCusto(CentroCusto objCentro) {
         conecta.abrirConexao();
@@ -74,5 +80,26 @@ public class CentroCustoDAO {
         }
         conecta.desconecta();
         return objCentro;
+    }
+
+    public List<CentroCusto> read() throws Exception {
+        conecta.abrirConexao();
+        List<CentroCusto> listaCentro = new ArrayList<CentroCusto>();
+        try {
+            conecta.executaSQL("SELECT * FROM CENTRO_CUSTO "
+                    + "WHERE StatusCentro='" + pSTATUS_CENTRO + "'");
+            while (conecta.rs.next()) {
+                CentroCusto pDigiCentro = new CentroCusto();
+                pDigiCentro.setIdCentro(conecta.rs.getInt("IdCentro"));
+                pDigiCentro.setDescricaoCentro(conecta.rs.getString("DescricaoCentro"));
+                listaCentro.add(pDigiCentro);
+            }
+            return listaCentro;
+        } catch (SQLException ex) {
+            Logger.getLogger(CentroCustoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
     }
 }

@@ -8,6 +8,10 @@ package Dao;
 import Modelo.BancosContas;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +22,7 @@ public class BancosContasBancariasDAO {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     BancosContas objBanco = new BancosContas();
+    String pSTATUS_BANCO = "Ativo";
 
     public BancosContas incluirBancos(BancosContas objBanco) {
         conecta.abrirConexao();
@@ -70,12 +75,35 @@ public class BancosContasBancariasDAO {
     public BancosContas excluirBancos(BancosContas objBanco) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM BANCOS_CONTAS WHERE IdBanco='" + objBanco.getIdBanco() + "'");            
+            PreparedStatement pst = conecta.con.prepareStatement("DELETE FROM BANCOS_CONTAS WHERE IdBanco='" + objBanco.getIdBanco() + "'");
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível EXCLUIR os Dados\nERRO: " + ex);
         }
         conecta.desconecta();
         return objBanco;
+    }
+
+    public List<BancosContas> read() throws Exception {
+        conecta.abrirConexao();
+        List<BancosContas> listaBancos = new ArrayList<BancosContas>();
+        try {
+            conecta.executaSQL("SELECT * FROM BANCOS_CONTAS "
+                    + "WHERE StatusBanco='" + pSTATUS_BANCO + "'");
+            while (conecta.rs.next()) {
+                BancosContas pDigiBanco = new BancosContas();
+                pDigiBanco.setIdBanco(conecta.rs.getInt("IdBanco"));
+                pDigiBanco.setAgencia(conecta.rs.getString("Agencia"));
+                pDigiBanco.setDescricaoBanco(conecta.rs.getString("DescricaoBanco"));
+                pDigiBanco.setContaCorrente(conecta.rs.getString("ContaCorrente"));
+                listaBancos.add(pDigiBanco);
+            }
+            return listaBancos;
+        } catch (SQLException ex) {
+            Logger.getLogger(BancosContasBancariasDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
     }
 }

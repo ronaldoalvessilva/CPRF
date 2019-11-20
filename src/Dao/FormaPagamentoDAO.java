@@ -8,6 +8,10 @@ package Dao;
 import Modelo.FormaPagamento;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +22,8 @@ public class FormaPagamentoDAO {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     FormaPagamento objForma = new FormaPagamento();
+    //
+    String pSTATUS_FORMA = "Ativo";
 
     public FormaPagamento incluirFormaPagamento(FormaPagamento objForma) {
         conecta.abrirConexao();
@@ -93,5 +99,26 @@ public class FormaPagamentoDAO {
         }
         conecta.desconecta();
         return objForma;
+    }
+
+    public List<FormaPagamento> read() throws Exception {
+        conecta.abrirConexao();
+        List<FormaPagamento> listaForma = new ArrayList<FormaPagamento>();
+        try {
+            conecta.executaSQL("SELECT * FROM TIPO_PAGAMENTO "
+                    + "WHERE StatusForma='" + pSTATUS_FORMA + "'");
+            while (conecta.rs.next()) {
+                FormaPagamento pDigiForma = new FormaPagamento();
+                pDigiForma.setIdForma(conecta.rs.getInt("IdForma"));
+                pDigiForma.setDescricaoForma(conecta.rs.getString("DescricaoForma"));
+                listaForma.add(pDigiForma);
+            }
+            return listaForma;
+        } catch (SQLException ex) {
+            Logger.getLogger(FormaPagamentoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
     }
 }
