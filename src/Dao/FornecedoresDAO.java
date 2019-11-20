@@ -8,6 +8,10 @@ package Dao;
 import Modelo.Fornecedor;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,6 +22,8 @@ public class FornecedoresDAO {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     Fornecedor objForn = new Fornecedor();
+
+    String pSTATUS_FORNECEDOR = "Ativo";
 
     public Fornecedor incluirFornecedor(Fornecedor objForn) {
         conecta.abrirConexao();
@@ -101,5 +107,26 @@ public class FornecedoresDAO {
         }
         conecta.desconecta();
         return objForn;
+    }
+
+    public List<Fornecedor> read() throws Exception {
+        conecta.abrirConexao();
+        List<Fornecedor> listaFornecedores = new ArrayList<Fornecedor>();
+        try {
+            conecta.executaSQL("SELECT * FROM FORNECEDORES_AC "
+                    + "WHERE StatusFor='" + pSTATUS_FORNECEDOR + "'");
+            while (conecta.rs.next()) {
+                Fornecedor pDigiForn = new Fornecedor();
+                pDigiForn.setIdForn(conecta.rs.getInt("IdForn"));
+                pDigiForn.setRazaoSocial(conecta.rs.getString("RazaoSocial"));
+                listaFornecedores.add(pDigiForn);
+            }
+            return listaFornecedores;
+        } catch (SQLException ex) {
+            Logger.getLogger(FornecedoresDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            conecta.desconecta();
+        }
+        return null;
     }
 }

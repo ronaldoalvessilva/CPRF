@@ -90,6 +90,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaRecados objjAgendaRec = null;
     private TelaAgendaCompromissos objAgendaComp = null;
     private TelaTipoContas objTiposContas = null;
+    private TelaMovimentacaoContasPR objMovimentacaoCPR = null;
 
     //
     String statusAgenda = "Pendente";
@@ -132,11 +133,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static String telaCadastroTiposPagto = "Cadastro:Tipos de Pagamentos:Manutenção";
     public static String telaCadastroBancosContas = "Cadastro:Bancos/Contas:Manutenção";
     public static String telaCentroCusto = "Cadastro: Centro de Custo:Manutenção";
-    public static String telaTiposContas = "Cadastro:Tipos de Contas:Manutenção";
+    public static String telaTiposContas = "Cadastro:Tipos de Contas:Manutenção";            
     public static String telaAgendaRecado = "Cadastro Agenda Recados:Manutenção";
     public static String telaAgendaCompromisso = "Cadastro Agenda de Compromisso:Manutenção";
     //SUPORTE CHAMADOS
 
+    public static String telaMovimentacaoCPR = "Movimentação:Contas a Pagar e Receber:Manutenção";
+    
     public static String telaItensChamadoSuporte = "Suporte Técnico:Chamados Suporte:Itens";
     public static String botaoEncerrarSup = "Encerrar Chamado no Suporte";
     public static String botaoImprimirSup = "Imprimir Chamado no Suporte";
@@ -443,7 +446,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jBtModulos, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtAgendaRecados)
                     .addComponent(jBtAgendaCompromisso))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(3, 3, 3))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtAgendaCompromisso, jBtAgendaRecados, jBtEmpresa, jBtModulos, jBtOcorrencias, jBtSistemas, jBtSolicitantes, jBtUsuarios});
@@ -565,7 +568,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBtChamadosSuporte)
                     .addComponent(jBtRelatoriosSuporteTecnico))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(3, 3, 3))
         );
 
         jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtChamadosSuporte, jBtRelatoriosSuporteTecnico});
@@ -906,19 +909,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(7, 7, 7)
+                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
                     .addComponent(jHoraSistema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3)
                 .addComponent(jPainelPrincipal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1224,36 +1227,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jChamadosSuporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChamadosSuporteActionPerformed
         // TODO add your handling code here:
-//        buscarAcessoUsuario(telaTiposContas);
-//        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaChamadosSuporte) && codAbrir == 1) {
-//            if (objChamaSup == null || objChamaSup.isClosed()) {
-//                objChamaSup = new TelaChamadoSuporte();
-//                TelaPrincipal.jPainelPrincipal.add(objChamaSup);
-//                objChamaSup.setVisible(true);
-//            } else {
-//                if (objChamaSup.isVisible()) {
-//                    if (objChamaSup.isIcon()) { // Se esta minimizado
-//                        try {
-//                            objChamaSup.setIcon(false); // maximiniza
-//                        } catch (PropertyVetoException ex) {
-//                        }
-//                    } else {
-//                        objChamaSup.toFront(); // traz para frente
-//                        objChamaSup.pack();//volta frame 
-//                    }
-//                } else {
-//                    objChamaSup = new TelaChamadoSuporte();
-//                    TelaPrincipal.jPainelPrincipal.add(objChamaSup);//adicona frame ao JDesktopPane  
-//                    objChamaSup.setVisible(true);
-//                }
-//            }
-//            try {
-//                objChamaSup.setSelected(true);
-//            } catch (java.beans.PropertyVetoException e) {
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-//        }
+        buscarAcessoUsuario(telaMovimentacaoCPR);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaMovimentacaoCPR) && codAbrir == 1) {
+            if (objMovimentacaoCPR == null || objMovimentacaoCPR.isClosed()) {
+                objMovimentacaoCPR = new TelaMovimentacaoContasPR();
+                TelaPrincipal.jPainelPrincipal.add(objMovimentacaoCPR);
+                objMovimentacaoCPR.setVisible(true);
+            } else {
+                if (objMovimentacaoCPR.isVisible()) {
+                    if (objMovimentacaoCPR.isIcon()) { // Se esta minimizado
+                        try {
+                            objMovimentacaoCPR.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objMovimentacaoCPR.toFront(); // traz para frente
+                        objMovimentacaoCPR.pack();//volta frame 
+                    }
+                } else {
+                    objMovimentacaoCPR = new TelaMovimentacaoContasPR();
+                    TelaPrincipal.jPainelPrincipal.add(objMovimentacaoCPR);//adicona frame ao JDesktopPane  
+                    objMovimentacaoCPR.setVisible(true);
+                }
+            }
+            try {
+                objMovimentacaoCPR.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
     }//GEN-LAST:event_jChamadosSuporteActionPerformed
 
     private void jConsultasSQLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConsultasSQLActionPerformed

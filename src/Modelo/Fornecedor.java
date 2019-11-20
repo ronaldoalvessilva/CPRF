@@ -531,4 +531,9 @@ public class Fornecedor {
     public void setModulo(String modulo) {
         this.modulo = modulo;
     }
+
+    @Override
+    public String toString() {
+        return getRazaoSocial(); //To change body of generated methods, choose Tools | Templates.
+    }    
 }
