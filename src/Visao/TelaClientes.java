@@ -8,6 +8,7 @@ package Visao;
 import Dao.ClientesDAO;
 import Dao.ConexaoBancoDados;
 import Dao.ControleLogSistema;
+import Modelo.Clientes;
 import Modelo.Fornecedor;
 import Modelo.LogSistema;
 import Util.LimiteDigitosAlfa;
@@ -33,7 +34,7 @@ import javax.swing.text.MaskFormatter;
 public final class TelaClientes extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
-    Fornecedor objForn = new Fornecedor();
+    Clientes objClie = new Clientes();
     ClientesDAO control = new ClientesDAO();
     //
     ControleLogSistema controlLog = new ControleLogSistema();
@@ -908,39 +909,39 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
                 if (jRazaoSocial.getText().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Informe a razão social do fornecedor.");
                 } else {
-                    objForn.setClassFor((String) jComboBoxClass.getSelectedItem());
-                    objForn.setStatusFor((String) jComboBoxStatus.getSelectedItem());
-                    objForn.setRazaoSocial(jRazaoSocial.getText());
-                    objForn.setDepartamento(departamento);
-                    objForn.setModulo(modulo);
-                    objForn.setCnpj(jCNPJ.getText());
-                    objForn.setInsEstadual(jInsEsta.getText());
-                    objForn.setTelefone(jTelefone.getText());
-                    objForn.setTelefone1(jTelefone1.getText());
-                    objForn.setCelular(jCelular.getText());
-                    objForn.setEmail(jEmail.getText());
-                    objForn.setFax(jFax.getText());
-                    objForn.setEndereco(jEndereco.getText());
-                    objForn.setCompl(jCompl.getText());
-                    objForn.setCep(jCep.getText());
-                    objForn.setCidade(jCidade.getText());
-                    objForn.setEstado((String) jComboBoxEstado.getSelectedItem());
-                    objForn.setEnderecoCob(jEndCob.getText());
-                    objForn.setComplCob(jComplCob.getText());
-                    objForn.setCepCob(jCepCob.getText());
-                    objForn.setCidadeCob(jCidadeCob.getText());
-                    objForn.setEstadoCob((String) jComboBoxEstadoCob.getSelectedItem());
+                    objClie.setClassFor((String) jComboBoxClass.getSelectedItem());
+                    objClie.setStatusFor((String) jComboBoxStatus.getSelectedItem());
+                    objClie.setRazaoSocial(jRazaoSocial.getText());
+                    objClie.setDepartamento(departamento);
+                    objClie.setModulo(modulo);
+                    objClie.setCnpj(jCNPJ.getText());
+                    objClie.setInsEstadual(jInsEsta.getText());
+                    objClie.setTelefone(jTelefone.getText());
+                    objClie.setTelefone1(jTelefone1.getText());
+                    objClie.setCelular(jCelular.getText());
+                    objClie.setEmail(jEmail.getText());
+                    objClie.setFax(jFax.getText());
+                    objClie.setEndereco(jEndereco.getText());
+                    objClie.setCompl(jCompl.getText());
+                    objClie.setCep(jCep.getText());
+                    objClie.setCidade(jCidade.getText());
+                    objClie.setEstado((String) jComboBoxEstado.getSelectedItem());
+                    objClie.setEnderecoCob(jEndCob.getText());
+                    objClie.setComplCob(jComplCob.getText());
+                    objClie.setCepCob(jCepCob.getText());
+                    objClie.setCidadeCob(jCidadeCob.getText());
+                    objClie.setEstadoCob((String) jComboBoxEstadoCob.getSelectedItem());
                     if (acao == 1) {
-                        objForn.setUsuarioInsert(nameUser);
-                        objForn.setDataInsert(dataModFinal);
-                        objForn.setHorarioInsert(horaMov);
+                        objClie.setUsuarioInsert(nameUser);
+                        objClie.setDataInsert(dataModFinal);
+                        objClie.setHorarioInsert(horaMov);
                         // VERIFICAR SE O FORNECEDOR JÁ EXISTE NAS TABELAS DE FORNECEDORES_NUTRI/FORNECEDORES_COMPRAS
                         verificarDuplicidadeFornecedor();
                         //                        
                         if (jRazaoSocial.getText().trim().equals(nomeFornecedor)) {
                             JOptionPane.showMessageDialog(rootPane, "Esse Fornecedor já está cadastrado.");
                         } else {
-                            control.incluirCliente(objForn);
+                            control.incluirCliente(objClie);
                             buscarId();
                         }
                         Salvar();
@@ -949,14 +950,14 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                     }
                     if (acao == 2) {
-                        objForn.setUsuarioUp(nameUser);
-                        objForn.setDataUp(dataModFinal);
-                        objForn.setHorarioUp(horaMov);
+                        objClie.setUsuarioUp(nameUser);
+                        objClie.setDataUp(dataModFinal);
+                        objClie.setHorarioUp(horaMov);
                         //
                         verificarDuplicidadeFornecedor();
                         //
-                        objForn.setIdForn(Integer.valueOf(jIdCliente.getText()));
-                        control.alterarCliente(objForn);
+                        objClie.setIdForn(Integer.valueOf(jIdCliente.getText()));
+                        control.alterarCliente(objClie);
                         //
                         Salvar();
                         objLog();
@@ -1510,7 +1511,7 @@ public final class TelaClientes extends javax.swing.JInternalFrame {
             int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir registro selecionado?", "Confirmação",
                     JOptionPane.YES_NO_OPTION);
             if (resposta == JOptionPane.YES_OPTION) {
-                control.excluirCliente(objForn);
+                control.excluirCliente(objClie);
                 objLog();
                 controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
                 JOptionPane.showMessageDialog(rootPane, "Registro EXCLUIDO com sucesso !!!");
