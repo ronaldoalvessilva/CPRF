@@ -5,7 +5,6 @@
  */
 package Dao;
 
-import Dao.ConexaoBancoDados;
 import Modelo.TelaAcessos;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

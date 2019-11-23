@@ -1106,14 +1106,14 @@ public final class TelaFornecedor extends javax.swing.JInternalFrame {
                         objForn.setDataInsert(dataModFinal);
                         objForn.setHorarioInsert(horaMov);
                         // VERIFICAR SE O FORNECEDOR JÁ EXISTE NAS TABELAS DE FORNECEDORES_NUTRI/FORNECEDORES_COMPRAS
-                        verificarDuplicidadeFornecedor();
-                        //                        
-                        if (jRazaoSocial.getText().trim().equals(nomeFornecedor)) {
-                            JOptionPane.showMessageDialog(rootPane, "Esse Fornecedor já está cadastrado.");
-                        } else {
+//                        verificarDuplicidadeFornecedor();
+//                        //                        
+//                        if (jRazaoSocial.getText().trim().equals(nomeFornecedor)) {
+//                            JOptionPane.showMessageDialog(rootPane, "Esse Fornecedor já está cadastrado.");
+//                        } else {
                             control.incluirFornecedor(objForn);
                             buscarId();
-                        }
+//                        }
                         Salvar();
                         objLog();
                         controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
@@ -1124,7 +1124,7 @@ public final class TelaFornecedor extends javax.swing.JInternalFrame {
                         objForn.setDataUp(dataModFinal);
                         objForn.setHorarioUp(horaMov);
                         //
-                        verificarDuplicidadeFornecedor();
+//                        verificarDuplicidadeFornecedor();
                         //
                         objForn.setIdForn(Integer.valueOf(jIdFornecedor.getText()));
                         control.alterarFornecedor(objForn);

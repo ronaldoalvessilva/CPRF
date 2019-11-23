@@ -14,7 +14,7 @@ import java.util.Date;
 public class Usuarios {
 
     private int IdUsuario;
-    private String Status;
+    private Boolean Status;
     private Date dataCadastro;
     private String NomeUsuario;
     private String Login;
@@ -43,7 +43,7 @@ public class Usuarios {
     public Usuarios() {
     }
 
-    public Usuarios(int IdUsuario, String Status, Date dataCadastro, String NomeUsuario, String Login, String Senha1, String Senha2, int idUserGroup, int IdGrupo, String NomeGrupo, int idDepartamento, String NomeDepartamento, int idCargo, String nomeCargo, int idEmpresa, String descricaoEmpresa, int idModulo, int idMod, String nomeModulo, String permissaoModulo, int NivelUsuario, String SetorUsuario, String CargoUsuario, String passwordCriptogradaUm, String passwordCriptogradaDois, String chaveHexadecinal) {
+    public Usuarios(int IdUsuario, Boolean Status, Date dataCadastro, String NomeUsuario, String Login, String Senha1, String Senha2, int idUserGroup, int IdGrupo, String NomeGrupo, int idDepartamento, String NomeDepartamento, int idCargo, String nomeCargo, int idEmpresa, String descricaoEmpresa, int idModulo, int idMod, String nomeModulo, String permissaoModulo, int NivelUsuario, String SetorUsuario, String CargoUsuario, String passwordCriptogradaUm, String passwordCriptogradaDois, String chaveHexadecinal) {
         this.IdUsuario = IdUsuario;
         this.Status = Status;
         this.dataCadastro = dataCadastro;
@@ -89,14 +89,14 @@ public class Usuarios {
     /**
      * @return the Status
      */
-    public String getStatus() {
+    public Boolean getStatus() {
         return Status;
     }
 
     /**
      * @param Status the Status to set
      */
-    public void setStatus(String Status) {
+    public void setStatus(Boolean Status) {
         this.Status = Status;
     }
 

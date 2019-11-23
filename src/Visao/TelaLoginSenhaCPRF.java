@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.awt.AWTKeyStroke;
 import java.awt.KeyboardFocusManager;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import javax.swing.SwingUtilities;
@@ -40,6 +39,7 @@ public class TelaLoginSenhaCPRF extends javax.swing.JDialog {
     public static String razaoSocial;
     public static String descricaoUnidade;
     public static String versaoAtualSistema;
+    public static int pCODIGO_EMPRESA;
 
     /**
      * Creates new form TelaLoginSenha
@@ -56,7 +56,7 @@ public class TelaLoginSenhaCPRF extends javax.swing.JDialog {
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
         }
         initComponents();
-        formatarCampos();
+        formatarCampos();       
         // Modificar a tecla tab por enter
         HashSet conj = new HashSet(this.getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS));
         conj.add(AWTKeyStroke.getAWTKeyStroke(KeyEvent.VK_ENTER, 0));
@@ -501,6 +501,7 @@ public class TelaLoginSenhaCPRF extends javax.swing.JDialog {
                     + "INNER JOIN UNIDADE_PENAL_EMPRESA "
                     + "ON EMPRESA.IdEmpresa=UNIDADE_PENAL_EMPRESA.IdEmpresa");
             conecta.rs.first();
+            pCODIGO_EMPRESA = conecta.rs.getInt("IdEmpresa");
             razaoSocial = conecta.rs.getString("RazaoSocial");
             descricaoUnidade = conecta.rs.getString("DescricaoUnidade");
             versaoAtualSistema = conecta.rs.getString("VersaoAtual");
@@ -508,5 +509,4 @@ public class TelaLoginSenhaCPRF extends javax.swing.JDialog {
         }
         conecta.desconecta();
     }
-
 }

@@ -6,7 +6,7 @@
 package Visao;
 
 import Util.ModeloTabela;
-import static Visao.TelaUsuarios.jIdUsuario;
+//import static Visao.TelaUsuarios.jIdUsuario;
 import Dao.ConexaoBancoDados;
 import Dao.LogSistemaDAO;
 import Dao.TelaAcessoDAO;
@@ -17,6 +17,7 @@ import Modelo.Usuarios;
 import static Visao.TelaLoginSenhaCPRF.nameUser;
 import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
+import static Visao.TelaUsuarios.IdUsuario;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -75,7 +76,7 @@ public class TelaCopiaPerfilUsuario extends javax.swing.JDialog {
         initComponents();
         preencherComboNomeUsuario();
         preencherTabelaAcessos("SELECT * FROM TELAS_ACESSO "
-                + "WHERE IdUsuario='" + jIdUsuario.getText() + "'");
+                + "WHERE IdUsuario='" + IdUsuario.getText() + "'");
     }
 
     /**

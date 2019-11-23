@@ -25,7 +25,7 @@ public class UsuariosDAO {
         conecta.abrirConexao();
         try {
             PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO USUARIOS (StatusUsuario,DataCadastro,NomeUsuario,NomeDepartamento,NomeCargo,LoginUsuario,SenhaUsuario,ConfirmaSenhaUsuario)VALUES(?,?,?,?,?,?,?,?)");
-            pst.setString(1, objUser.getStatus());
+            pst.setBoolean(1, objUser.getStatus());
             if (objUser.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objUser.getDataCadastro().getTime()));
             } else {
@@ -50,7 +50,7 @@ public class UsuariosDAO {
         conecta.abrirConexao();
         try {
             PreparedStatement pst = conecta.con.prepareStatement("UPDATE USUARIOS SET StatusUsuario=?,DataCadastro=?,NomeUsuario=?,NomeDepartamento=?,NomeCargo=?,LoginUsuario=?,SenhaUsuario=?,ConfirmaSenhaUsuario=? WHERE IdUsuario='" + objUser.getIdUsuario() + "'");
-            pst.setString(1, objUser.getStatus());
+            pst.setBoolean(1, objUser.getStatus());
             if (objUser.getDataCadastro() != null) {
                 pst.setTimestamp(2, new java.sql.Timestamp(objUser.getDataCadastro().getTime()));
             } else {

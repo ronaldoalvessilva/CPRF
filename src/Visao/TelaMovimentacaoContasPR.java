@@ -74,7 +74,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     LogSistemaDAO controlLog = new LogSistemaDAO();
     LogSistema objLogSys = new LogSistema();
     // Variáveis para gravar o log
-    String nomeModuloTela = "Cadastros:Tipos de Conta:Manutenção";
+    String nomeModuloTela = "Cadastros:Movimentação Contas a Pagar e Receber:Manutenção";
     String statusMov;
     String horaMov;
     String dataModFinal;
@@ -88,9 +88,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     String pSTATUS_BANCO = "Ativo";
     String pVALOR_DOCUMENTO = "";
     float pVALOR_DOCUMENTO_REAL = 0;
-    String pDESCRICAO_CLIENTE_FORNECEDOR = "";
-    String pOPERCAO = "";
-    int pCODIGO_CLIENTE_FORNECEDOR = 0;
+    String pOPERACAO_PAGAR = "Pagar";
+    String pOPERACAO_RECEBER = "Receber";
 
     /**
      * Creates new form TelaMovimentacaoContasPR
@@ -150,6 +149,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         jCodigo = new javax.swing.JTextField();
         jComboBoxBanco = new javax.swing.JComboBox<>();
+        jBtPesquisaCP = new javax.swing.JButton();
+        jBtPesquisaCR = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTabelaMovimentacao = new javax.swing.JTable();
         jPanel35 = new javax.swing.JPanel();
@@ -158,8 +159,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jPanel34 = new javax.swing.JPanel();
         jtotalRegistros = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -315,7 +314,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jNumeroDocumento.setEnabled(false);
 
         jValorDocumento.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jValorDocumento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
         jValorDocumento.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jValorDocumento.setEnabled(false);
 
@@ -438,6 +436,24 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             }
         });
 
+        jBtPesquisaCP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtPesquisaCP.setText("<< Mostrar Despesas  >>");
+        jBtPesquisaCP.setToolTipText("Pesquisa Contas a Pagar");
+        jBtPesquisaCP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtPesquisaCPActionPerformed(evt);
+            }
+        });
+
+        jBtPesquisaCR.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtPesquisaCR.setText("<< Mostrar Receitas >>");
+        jBtPesquisaCR.setToolTipText("Pesquisar Contas a Receber");
+        jBtPesquisaCR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtPesquisaCRActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -445,9 +461,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(624, 624, 624))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -471,7 +484,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                                                 .addComponent(jLabel12)
                                                 .addGap(0, 0, Short.MAX_VALUE))
                                             .addComponent(jComboBoxTipoPagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                            .addComponent(jScrollPane1)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel13)
@@ -507,7 +519,16 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jComboBoxContaCorrente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtCadastraBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jBtCadastraBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jBtPesquisaCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jBtPesquisaCR, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -561,12 +582,22 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     .addComponent(jBtCadastrarCentroCusto)
                     .addComponent(jComboBoxTipoDespesa, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtCadastraDespesa))
-                .addGap(3, 3, 3)
-                .addComponent(jLabel11)
-                .addGap(3, 3, 3)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-                .addGap(3, 3, 3))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel11)
+                        .addGap(3, 3, 3)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                        .addGap(3, 3, 3))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtPesquisaCP, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtPesquisaCR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtPesquisaCP, jBtPesquisaCR});
 
         jTabelaMovimentacao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jTabelaMovimentacao.setModel(new javax.swing.table.DefaultTableModel(
@@ -584,10 +615,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(jTabelaMovimentacao);
         if (jTabelaMovimentacao.getColumnModel().getColumnCount() > 0) {
-            jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(120);
-            jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(120);
-            jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(150);
-            jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(150);
+            jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(90);
+            jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(80);
             jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(250);
             jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(300);
             jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(350);
@@ -640,36 +671,16 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
 
-        jButton7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Lupas_1338_05.gif"))); // NOI18N
-
-        jButton8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGap(0, 247, Short.MAX_VALUE)
         );
-
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton7, jButton8});
-
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(3, 3, 3))
+            .addGap(0, 31, Short.MAX_VALUE)
         );
-
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton7, jButton8});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -702,7 +713,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 .addGap(3, 3, 3)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -802,9 +813,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 }
                 objMov.setHistorico(jHistorico.getText());
                 if (acao == 1) {
-                    objCentro.setUsuarioInsert(nameUser);
-                    objCentro.setDataInsert(dataModFinal);
-                    objCentro.setHorarioInsert(horaMov);
+                    objMov.setUsuarioInsert(nameUser);
+                    objMov.setDataInsert(dataModFinal);
+                    objMov.setHorarioInsert(horaMov);
                     //
                     control.incluirMovimentoCPR(objMov);
                     buscarCodigo();
@@ -813,22 +824,50 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     bloquearCampos();
                     bloquearBotoes();
                     Salvar();
-                    preencherTabelaMovimentacao("");
-                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");                    
+                    if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+                        preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                                + "INNER JOIN CLIENTES "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
+                                + "INNER JOIN BANCOS_CONTAS "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                                + "INNER JOIN CENTRO_CUSTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                                + "INNER JOIN TIPO_CONTA "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                                + "INNER JOIN TIPO_PAGAMENTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                                + "WHERE IdMov='" + jCodigo.getText() + "' "
+                                + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
+                    } else if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+                        preencherTabelaMovimentacaoCP("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                                + "INNER JOIN FORNECEDORES_AC "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
+                                + "INNER JOIN BANCOS_CONTAS "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                                + "INNER JOIN CENTRO_CUSTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                                + "INNER JOIN TIPO_CONTA "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                                + "INNER JOIN TIPO_PAGAMENTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                                + "WHERE IdMov='" + jCodigo.getText() + "' "
+                                + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
+                    }
+                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
                 if (acao == 2) {
-                    objCentro.setUsuarioUp(nameUser);
-                    objCentro.setDataUp(dataModFinal);
-                    objCentro.setHorarioUp(horaMov);
+                    objMov.setUsuarioUp(nameUser);
+                    objMov.setDataUp(dataModFinal);
+                    objMov.setHorarioUp(horaMov);
                     //
-                    objCentro.setIdCentro(Integer.valueOf(jCodigo.getText()));
+                    objMov.setIdMov(Integer.valueOf(jCodigo.getText()));
                     control.alterarMovimentoCPR(objMov);
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação    
                     bloquearCampos();
                     bloquearBotoes();
                     Salvar();
-                    preencherTabelaMovimentacao("");
+//                    preencherTabelaMovimentacao("");
                     JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
             }
@@ -862,10 +901,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorCliente.getSelectedItem();
-            fornecedor.getIdForn();
-            fornecedor.getRazaoSocial();
-            objMov.setIdForn(fornecedor.getIdForn());
             //
             preencherComboBoxContaCorrente();
             BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
@@ -873,12 +908,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 for (BancosContas b : daoBanc.read()) {
                     jComboBoxBanco.addItem(b);
                 }
-                BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
-                banco.getIdBanco();
-                banco.getAgencia();
-                banco.getDescricaoBanco();
-                banco.getContaCorrente();
-                objMov.setIdBanco(banco.getIdBanco());
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -888,10 +917,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 for (FormaPagamento f : daoFor.read()) {
                     jComboBoxTipoPagamento.addItem(f);
                 }
-                FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
-                forma.getIdForma();
-                forma.getDescricaoForma();
-                objMov.setIdForma(forma.getIdForma());
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -901,10 +926,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 for (CentroCusto c : daoCentro.read()) {
                     jComboBoxCentroCusto.addItem(c);
                 }
-                CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
-                centro.getIdCentro();
-                centro.getDescricaoCentro();
-                objMov.setIdCentro(centro.getIdCentro());
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -914,10 +935,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 for (TipoConta t : daoContas.read()) {
                     jComboBoxTipoDespesa.addItem(t);
                 }
-                TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
-                tipo.getIdConta();
-                tipo.getDescricaoConta();
-                objMov.setIdConta(tipo.getIdConta());
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -930,10 +947,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Clientes clientes = (Clientes) jComboBoxFornecedorCliente.getSelectedItem();
-            clientes.getIdForn();
-            clientes.getRazaoSocial();
-            objMov.setIdForn(clientes.getIdForn());
             //
             preencherComboBoxContaCorrente();
             BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
@@ -941,12 +954,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 for (BancosContas b : daoBanc.read()) {
                     jComboBoxBanco.addItem(b);
                 }
-                BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
-                banco.getIdBanco();
-                banco.getAgencia();
-                banco.getDescricaoBanco();
-                banco.getContaCorrente();
-                objMov.setIdBanco(banco.getIdBanco());
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -956,10 +963,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 for (FormaPagamento f : daoFor.read()) {
                     jComboBoxTipoPagamento.addItem(f);
                 }
-                FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
-                forma.getIdForma();
-                forma.getDescricaoForma();
-                objMov.setIdForma(forma.getIdForma());
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -970,9 +973,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     jComboBoxCentroCusto.addItem(c);
                 }
                 CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
-                centro.getIdCentro();
-                centro.getDescricaoCentro();
-                objMov.setIdCentro(centro.getIdCentro());
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -982,10 +982,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 for (TipoConta t : daoContas.read()) {
                     jComboBoxTipoDespesa.addItem(t);
                 }
-                TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
-                tipo.getIdConta();
-                tipo.getDescricaoConta();
-                objMov.setIdConta(tipo.getIdConta());
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -998,6 +994,17 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     private void jComboBoxFornecedorClienteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxFornecedorClienteItemStateChanged
         // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+            Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorCliente.getSelectedItem();
+            fornecedor.getIdForn();
+            fornecedor.getRazaoSocial();
+            objMov.setIdForn(fornecedor.getIdForn());
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+            Clientes clientes = (Clientes) jComboBoxFornecedorCliente.getSelectedItem();
+            clientes.getIdForn();
+            clientes.getRazaoSocial();
+            objMov.setIdForn(clientes.getIdForn());
+        }
     }//GEN-LAST:event_jComboBoxFornecedorClienteItemStateChanged
 
     private void jBtCadastrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastrarClienteActionPerformed
@@ -1006,10 +1013,18 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     private void jComboBoxTipoPagamentoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxTipoPagamentoItemStateChanged
         // TODO add your handling code here:
+        FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+        forma.getIdForma();
+        forma.getDescricaoForma();
+        objMov.setIdForma(forma.getIdForma());
     }//GEN-LAST:event_jComboBoxTipoPagamentoItemStateChanged
 
     private void jComboBoxCentroCustoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxCentroCustoItemStateChanged
         // TODO add your handling code here:
+        CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+        centro.getIdCentro();
+        centro.getDescricaoCentro();
+        objMov.setIdCentro(centro.getIdCentro());
     }//GEN-LAST:event_jComboBoxCentroCustoItemStateChanged
 
     private void jBtCadastrarCentroCustoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastrarCentroCustoActionPerformed
@@ -1018,6 +1033,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     private void jComboBoxTipoDespesaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxTipoDespesaItemStateChanged
         // TODO add your handling code here:
+        TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+        tipo.getIdConta();
+        tipo.getDescricaoConta();
+        objMov.setIdConta(tipo.getIdConta());
     }//GEN-LAST:event_jComboBoxTipoDespesaItemStateChanged
 
     private void jBtCadastraDespesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastraDespesaActionPerformed
@@ -1042,7 +1061,47 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             }
             conecta.desconecta();
         }
+        BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+        banco.getIdBanco();
+        banco.getAgencia();
+        banco.getDescricaoBanco();
+        banco.getContaCorrente();
+        objMov.setIdBanco(banco.getIdBanco());
     }//GEN-LAST:event_jComboBoxBancoItemStateChanged
+
+    private void jBtPesquisaCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaCPActionPerformed
+        // TODO add your handling code here:
+        preencherTabelaMovimentacaoCP("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                + "INNER JOIN FORNECEDORES_AC "
+                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
+                + "INNER JOIN BANCOS_CONTAS "
+                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                + "INNER JOIN CENTRO_CUSTO "
+                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                + "INNER JOIN TIPO_CONTA "
+                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                + "INNER JOIN TIPO_PAGAMENTO "
+                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.Operacao='" + pOPERACAO_PAGAR + "' "
+                + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
+    }//GEN-LAST:event_jBtPesquisaCPActionPerformed
+
+    private void jBtPesquisaCRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaCRActionPerformed
+        // TODO add your handling code here:
+        preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                + "INNER JOIN CLIENTES "
+                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
+                + "INNER JOIN BANCOS_CONTAS "
+                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                + "INNER JOIN CENTRO_CUSTO "
+                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                + "INNER JOIN TIPO_CONTA "
+                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                + "INNER JOIN TIPO_PAGAMENTO "
+                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.Operacao='" + pOPERACAO_RECEBER + "' "
+                + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
+    }//GEN-LAST:event_jBtPesquisaCRActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1056,10 +1115,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtCancelar;
     private javax.swing.JButton jBtExcluir;
     private javax.swing.JButton jBtNovo;
+    private javax.swing.JButton jBtPesquisaCP;
+    private javax.swing.JButton jBtPesquisaCR;
     private javax.swing.JButton jBtSair;
     private javax.swing.JButton jBtSalvar;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JTextField jCodigo;
     private javax.swing.JComboBox<Object> jComboBoxBanco;
     private javax.swing.JComboBox<Object> jComboBoxCentroCusto;
@@ -1246,31 +1305,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         conecta.desconecta();
     }
 
-    public void pesquisarCLIENTE(int codigo) {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT * FROM CLIENTES "
-                    + "WHERE IdClie='" + codigo + "'");
-            conecta.rs.first();
-            pDESCRICAO_CLIENTE_FORNECEDOR = conecta.rs.getString("DescricaoClie");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
-    }
-
-    public void pesquisarFORNECEDOR(int codigo) {
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL("SELECT * FROM FORNECEDORES_AC "
-                    + "WHERE IdForn='" + codigo + "'");
-            conecta.rs.first();
-            pDESCRICAO_CLIENTE_FORNECEDOR = conecta.rs.getString("DescricaoForn");
-        } catch (Exception e) {
-        }
-        conecta.desconecta();
-    }
-
-    public void preencherTabelaMovimentacao(String sql) {
+    public void preencherTabelaMovimentacaoCP(String sql) {
         ArrayList dados = new ArrayList();
         String[] Colunas = new String[]{"Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo", "Centro Custo", "Cliente/Fornecedor"};
         conecta.abrirConexao();
@@ -1289,31 +1324,23 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
                 String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
-                pVALOR_DOCUMENTO.equals(vlDoc);
-                //
-                pCODIGO_CLIENTE_FORNECEDOR = conecta.rs.getInt("IdForn");
-                pOPERCAO = conecta.rs.getString("Operacao");
-                if (pOPERCAO.equals("Receber")) {
-                    pesquisarCLIENTE(pCODIGO_CLIENTE_FORNECEDOR);
-                } else if (pOPERCAO.equals("Pagar")) {
-                    pesquisarFORNECEDOR(pCODIGO_CLIENTE_FORNECEDOR);
-                }
+                pVALOR_DOCUMENTO = vlDoc;
                 //
                 jtotalRegistros.setText(Integer.toString(count));
-                dados.add(new Object[]{dataAgenda, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("DescricaoCentro"), pDESCRICAO_CLIENTE_FORNECEDOR});
+                dados.add(new Object[]{dataAgenda, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("RazaoSocial")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
         }
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTabelaMovimentacao.setModel(modelo);
-        jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(120);
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(120);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(90);
         jTabelaMovimentacao.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(150);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(100);
         jTabelaMovimentacao.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(150);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(3).setResizable(false);
         jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(250);
         jTabelaMovimentacao.getColumnModel().getColumn(4).setResizable(false);
@@ -1323,11 +1350,60 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jTabelaMovimentacao.getColumnModel().getColumn(6).setResizable(false);
         jTabelaMovimentacao.setAutoResizeMode(jTabelaMovimentacao.AUTO_RESIZE_OFF);
         jTabelaMovimentacao.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        alinharCamposTabela();
+        alinharCamposTabelaCPR();
         conecta.desconecta();
     }
 
-    public void limparTabela() {
+    public void preencherTabelaMovimentacaoCR(String sql) {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo", "Centro Custo", "Cliente/Fornecedor"};
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL(sql);
+            conecta.rs.first();
+            do {
+                count = count + 1;
+                // Formatar a data no formato Brasil
+                dataAgenda = conecta.rs.getString("DataVenc");
+                String dia = dataAgenda.substring(8, 10);
+                String mes = dataAgenda.substring(5, 7);
+                String ano = dataAgenda.substring(0, 4);
+                dataAgenda = dia + "/" + mes + "/" + ano;
+                //
+                pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
+                DecimalFormat vd = new DecimalFormat("#,##0.00");
+                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                pVALOR_DOCUMENTO = vlDoc;
+                //
+                jtotalRegistros.setText(Integer.toString(count));
+                dados.add(new Object[]{dataAgenda, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("RazaoSocial")});
+            } while (conecta.rs.next());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
+        }
+        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+        jTabelaMovimentacao.setModel(modelo);
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(90);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(300);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(350);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setResizable(false);
+        jTabelaMovimentacao.setAutoResizeMode(jTabelaMovimentacao.AUTO_RESIZE_OFF);
+        jTabelaMovimentacao.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        alinharCamposTabelaCPR();
+        conecta.desconecta();
+    }
+
+    public void limparTabelaCPR() {
         ArrayList dados = new ArrayList();
         String[] Colunas = new String[]{"Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo", "Centro Custo", "Cliente/Fornecedor"};
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
@@ -1351,7 +1427,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         modelo.getLinhas().clear();
     }
 
-    public void alinharCamposTabela() {
+    public void alinharCamposTabelaCPR() {
         DefaultTableCellRenderer esquerda = new DefaultTableCellRenderer();
         DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
         DefaultTableCellRenderer direita = new DefaultTableCellRenderer();
