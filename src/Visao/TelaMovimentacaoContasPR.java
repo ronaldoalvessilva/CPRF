@@ -11,6 +11,16 @@ import Dao.ClientesDAO;
 import Dao.ConexaoBancoDados;
 import Dao.FormaPagamentoDAO;
 import Dao.FornecedoresDAO;
+import Dao.ListaCentroCustoDAO_CP;
+import Dao.ListaCentroCustoDAO_CR;
+import Dao.ListarBancosDAO_CP;
+import Dao.ListarBancosDAO_CR;
+import Dao.ListarClientesDAO;
+import Dao.ListarFormaPagamentoDAO_CP;
+import Dao.ListarFormaPagamentoDAO_CR;
+import Dao.ListarFornecedorDAO_CP;
+import Dao.ListarTiposContasDAO_CP;
+import Dao.ListarTiposContasDAO_CR;
 import Dao.LogSistemaDAO;
 import Dao.MovimentacaoCPR_DAO;
 import Dao.TipoContasDAO;
@@ -79,8 +89,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     String horaMov;
     String dataModFinal;
     //
-    int acao, flag;
-    String dataInicial, dataFinal, dataAgenda;
+    int acao = 0;
+    int flag = 0;
+    String dataInicial, dataFinal, dataVenc;
     int count = 0;
     //
     String pTIPO_OPERCAO_DEBITO = "D";
@@ -90,6 +101,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     float pVALOR_DOCUMENTO_REAL = 0;
     String pOPERACAO_PAGAR = "Pagar";
     String pOPERACAO_RECEBER = "Receber";
+    String pOPERACAO_PAGAR_RECEBER = "";
+    //
 
     /**
      * Creates new form TelaMovimentacaoContasPR
@@ -605,9 +618,17 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Venc.", "Nº Doc.", "Valor R$", "Operação", "Tipo", "Centro Custo", "Cliente/Fornecedor"
+                "Codigo", "Venc.", "Nº Doc.", "Valor R$", "Operação", "Tipo Pagto", "Centro Custo", "Despesa/Receita", "Cliente/Fornecedor"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTabelaMovimentacao.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTabelaMovimentacaoMouseClicked(evt);
@@ -615,13 +636,24 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(jTabelaMovimentacao);
         if (jTabelaMovimentacao.getColumnModel().getColumnCount() > 0) {
-            jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(80);
-            jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(90);
-            jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(80);
-            jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(250);
-            jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(300);
-            jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(350);
+            jTabelaMovimentacao.getColumnModel().getColumn(0).setMinWidth(80);
+            jTabelaMovimentacao.getColumnModel().getColumn(0).setMaxWidth(80);
+            jTabelaMovimentacao.getColumnModel().getColumn(1).setMinWidth(80);
+            jTabelaMovimentacao.getColumnModel().getColumn(1).setMaxWidth(80);
+            jTabelaMovimentacao.getColumnModel().getColumn(2).setMinWidth(90);
+            jTabelaMovimentacao.getColumnModel().getColumn(2).setMaxWidth(90);
+            jTabelaMovimentacao.getColumnModel().getColumn(3).setMinWidth(100);
+            jTabelaMovimentacao.getColumnModel().getColumn(3).setMaxWidth(100);
+            jTabelaMovimentacao.getColumnModel().getColumn(4).setMinWidth(80);
+            jTabelaMovimentacao.getColumnModel().getColumn(4).setMaxWidth(80);
+            jTabelaMovimentacao.getColumnModel().getColumn(5).setMinWidth(250);
+            jTabelaMovimentacao.getColumnModel().getColumn(5).setMaxWidth(250);
+            jTabelaMovimentacao.getColumnModel().getColumn(6).setMinWidth(300);
+            jTabelaMovimentacao.getColumnModel().getColumn(6).setMaxWidth(300);
+            jTabelaMovimentacao.getColumnModel().getColumn(7).setMinWidth(250);
+            jTabelaMovimentacao.getColumnModel().getColumn(7).setMaxWidth(250);
+            jTabelaMovimentacao.getColumnModel().getColumn(8).setMinWidth(350);
+            jTabelaMovimentacao.getColumnModel().getColumn(8).setMaxWidth(350);
         }
 
         jPanel35.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -736,6 +768,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             limparCampos();
             bloquearBotoes();
             Novo();
+            preencherComboBoxContaCorrente();
             statusMov = "Incluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
@@ -824,6 +857,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     bloquearCampos();
                     bloquearBotoes();
                     Salvar();
+//                    limparCampos();
                     if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
                         preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN CLIENTES "
@@ -867,7 +901,36 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     bloquearCampos();
                     bloquearBotoes();
                     Salvar();
-//                    preencherTabelaMovimentacao("");
+//                    limparCampos();
+                    if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+                        preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                                + "INNER JOIN CLIENTES "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
+                                + "INNER JOIN BANCOS_CONTAS "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                                + "INNER JOIN CENTRO_CUSTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                                + "INNER JOIN TIPO_CONTA "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                                + "INNER JOIN TIPO_PAGAMENTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                                + "WHERE IdMov='" + jCodigo.getText() + "' "
+                                + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
+                    } else if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+                        preencherTabelaMovimentacaoCP("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                                + "INNER JOIN FORNECEDORES_AC "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
+                                + "INNER JOIN BANCOS_CONTAS "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                                + "INNER JOIN CENTRO_CUSTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                                + "INNER JOIN TIPO_CONTA "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                                + "INNER JOIN TIPO_PAGAMENTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                                + "WHERE IdMov='" + jCodigo.getText() + "' "
+                                + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
+                    }
                     JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
             }
@@ -892,7 +955,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     private void jComboBoxOperacaoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxOperacaoItemStateChanged
         // TODO add your handling code here:
-        if (evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+        if (evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Pagar") && acao == 1 || evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Pagar") && acao == 2) {
             FornecedoresDAO dao = new FornecedoresDAO();
             try {
                 for (Fornecedor p : dao.read()) {
@@ -901,6 +964,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
+            Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorCliente.getSelectedItem();
+            fornecedor.getIdForn();
+            fornecedor.getRazaoSocial();
+            objMov.setIdForn(fornecedor.getIdForn());
             //
             preencherComboBoxContaCorrente();
             BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
@@ -911,6 +978,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
+            BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+            banco.getIdBanco();
+            objMov.setIdBanco(banco.getIdBanco());
             //
             FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
             try {
@@ -920,6 +990,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
+            FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+            forma.getIdForma();
+            forma.getDescricaoForma();
+            objMov.setIdForma(forma.getIdForma());
             //
             CentroCustoDAO daoCentro = new CentroCustoDAO();
             try {
@@ -929,6 +1003,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
+            CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+            centro.getIdCentro();
+            centro.getDescricaoCentro();
+            objMov.setIdCentro(centro.getIdCentro());
             //
             TipoContasDAO daoContas = new TipoContasDAO();
             try {
@@ -938,7 +1016,11 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+            TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+            tipo.getIdConta();
+            tipo.getDescricaoConta();
+            objMov.setIdConta(tipo.getIdConta());
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Receber") && acao == 1 || evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Receber") && acao == 2) {
             ClientesDAO dao = new ClientesDAO();
             try {
                 for (Clientes c : dao.read()) {
@@ -957,6 +1039,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
+            BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+            banco.getIdBanco();
+            objMov.setIdBanco(banco.getIdBanco());
             //
             FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
             try {
@@ -966,6 +1051,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
+            FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+            forma.getIdForma();
+            forma.getDescricaoForma();
+            objMov.setIdForma(forma.getIdForma());
             //
             CentroCustoDAO daoCentro = new CentroCustoDAO();
             try {
@@ -976,6 +1065,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
+            CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+            centro.getIdCentro();
+            centro.getDescricaoCentro();
+            objMov.setIdCentro(centro.getIdCentro());
             //
             TipoContasDAO daoContas = new TipoContasDAO();
             try {
@@ -985,6 +1078,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
+            TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+            tipo.getIdConta();
+            tipo.getDescricaoConta();
+            objMov.setIdConta(tipo.getIdConta());
         }
     }//GEN-LAST:event_jComboBoxOperacaoItemStateChanged
 
@@ -1013,18 +1110,22 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     private void jComboBoxTipoPagamentoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxTipoPagamentoItemStateChanged
         // TODO add your handling code here:
-        FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
-        forma.getIdForma();
-        forma.getDescricaoForma();
-        objMov.setIdForma(forma.getIdForma());
+        if (evt.getStateChange() == evt.SELECTED) {
+            FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+            forma.getIdForma();
+            forma.getDescricaoForma();
+            objMov.setIdForma(forma.getIdForma());
+        }
     }//GEN-LAST:event_jComboBoxTipoPagamentoItemStateChanged
 
     private void jComboBoxCentroCustoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxCentroCustoItemStateChanged
         // TODO add your handling code here:
-        CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
-        centro.getIdCentro();
-        centro.getDescricaoCentro();
-        objMov.setIdCentro(centro.getIdCentro());
+        if (evt.getStateChange() == evt.SELECTED) {
+            CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+            centro.getIdCentro();
+            centro.getDescricaoCentro();
+            objMov.setIdCentro(centro.getIdCentro());
+        }
     }//GEN-LAST:event_jComboBoxCentroCustoItemStateChanged
 
     private void jBtCadastrarCentroCustoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastrarCentroCustoActionPerformed
@@ -1033,10 +1134,12 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     private void jComboBoxTipoDespesaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxTipoDespesaItemStateChanged
         // TODO add your handling code here:
-        TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
-        tipo.getIdConta();
-        tipo.getDescricaoConta();
-        objMov.setIdConta(tipo.getIdConta());
+        if (evt.getStateChange() == evt.SELECTED) {
+            TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+            tipo.getIdConta();
+            tipo.getDescricaoConta();
+            objMov.setIdConta(tipo.getIdConta());
+        }
     }//GEN-LAST:event_jComboBoxTipoDespesaItemStateChanged
 
     private void jBtCadastraDespesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastraDespesaActionPerformed
@@ -1045,6 +1148,192 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     private void jTabelaMovimentacaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMovimentacaoMouseClicked
         // TODO add your handling code here:
+        flag = 1;
+        if (flag == 1) {
+            String codigoMov = "" + jTabelaMovimentacao.getValueAt(jTabelaMovimentacao.getSelectedRow(), 0);
+            jCodigo.setText(codigoMov);
+            pOPERACAO_PAGAR_RECEBER = "" + jTabelaMovimentacao.getValueAt(jTabelaMovimentacao.getSelectedRow(), 4);
+            //
+            bloquearCampos();
+            bloquearBotoes();
+            //
+            jBtNovo.setEnabled(true);
+            jBtAlterar.setEnabled(true);
+            jBtExcluir.setEnabled(true);
+            if (pOPERACAO_PAGAR_RECEBER.equals("Pagar")) {
+                jComboBoxFornecedorCliente.removeAllItems();
+                jComboBoxBanco.removeAllItems();
+                jComboBoxContaCorrente.removeAllItems();
+                jComboBoxTipoPagamento.removeAllItems();
+                jComboBoxCentroCusto.removeAllItems();
+                jComboBoxTipoDespesa.removeAllItems();
+                conecta.abrirConexao();
+                try {
+                    conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                            + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov='" + jCodigo.getText() + "' "
+                            + "AND Operacao='" + pOPERACAO_PAGAR + "'");
+                    conecta.rs.first();
+                    jCodigo.setText(String.valueOf(conecta.rs.getInt("IdMov")));
+                    jComboBoxOperacao.setSelectedItem(conecta.rs.getString("Operacao"));
+                    jDataEmissao.setDate(conecta.rs.getDate("DataEmissao"));
+                    jDataVencimento.setDate(conecta.rs.getDate("DataVenc"));
+                    jNumeroDocumento.setText(conecta.rs.getString("Documento"));
+                    jValorDocumento.setText(conecta.rs.getString("ValorDoc"));
+                    jHistorico.setText(conecta.rs.getString("Historico"));
+                } catch (Exception e) {
+                }
+                //
+                ListarFornecedorDAO_CP listaDAO = new ListarFornecedorDAO_CP();
+                try {
+                    for (Fornecedor p : listaDAO.read()) {
+                        jComboBoxFornecedorCliente.addItem(p);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorCliente.getSelectedItem();
+                fornecedor.getIdForn();
+                fornecedor.getRazaoSocial();
+                objMov.setIdForn(fornecedor.getIdForn());
+                //
+                ListarBancosDAO_CP listaBancos = new ListarBancosDAO_CP();
+                try {
+                    for (BancosContas b : listaBancos.read()) {
+                        jComboBoxBanco.addItem(b);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+                banco.getIdBanco();
+                objMov.setIdBanco(banco.getIdBanco());
+                //
+                ListarFormaPagamentoDAO_CP listaForma = new ListarFormaPagamentoDAO_CP();
+                try {
+                    for (FormaPagamento f : listaForma.read()) {
+                        jComboBoxTipoPagamento.addItem(f);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+                forma.getIdForma();
+                forma.getDescricaoForma();
+                objMov.setIdForma(forma.getIdForma());
+                //
+                ListaCentroCustoDAO_CP listaDAOCentro = new ListaCentroCustoDAO_CP();
+                try {
+                    for (CentroCusto c : listaDAOCentro.read()) {
+                        jComboBoxCentroCusto.addItem(c);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+                centro.getIdCentro();
+                centro.getDescricaoCentro();
+                objMov.setIdCentro(centro.getIdCentro());
+                //
+                ListarTiposContasDAO_CP listarDAOContas = new ListarTiposContasDAO_CP();
+                try {
+                    for (TipoConta t : listarDAOContas.read()) {
+                        jComboBoxTipoDespesa.addItem(t);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+                tipo.getIdConta();
+                tipo.getDescricaoConta();
+                objMov.setIdConta(tipo.getIdConta());
+            } else if (pOPERACAO_PAGAR_RECEBER.equals("Receber")) {
+                jComboBoxFornecedorCliente.removeAllItems();
+                jComboBoxBanco.removeAllItems();
+                jComboBoxContaCorrente.removeAllItems();
+                jComboBoxTipoPagamento.removeAllItems();
+                jComboBoxCentroCusto.removeAllItems();
+                jComboBoxTipoDespesa.removeAllItems();
+                conecta.abrirConexao();
+                try {
+                    conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                            + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov='" + jCodigo.getText() + "' "
+                            + "AND Operacao='" + pOPERACAO_RECEBER + "'");
+                    conecta.rs.first();
+                    jCodigo.setText(conecta.rs.getString("IdMov"));
+                    jComboBoxOperacao.setSelectedItem(conecta.rs.getString("Operacao"));
+                    jDataEmissao.setDate(conecta.rs.getDate("DataEmissao"));
+                    jDataVencimento.setDate(conecta.rs.getDate("DataVenc"));
+                    jNumeroDocumento.setText(conecta.rs.getString("Documento"));
+                    jValorDocumento.setText(conecta.rs.getString("ValorDoc"));
+                    jHistorico.setText(conecta.rs.getString("Historico"));
+                } catch (Exception e) {
+                }
+                //
+                ListarClientesDAO listaClientesDAO = new ListarClientesDAO();
+                try {
+                    for (Clientes p : listaClientesDAO.read()) {
+                        jComboBoxFornecedorCliente.addItem(p);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Clientes clientes = (Clientes) jComboBoxFornecedorCliente.getSelectedItem();
+                clientes.getIdForn();
+                clientes.getRazaoSocial();
+                objMov.setIdForn(clientes.getIdForn());
+                //
+                ListarBancosDAO_CR listaBancos = new ListarBancosDAO_CR();
+                try {
+                    for (BancosContas b : listaBancos.read()) {
+                        jComboBoxBanco.addItem(b);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+                banco.getIdBanco();
+                objMov.setIdBanco(banco.getIdBanco());
+                //
+                ListarFormaPagamentoDAO_CR listaForma = new ListarFormaPagamentoDAO_CR();
+                try {
+                    for (FormaPagamento f : listaForma.read()) {
+                        jComboBoxTipoPagamento.addItem(f);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+                forma.getIdForma();
+                forma.getDescricaoForma();
+                objMov.setIdForma(forma.getIdForma());
+                //
+                ListaCentroCustoDAO_CR listaDAOCentro = new ListaCentroCustoDAO_CR();
+                try {
+                    for (CentroCusto c : listaDAOCentro.read()) {
+                        jComboBoxCentroCusto.addItem(c);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+                centro.getIdCentro();
+                centro.getDescricaoCentro();
+                objMov.setIdCentro(centro.getIdCentro());
+                //
+                ListarTiposContasDAO_CR listarDAOContas = new ListarTiposContasDAO_CR();
+                try {
+                    for (TipoConta t : listarDAOContas.read()) {
+                        jComboBoxTipoDespesa.addItem(t);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+                tipo.getIdConta();
+                tipo.getDescricaoConta();
+                objMov.setIdConta(tipo.getIdConta());
+            }
+        }
     }//GEN-LAST:event_jTabelaMovimentacaoMouseClicked
 
     private void jComboBoxBancoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxBancoItemStateChanged
@@ -1060,13 +1349,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception e) {
             }
             conecta.desconecta();
+            BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+            banco.getIdBanco();
+            objMov.setIdBanco(banco.getIdBanco());
         }
-        BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
-        banco.getIdBanco();
-        banco.getAgencia();
-        banco.getDescricaoBanco();
-        banco.getContaCorrente();
-        objMov.setIdBanco(banco.getIdBanco());
     }//GEN-LAST:event_jComboBoxBancoItemStateChanged
 
     private void jBtPesquisaCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaCPActionPerformed
@@ -1119,7 +1405,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtPesquisaCR;
     private javax.swing.JButton jBtSair;
     private javax.swing.JButton jBtSalvar;
-    private javax.swing.JTextField jCodigo;
+    public static javax.swing.JTextField jCodigo;
     private javax.swing.JComboBox<Object> jComboBoxBanco;
     private javax.swing.JComboBox<Object> jComboBoxCentroCusto;
     private javax.swing.JComboBox<String> jComboBoxContaCorrente;
@@ -1153,7 +1439,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel35;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTabelaMovimentacao;
+    public static javax.swing.JTable jTabelaMovimentacao;
     private javax.swing.JFormattedTextField jValorDocumento;
     public static javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
@@ -1247,6 +1533,134 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     public void Alterar() {
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
+        if (jComboBoxOperacao.getSelectedItem().equals("Pagar") && acao == 2) {
+            FornecedoresDAO dao = new FornecedoresDAO();
+            try {
+                for (Fornecedor p : dao.read()) {
+                    jComboBoxFornecedorCliente.addItem(p);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorCliente.getSelectedItem();
+            fornecedor.getIdForn();
+            fornecedor.getRazaoSocial();
+            objMov.setIdForn(fornecedor.getIdForn());
+            //
+            preencherComboBoxContaCorrente();
+            BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
+            try {
+                for (BancosContas b : daoBanc.read()) {
+                    jComboBoxBanco.addItem(b);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+            banco.getIdBanco();
+            objMov.setIdBanco(banco.getIdBanco());
+            //
+            FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
+            try {
+                for (FormaPagamento f : daoFor.read()) {
+                    jComboBoxTipoPagamento.addItem(f);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+            forma.getIdForma();
+            forma.getDescricaoForma();
+            objMov.setIdForma(forma.getIdForma());
+            //
+            CentroCustoDAO daoCentro = new CentroCustoDAO();
+            try {
+                for (CentroCusto c : daoCentro.read()) {
+                    jComboBoxCentroCusto.addItem(c);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+            centro.getIdCentro();
+            centro.getDescricaoCentro();
+            objMov.setIdCentro(centro.getIdCentro());
+            //
+            TipoContasDAO daoContas = new TipoContasDAO();
+            try {
+                for (TipoConta t : daoContas.read()) {
+                    jComboBoxTipoDespesa.addItem(t);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+            tipo.getIdConta();
+            tipo.getDescricaoConta();
+            objMov.setIdConta(tipo.getIdConta());
+        } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+            ClientesDAO dao = new ClientesDAO();
+            try {
+                for (Clientes c : dao.read()) {
+                    jComboBoxFornecedorCliente.addItem(c);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //
+            preencherComboBoxContaCorrente();
+            BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
+            try {
+                for (BancosContas b : daoBanc.read()) {
+                    jComboBoxBanco.addItem(b);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+            banco.getIdBanco();
+            objMov.setIdBanco(banco.getIdBanco());
+            //
+            FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
+            try {
+                for (FormaPagamento f : daoFor.read()) {
+                    jComboBoxTipoPagamento.addItem(f);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+            forma.getIdForma();
+            forma.getDescricaoForma();
+            objMov.setIdForma(forma.getIdForma());
+            //
+            CentroCustoDAO daoCentro = new CentroCustoDAO();
+            try {
+                for (CentroCusto c : daoCentro.read()) {
+                    jComboBoxCentroCusto.addItem(c);
+                }
+                CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+            centro.getIdCentro();
+            centro.getDescricaoCentro();
+            objMov.setIdCentro(centro.getIdCentro());
+            //
+            TipoContasDAO daoContas = new TipoContasDAO();
+            try {
+                for (TipoConta t : daoContas.read()) {
+                    jComboBoxTipoDespesa.addItem(t);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+            tipo.getIdConta();
+            tipo.getDescricaoConta();
+            objMov.setIdConta(tipo.getIdConta());
+        }
     }
 
     public void Excluir() {
@@ -1307,19 +1721,20 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     public void preencherTabelaMovimentacaoCP(String sql) {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo", "Centro Custo", "Cliente/Fornecedor"};
+        String[] Colunas = new String[]{"Código ", "Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo Pagto", "Centro Custo", "Despesa/Receita", "Cliente/Fornecedor"};
         conecta.abrirConexao();
         try {
             conecta.executaSQL(sql);
             conecta.rs.first();
+            count = 0;
             do {
                 count = count + 1;
                 // Formatar a data no formato Brasil
-                dataAgenda = conecta.rs.getString("DataVenc");
-                String dia = dataAgenda.substring(8, 10);
-                String mes = dataAgenda.substring(5, 7);
-                String ano = dataAgenda.substring(0, 4);
-                dataAgenda = dia + "/" + mes + "/" + ano;
+                dataVenc = conecta.rs.getString("DataVenc");
+                String dia = dataVenc.substring(8, 10);
+                String mes = dataVenc.substring(5, 7);
+                String ano = dataVenc.substring(0, 4);
+                dataVenc = dia + "/" + mes + "/" + ano;
                 //
                 pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
@@ -1327,7 +1742,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 pVALOR_DOCUMENTO = vlDoc;
                 //
                 jtotalRegistros.setText(Integer.toString(count));
-                dados.add(new Object[]{dataAgenda, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("RazaoSocial")});
+                dados.add(new Object[]{conecta.rs.getString("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
@@ -1336,18 +1751,22 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jTabelaMovimentacao.setModel(modelo);
         jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(90);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(90);
         jTabelaMovimentacao.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(100);
         jTabelaMovimentacao.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(4).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(300);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(250);
         jTabelaMovimentacao.getColumnModel().getColumn(5).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(350);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(300);
         jTabelaMovimentacao.getColumnModel().getColumn(6).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setPreferredWidth(350);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setResizable(false);
         jTabelaMovimentacao.setAutoResizeMode(jTabelaMovimentacao.AUTO_RESIZE_OFF);
         jTabelaMovimentacao.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         alinharCamposTabelaCPR();
@@ -1356,19 +1775,20 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     public void preencherTabelaMovimentacaoCR(String sql) {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo", "Centro Custo", "Cliente/Fornecedor"};
+        String[] Colunas = new String[]{"Código ", "Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo Pagto", "Centro Custo", "Despesa/Receita", "Cliente/Fornecedor"};
         conecta.abrirConexao();
         try {
             conecta.executaSQL(sql);
             conecta.rs.first();
+            count = 0;
             do {
                 count = count + 1;
                 // Formatar a data no formato Brasil
-                dataAgenda = conecta.rs.getString("DataVenc");
-                String dia = dataAgenda.substring(8, 10);
-                String mes = dataAgenda.substring(5, 7);
-                String ano = dataAgenda.substring(0, 4);
-                dataAgenda = dia + "/" + mes + "/" + ano;
+                dataVenc = conecta.rs.getString("DataVenc");
+                String dia = dataVenc.substring(8, 10);
+                String mes = dataVenc.substring(5, 7);
+                String ano = dataVenc.substring(0, 4);
+                dataVenc = dia + "/" + mes + "/" + ano;
                 //
                 pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
@@ -1376,7 +1796,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 pVALOR_DOCUMENTO = vlDoc;
                 //
                 jtotalRegistros.setText(Integer.toString(count));
-                dados.add(new Object[]{dataAgenda, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("RazaoSocial")});
+                dados.add(new Object[]{conecta.rs.getInt("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
@@ -1385,18 +1805,22 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jTabelaMovimentacao.setModel(modelo);
         jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(90);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(100);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(90);
         jTabelaMovimentacao.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(100);
         jTabelaMovimentacao.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(4).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(300);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(250);
         jTabelaMovimentacao.getColumnModel().getColumn(5).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(350);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(300);
         jTabelaMovimentacao.getColumnModel().getColumn(6).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setPreferredWidth(350);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setResizable(false);
         jTabelaMovimentacao.setAutoResizeMode(jTabelaMovimentacao.AUTO_RESIZE_OFF);
         jTabelaMovimentacao.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         alinharCamposTabelaCPR();
@@ -1405,23 +1829,27 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     public void limparTabelaCPR() {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo", "Centro Custo", "Cliente/Fornecedor"};
+        String[] Colunas = new String[]{"Código ", "Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo Pagto", "Centro Custo", "Despesa/Receita", "Cliente/Fornecedor"};
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTabelaMovimentacao.setModel(modelo);
-        jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(120);
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(120);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(150);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(90);
         jTabelaMovimentacao.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(150);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(100);
         jTabelaMovimentacao.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(80);
         jTabelaMovimentacao.getColumnModel().getColumn(4).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(300);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(250);
         jTabelaMovimentacao.getColumnModel().getColumn(5).setResizable(false);
-        jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(350);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(300);
         jTabelaMovimentacao.getColumnModel().getColumn(6).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setPreferredWidth(350);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setResizable(false);
         jTabelaMovimentacao.setAutoResizeMode(jTabelaMovimentacao.AUTO_RESIZE_OFF);
         jTabelaMovimentacao.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         modelo.getLinhas().clear();
@@ -1437,7 +1865,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         //
         jTabelaMovimentacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
         jTabelaMovimentacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-        jTabelaMovimentacao.getColumnModel().getColumn(2).setCellRenderer(direita);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setCellRenderer(direita);
     }
 
     public void objLog() {

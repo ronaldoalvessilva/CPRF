@@ -27,7 +27,7 @@ public class BancosContasBancariasDAO {
     public BancosContas incluirBancos(BancosContas objBanco) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO BANCOS_CONTAS (StatusBanco,DataBanco,DescricaoBanco,Agencia,ContaCorrente,Operacao,Endereco,Cidade,Estado,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO BANCOS_CONTAS (StatusBanco,DataBanco,DescricaoBanco,Agencia,ContaCorrente,OperacaoBanco,Endereco,Cidade,Estado,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objBanco.getStatusBanco());
             pst.setTimestamp(2, new java.sql.Timestamp(objBanco.getDataBanco().getTime()));
             pst.setString(3, objBanco.getDescricaoBanco());
@@ -51,7 +51,7 @@ public class BancosContasBancariasDAO {
     public BancosContas alterarBancos(BancosContas objBanco) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE BANCOS_CONTAS SET StatusBanco=?,DataBanco=?,DescricaoBanco=?,Agencia=?,ContaCorrente=?,Operacao=?,Endereco=?,Cidade=?,Estado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdBanco='" + objBanco.getIdBanco() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE BANCOS_CONTAS SET StatusBanco=?,DataBanco=?,DescricaoBanco=?,Agencia=?,ContaCorrente=?,OperacaoBanco=?,Endereco=?,Cidade=?,Estado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdBanco='" + objBanco.getIdBanco() + "'");
             pst.setString(1, objBanco.getStatusBanco());
             pst.setTimestamp(2, new java.sql.Timestamp(objBanco.getDataBanco().getTime()));
             pst.setString(3, objBanco.getDescricaoBanco());

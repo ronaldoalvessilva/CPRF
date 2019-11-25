@@ -15,7 +15,10 @@ public class MovimentoCPR {
 
     private int idMov;
     private int idForma;
+    private String FormaPagamento;
     private int idBanco;
+    private String Agencia;
+    private String ContaCorrente;
     private int idCentro;
     private int idConta;
     private int idForn;
@@ -40,34 +43,6 @@ public class MovimentoCPR {
     private int idEmpresa;
 
     public MovimentoCPR() {
-    }
-
-    public MovimentoCPR(int idMov, int idForma, int idBanco, int idCentro, int idConta, int idForn, String descricaoForma, String descricaoBanco, String descricaoCentro, String descricaoContas, String descricaoFornecedor, String descricaoempresa, String operacao, Date dataEmissao, Date dataVenc, String documento, Float valorDoc, String historico, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idEmpresa) {
-        this.idMov = idMov;
-        this.idForma = idForma;
-        this.idBanco = idBanco;
-        this.idCentro = idCentro;
-        this.idConta = idConta;
-        this.idForn = idForn;
-        this.descricaoForma = descricaoForma;
-        this.descricaoBanco = descricaoBanco;
-        this.descricaoCentro = descricaoCentro;
-        this.descricaoContas = descricaoContas;
-        this.descricaoFornecedor = descricaoFornecedor;
-        this.descricaoempresa = descricaoempresa;
-        this.operacao = operacao;
-        this.dataEmissao = dataEmissao;
-        this.dataVenc = dataVenc;
-        this.documento = documento;
-        this.valorDoc = valorDoc;
-        this.historico = historico;
-        this.usuarioInsert = usuarioInsert;
-        this.usuarioUp = usuarioUp;
-        this.dataInsert = dataInsert;
-        this.dataUp = dataUp;
-        this.horarioInsert = horarioInsert;
-        this.horarioUp = horarioUp;
-        this.idEmpresa = idEmpresa;
     }
 
     /**
@@ -99,6 +74,20 @@ public class MovimentoCPR {
     }
 
     /**
+     * @return the FormaPagamento
+     */
+    public String getFormaPagamento() {
+        return FormaPagamento;
+    }
+
+    /**
+     * @param FormaPagamento the FormaPagamento to set
+     */
+    public void setFormaPagamento(String FormaPagamento) {
+        this.FormaPagamento = FormaPagamento;
+    }
+
+    /**
      * @return the idBanco
      */
     public int getIdBanco() {
@@ -110,6 +99,34 @@ public class MovimentoCPR {
      */
     public void setIdBanco(int idBanco) {
         this.idBanco = idBanco;
+    }
+
+    /**
+     * @return the Agencia
+     */
+    public String getAgencia() {
+        return Agencia;
+    }
+
+    /**
+     * @param Agencia the Agencia to set
+     */
+    public void setAgencia(String Agencia) {
+        this.Agencia = Agencia;
+    }
+
+    /**
+     * @return the ContaCorrente
+     */
+    public String getContaCorrente() {
+        return ContaCorrente;
+    }
+
+    /**
+     * @param ContaCorrente the ContaCorrente to set
+     */
+    public void setContaCorrente(String ContaCorrente) {
+        this.ContaCorrente = ContaCorrente;
     }
 
     /**

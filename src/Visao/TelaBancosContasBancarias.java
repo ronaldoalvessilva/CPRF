@@ -761,7 +761,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                 jNomeBanco.setText(conecta.rs.getString("DescricaoBanco"));
                 jAgencia.setText(conecta.rs.getString("Agencia"));
                 jContaCorrente.setText(conecta.rs.getString("ContaCorrente"));
-                jOperacao.setText(conecta.rs.getString("Operacao"));
+                jOperacao.setText(conecta.rs.getString("OperacaoBanco"));
                 jEndereco.setText(conecta.rs.getString("Endereco"));
                 jCidade.setText(conecta.rs.getString("Cidade"));
                 jComboBoxEstado.setSelectedItem(conecta.rs.getString("Estado"));

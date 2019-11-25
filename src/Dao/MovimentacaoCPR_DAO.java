@@ -64,9 +64,9 @@ public class MovimentacaoCPR_DAO {
             pst.setString(9, objMov.getDocumento());
             pst.setDouble(10, objMov.getValorDoc());
             pst.setString(11, objMov.getHistorico());
-            pst.setString(12, objMov.getUsuarioInsert());
-            pst.setString(13, objMov.getDataInsert());
-            pst.setString(14, objMov.getHorarioInsert());
+            pst.setString(12, objMov.getUsuarioUp());
+            pst.setString(13, objMov.getDataUp());
+            pst.setString(14, objMov.getHorarioUp());
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível ALTERAR os Dados.\nERRO: " + ex);
