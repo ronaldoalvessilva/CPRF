@@ -102,7 +102,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     String pOPERACAO_PAGAR = "Pagar";
     String pOPERACAO_RECEBER = "Receber";
     String pOPERACAO_PAGAR_RECEBER = "";
+    String pCODIGO_MOV_BAIXA = "";
     //
+
+    public static TelaBaixaCPR pBAIXA_CPR;
 
     /**
      * Creates new form TelaMovimentacaoContasPR
@@ -110,6 +113,11 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     public TelaMovimentacaoContasPR() {
         initComponents();
         corCampos();
+    }
+
+    public void mostraTelaBaixa() {
+        pBAIXA_CPR = new TelaBaixaCPR(this, true);
+        pBAIXA_CPR.setVisible(true);
     }
 
     /**
@@ -176,6 +184,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setTitle("...::: Contas a Pagar e Receber :::...");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/money-bag.png"))); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
 
@@ -243,6 +252,11 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
         jBtBaixa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/030818095625_16.png"))); // NOI18N
         jBtBaixa.setToolTipText("Baixa de Titulo");
+        jBtBaixa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtBaixaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -450,6 +464,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         });
 
         jBtPesquisaCP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtPesquisaCP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Saque16.png"))); // NOI18N
         jBtPesquisaCP.setText("<< Mostrar Despesas  >>");
         jBtPesquisaCP.setToolTipText("Pesquisa Contas a Pagar");
         jBtPesquisaCP.addActionListener(new java.awt.event.ActionListener() {
@@ -459,6 +474,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         });
 
         jBtPesquisaCR.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtPesquisaCR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Deposito16.png"))); // NOI18N
         jBtPesquisaCR.setText("<< Mostrar Receitas >>");
         jBtPesquisaCR.setToolTipText("Pesquisar Contas a Receber");
         jBtPesquisaCR.addActionListener(new java.awt.event.ActionListener() {
@@ -540,7 +556,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jBtPesquisaCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jBtPesquisaCR, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jBtPesquisaCR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -781,13 +797,18 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         buscarAcessoUsuario(telaMovimentacaoCPR);
         if (codigoUser == codUserAcesso && nomeTela.equals(telaMovimentacaoCPR) && codAlterar == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
-            acao = 2;
-            desbloquearCampos();
-            bloquearBotoes();
-            Alterar();
-            statusMov = "Alterar";
-            horaMov = jHoraSistema.getText();
-            dataModFinal = jDataSistema.getText();
+            verificarBaixa();
+            if (jCodigo.getText().equals(pCODIGO_MOV_BAIXA)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível modificar esse registro, o mesmo já foi dado baixa.");
+            } else {
+                acao = 2;
+                desbloquearCampos();
+                bloquearBotoes();
+                Alterar();
+                statusMov = "Alterar";
+                horaMov = jHoraSistema.getText();
+                dataModFinal = jDataSistema.getText();
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
@@ -800,18 +821,52 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             statusMov = "Excluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
-            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o interno selecionado?", "Confirmação",
-                    JOptionPane.YES_NO_OPTION);
-            if (resposta == JOptionPane.YES_OPTION) {
-                objCentro.setIdCentro(Integer.valueOf(jCodigo.getText()));
-                control.excluirMovimentoCPR(objMov);
-                objLog();
-                controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
-                JOptionPane.showMessageDialog(rootPane, "Registro EXCLUIDO com sucesso !!!");
-                bloquearCampos();
-                bloquearBotoes();
-                limparCampos();
-                Excluir();
+            verificarBaixa();
+            if (jCodigo.getText().equals(pCODIGO_MOV_BAIXA)) {
+                JOptionPane.showMessageDialog(rootPane, "Não é possível excluir esse registro, o mesmo já foi dado baixa.");
+            } else {
+                int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o interno selecionado?", "Confirmação",
+                        JOptionPane.YES_NO_OPTION);
+                if (resposta == JOptionPane.YES_OPTION) {
+                    objMov.setIdMov(Integer.valueOf(jCodigo.getText()));
+                    control.excluirMovimentoCPR(objMov);
+                    objLog();
+                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação                    
+                    bloquearCampos();
+                    bloquearBotoes();
+                    limparCampos();
+                    Excluir();
+                    if (pOPERACAO_RECEBER.equals("Receber")) {
+                        preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                                + "INNER JOIN CLIENTES "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
+                                + "INNER JOIN BANCOS_CONTAS "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                                + "INNER JOIN CENTRO_CUSTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                                + "INNER JOIN TIPO_CONTA "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                                + "INNER JOIN TIPO_PAGAMENTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                                + "WHERE Operacao='" + pOPERACAO_RECEBER + "' "
+                                + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
+                    } else if (pOPERACAO_PAGAR.equals("Pagar")) {
+                        preencherTabelaMovimentacaoCP("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                                + "INNER JOIN FORNECEDORES_AC "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
+                                + "INNER JOIN BANCOS_CONTAS "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                                + "INNER JOIN CENTRO_CUSTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                                + "INNER JOIN TIPO_CONTA "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                                + "INNER JOIN TIPO_PAGAMENTO "
+                                + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                                + "WHERE Operacao='" + pOPERACAO_PAGAR + "' "
+                                + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
+                    }
+                    JOptionPane.showMessageDialog(rootPane, "Registro EXCLUIDO com sucesso !!!");
+                }
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
@@ -857,7 +912,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     bloquearCampos();
                     bloquearBotoes();
                     Salvar();
-//                    limparCampos();
                     if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
                         preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN CLIENTES "
@@ -901,7 +955,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     bloquearCampos();
                     bloquearBotoes();
                     Salvar();
-//                    limparCampos();
                     if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
                         preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN CLIENTES "
@@ -1178,7 +1231,11 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     jDataEmissao.setDate(conecta.rs.getDate("DataEmissao"));
                     jDataVencimento.setDate(conecta.rs.getDate("DataVenc"));
                     jNumeroDocumento.setText(conecta.rs.getString("Documento"));
-                    jValorDocumento.setText(conecta.rs.getString("ValorDoc"));
+//                    jValorDocumento.setText(conecta.rs.getString("ValorDoc"));
+                    pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
+                    DecimalFormat vd = new DecimalFormat("#,##0.00");
+                    String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                    jValorDocumento.setText(vlDoc);
                     jHistorico.setText(conecta.rs.getString("Historico"));
                 } catch (Exception e) {
                 }
@@ -1389,6 +1446,15 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
     }//GEN-LAST:event_jBtPesquisaCRActionPerformed
 
+    private void jBtBaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtBaixaActionPerformed
+        // TODO add your handling code here:
+        if (jCodigo.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "É necessário selecionar um registro para da baixa.");
+        } else {
+            mostraTelaBaixa();
+        }
+    }//GEN-LAST:event_jBtBaixaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtAlterar;
@@ -1407,14 +1473,14 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtSalvar;
     public static javax.swing.JTextField jCodigo;
     private javax.swing.JComboBox<Object> jComboBoxBanco;
-    private javax.swing.JComboBox<Object> jComboBoxCentroCusto;
-    private javax.swing.JComboBox<String> jComboBoxContaCorrente;
-    private javax.swing.JComboBox<Object> jComboBoxFornecedorCliente;
-    private javax.swing.JComboBox<String> jComboBoxOperacao;
-    private javax.swing.JComboBox<Object> jComboBoxTipoDespesa;
-    private javax.swing.JComboBox<Object> jComboBoxTipoPagamento;
-    private com.toedter.calendar.JDateChooser jDataEmissao;
-    private com.toedter.calendar.JDateChooser jDataVencimento;
+    public static javax.swing.JComboBox<Object> jComboBoxCentroCusto;
+    public static javax.swing.JComboBox<String> jComboBoxContaCorrente;
+    public static javax.swing.JComboBox<Object> jComboBoxFornecedorCliente;
+    public static javax.swing.JComboBox<String> jComboBoxOperacao;
+    public static javax.swing.JComboBox<Object> jComboBoxTipoDespesa;
+    public static javax.swing.JComboBox<Object> jComboBoxTipoPagamento;
+    public static com.toedter.calendar.JDateChooser jDataEmissao;
+    public static com.toedter.calendar.JDateChooser jDataVencimento;
     private javax.swing.JTextArea jHistorico;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1430,7 +1496,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JFormattedTextField jNumeroDocumento;
+    public static javax.swing.JFormattedTextField jNumeroDocumento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1440,7 +1506,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JTable jTabelaMovimentacao;
-    private javax.swing.JFormattedTextField jValorDocumento;
+    public static javax.swing.JFormattedTextField jValorDocumento;
     public static javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
 
@@ -1528,11 +1594,16 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jBtCadastrarCliente.setEnabled(true);
         jBtCadastrarCentroCusto.setEnabled(true);
         jBtCadastraDespesa.setEnabled(true);
+        //
+        jBtPesquisaCP.setEnabled(!true);
+        jBtPesquisaCR.setEnabled(!true);
     }
 
     public void Alterar() {
         jBtSalvar.setEnabled(true);
         jBtCancelar.setEnabled(true);
+        jBtPesquisaCP.setEnabled(!true);
+        jBtPesquisaCR.setEnabled(!true);
         if (jComboBoxOperacao.getSelectedItem().equals("Pagar") && acao == 2) {
             FornecedoresDAO dao = new FornecedoresDAO();
             try {
@@ -1665,6 +1736,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     public void Excluir() {
         jBtNovo.setEnabled(true);
+        jBtPesquisaCP.setEnabled(true);
+        jBtPesquisaCR.setEnabled(true);
     }
 
     public void Salvar() {
@@ -1672,6 +1745,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jBtAlterar.setEnabled(true);
         jBtExcluir.setEnabled(true);
         jBtAuditoria.setEnabled(true);
+        jBtPesquisaCP.setEnabled(true);
+        jBtPesquisaCR.setEnabled(true);
     }
 
     public void Cancelar() {
@@ -1680,6 +1755,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             bloquearCampos();
             bloquearBotoes();
             jBtNovo.setEnabled(true);
+            jBtPesquisaCP.setEnabled(true);
+            jBtPesquisaCR.setEnabled(true);
         } else {
             bloquearBotoes();
             bloquearCampos();
@@ -1688,6 +1765,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             jBtExcluir.setEnabled(true);
             jBtSalvar.setEnabled(true);
             jBtAuditoria.setEnabled(true);
+            jBtPesquisaCP.setEnabled(true);
+            jBtPesquisaCR.setEnabled(true);
         }
     }
 
@@ -1699,6 +1778,18 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             jCodigo.setText(conecta.rs.getString("IdMov"));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Não foi possível obter o código do registro.\nERRO: " + e);
+        }
+        conecta.desconecta();
+    }
+
+    public void verificarBaixa() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
+                    + "WHERE IdMov='" + jCodigo.getText() + "'");
+            conecta.rs.last();
+            pCODIGO_MOV_BAIXA = conecta.rs.getString("IdMov");
+        } catch (Exception e) {
         }
         conecta.desconecta();
     }

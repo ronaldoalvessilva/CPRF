@@ -320,6 +320,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jSair = new javax.swing.JMenuItem();
         jContasPagarReceberFluxo = new javax.swing.JMenu();
         jContasPagarReceber = new javax.swing.JMenuItem();
+        jMovimentacaoBancaria = new javax.swing.JMenuItem();
         jConsultasSQL = new javax.swing.JMenuItem();
         jRelatorios = new javax.swing.JMenu();
         listagemChamadosSuporteTecnico = new javax.swing.JMenuItem();
@@ -861,6 +862,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jContasPagarReceberFluxo.add(jContasPagarReceber);
 
+        jMovimentacaoBancaria.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
+        jMovimentacaoBancaria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/money_add.png"))); // NOI18N
+        jMovimentacaoBancaria.setMnemonic('M');
+        jMovimentacaoBancaria.setText("Movimento Bancário");
+        jContasPagarReceberFluxo.add(jMovimentacaoBancaria);
+
         jConsultasSQL.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         jConsultasSQL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/money_1.png"))); // NOI18N
         jConsultasSQL.setMnemonic('Q');
@@ -974,9 +981,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(3, 3, 3)
                 .addComponent(jPainelPrincipal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2332,6 +2338,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jModulosSistema;
+    private javax.swing.JMenuItem jMovimentacaoBancaria;
     public static javax.swing.JDesktopPane jPainelPrincipal;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

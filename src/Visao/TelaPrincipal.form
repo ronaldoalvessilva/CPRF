@@ -267,6 +267,18 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jContasPagarReceberActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMovimentacaoBancaria">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+M"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Imagens/money_add.png"/>
+                </Property>
+                <Property name="mnemonic" type="int" value="77"/>
+                <Property name="text" type="java.lang.String" value="Movimento Banc&#xe1;rio"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jConsultasSQL">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
@@ -424,10 +436,8 @@
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="jPanel6" alignment="0" max="32767" attributes="0"/>
                   <Component id="jPanel2" max="32767" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jPanel4" alignment="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="jPanel4" alignment="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
               <Component id="jPainelPrincipal" max="32767" attributes="0"/>
