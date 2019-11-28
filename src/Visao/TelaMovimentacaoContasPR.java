@@ -1472,7 +1472,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtSair;
     private javax.swing.JButton jBtSalvar;
     public static javax.swing.JTextField jCodigo;
-    private javax.swing.JComboBox<Object> jComboBoxBanco;
+    public static javax.swing.JComboBox<Object> jComboBoxBanco;
     public static javax.swing.JComboBox<Object> jComboBoxCentroCusto;
     public static javax.swing.JComboBox<String> jComboBoxContaCorrente;
     public static javax.swing.JComboBox<Object> jComboBoxFornecedorCliente;

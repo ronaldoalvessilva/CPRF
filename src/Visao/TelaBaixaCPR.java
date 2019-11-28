@@ -5,8 +5,23 @@
  */
 package Visao;
 
+import Dao.BaixaDAO;
+import Dao.BancosContasBancariasDAO;
+import Dao.CentroCustoDAO;
+import Dao.ClientesDAO;
 import Dao.ConexaoBancoDados;
+import Dao.FormaPagamentoDAO;
+import Dao.FornecedoresDAO;
+import Dao.TipoContasDAO;
 import Modelo.BaixaCPR;
+import Modelo.BancosContas;
+import Modelo.CentroCusto;
+import Modelo.Clientes;
+import Modelo.EmpresaUnidade;
+import Modelo.FormaPagamento;
+import Modelo.Fornecedor;
+import Modelo.TipoConta;
+import static Visao.TelaMovimentacaoContasPR.jComboBoxBanco;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxCentroCusto;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxContaCorrente;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxFornecedorCliente;
@@ -34,15 +49,21 @@ import javax.swing.JOptionPane;
 public class TelaBaixaCPR extends javax.swing.JDialog {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
+    TipoConta objTipoConta = new TipoConta();
+    FormaPagamento objPagto = new FormaPagamento();
+    Fornecedor objForn = new Fornecedor();
+    Clientes objClie = new Clientes();
+    CentroCusto objCentro = new CentroCusto();
+    BancosContas objBanco = new BancosContas();
+    EmpresaUnidade objEmpUni = new EmpresaUnidade();
     BaixaCPR objBaixa = new BaixaCPR();
+    BaixaDAO control = new BaixaDAO();
     //
-//    int pQTD_DIAS;
-//    float pJUROS_DIAS;
     float pVALOR_JUROS;
     float pVALOR_TOTAL_OPERACAO;
     float pVALOR_TOTAL_PARCIAL;
-//    float pVALOR_DOCUMENTO;
     float pVALOR_DIARIO;
+    String pCODIGO_MOV_BAIXA = "";
     /**
      * Creates new form TelaBaixaCPR
      */
@@ -53,6 +74,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         this.setModal(modal);
         setLocationRelativeTo(pMOVI_CONTAS_PR);
         initComponents();
+        corCampos();
         buscarOperacao();
     }
 
@@ -102,6 +124,8 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jComboBoxContaBanco = new javax.swing.JComboBox<>();
+        jLabel19 = new javax.swing.JLabel();
+        jComboBoxAgenciaBaixa = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jBtConfirmar = new javax.swing.JButton();
@@ -110,6 +134,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("...::: Baixa de Contas a Pagar/Receber :::...");
 
+        jPanel1.setBackground(new java.awt.Color(51, 102, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
         jComboBoxOperacaoBaixa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -203,52 +228,49 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jClienteFornecedorBaixa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel8)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxOperacaoBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jDataEmissaoBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jDocumentoBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jDataVencimentoOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4)))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jTipoDespesaBaixa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCentroCustoBaixa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel5)
+                                .addComponent(jDataOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jValorPRBaixa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jValorOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jComboBoxOperacaoBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel1))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jDataEmissaoBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel3))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jDocumentoBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel2))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jDataVencimentoOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel4)))
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jTipoDespesaBaixa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jCentroCustoBaixa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel9)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jDataOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jValorPRBaixa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jValorOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jTipoPagamentoBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jCodigoOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 2, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(jLabel11)
+                            .addComponent(jTipoPagamentoBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jCodigoOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jCodigoOperacao, jValorOperacao, jValorPRBaixa});
@@ -301,6 +323,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(51, 102, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -358,7 +381,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jValorJuros)
                     .addComponent(jLabel15))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBtCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
@@ -380,6 +403,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel3.setBackground(new java.awt.Color(51, 102, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -389,27 +413,43 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jComboBoxContaBanco.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxContaBanco.setEnabled(false);
 
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel19.setText("AGÊNCIA");
+
+        jComboBoxAgenciaBaixa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxAgenciaBaixa.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxAgenciaBaixa.setEnabled(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel19)
+                    .addComponent(jComboBoxAgenciaBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBoxContaBanco, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(329, Short.MAX_VALUE))
+                    .addComponent(jComboBoxContaBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel17)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBoxContaBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jComboBoxAgenciaBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxContaBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        jPanel4.setBackground(new java.awt.Color(51, 102, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
@@ -476,16 +516,13 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPanel1, jPanel2, jPanel3});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -506,16 +543,37 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
 
     private void jBtConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtConfirmarActionPerformed
         // TODO add your handling code here:
-        if (jValorOperacao.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "");
-        } else if (jDiasAtraso.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "");
-        } else if (jJurosDia.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "");
-        } else if (jValorJuros.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "");
+        verificarBaixa();
+        if (jDocumentoBaixa.getText().equals(pCODIGO_MOV_BAIXA)) {
+            JOptionPane.showMessageDialog(rootPane, "Esse registro já foi baixado.");
         } else {
-
+            pesquisarRegistros();
+            if (jValorOperacao.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o valor da operação.");
+            } else if (jDiasAtraso.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "O campo dias de atraso não pode ser em branco.");
+            } else if (jJurosDia.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "O campo juros por dia não pode ser em branco.");
+            } else if (jValorJuros.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "O campo valor dos juros não pode ser em branco.");
+            } else {
+                DecimalFormat VALOR_REAL = new DecimalFormat("###,##00.0");
+                VALOR_REAL.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
+                objBaixa.setOperacaoBaixa((String) jComboBoxOperacaoBaixa.getSelectedItem());
+                objBaixa.setDataOperacao(jDataOperacao.getDate());
+                objBaixa.setDocumentoBaixa(jDocumentoBaixa.getText());
+                objBaixa.setDiasAtraso(Integer.valueOf(jDiasAtraso.getText()));
+                try {
+                    objBaixa.setValorOperacao(VALOR_REAL.parse(jValorOperacao.getText()).floatValue());
+                    objBaixa.setJurosDias(VALOR_REAL.parse(jJurosDia.getText()).floatValue());
+                    objBaixa.setValorJurosDias(VALOR_REAL.parse(jValorJuros.getText()).floatValue());
+                } catch (ParseException ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                control.incluirBaixaCPR(objBaixa);
+                buscarCodigo();
+                JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
+            }
         }
     }//GEN-LAST:event_jBtConfirmarActionPerformed
 
@@ -537,10 +595,10 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         }
         objBaixa.setDiasAtraso(Integer.valueOf(jDiasAtraso.getText()));
         pVALOR_DIARIO = (objBaixa.getValorPRBaixa() / 30);// ACHA O VALOR DO DIA   
-        
+
         pVALOR_TOTAL_PARCIAL = (pVALOR_DIARIO * objBaixa.getDiasAtraso()); // VALOR TOTAL DOS DIAS
-        pVALOR_JUROS =  (pVALOR_TOTAL_PARCIAL * objBaixa.getJurosDias() / 100); // VALOR TOTAL DOS JUROS
-        pVALOR_TOTAL_OPERACAO = ((pVALOR_TOTAL_PARCIAL * objBaixa.getJurosDias())/100);
+        pVALOR_JUROS = (pVALOR_TOTAL_PARCIAL * objBaixa.getJurosDias() / 100); // VALOR TOTAL DOS JUROS
+        pVALOR_TOTAL_OPERACAO = ((pVALOR_TOTAL_PARCIAL * objBaixa.getJurosDias()) / 100);
         pVALOR_TOTAL_OPERACAO = pVALOR_TOTAL_OPERACAO + objBaixa.getValorPRBaixa();
         objBaixa.setValorOperacao(pVALOR_TOTAL_OPERACAO);
         DecimalFormat vd = new DecimalFormat("#,##0.00");
@@ -601,6 +659,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     private javax.swing.JComboBox<Object> jCentroCustoBaixa;
     private javax.swing.JComboBox<Object> jClienteFornecedorBaixa;
     private javax.swing.JTextField jCodigoOperacao;
+    public static javax.swing.JComboBox<Object> jComboBoxAgenciaBaixa;
     public static javax.swing.JComboBox<Object> jComboBoxContaBanco;
     public static javax.swing.JComboBox<String> jComboBoxOperacaoBaixa;
     public static com.toedter.calendar.JDateChooser jDataEmissaoBaixa;
@@ -619,6 +678,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -657,9 +717,150 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jValorOperacao.setText(jValorDocumento.getText());
         jClienteFornecedorBaixa.addItem(jComboBoxFornecedorCliente.getSelectedItem());
         jTipoPagamentoBaixa.addItem(jComboBoxTipoPagamento.getSelectedItem());
-        jComboBoxContaBanco.addItem((String) jComboBoxContaCorrente.getSelectedItem());
+        jComboBoxAgenciaBaixa.addItem(jComboBoxBanco.getSelectedItem());
+        jComboBoxContaBanco.addItem(jComboBoxContaCorrente.getSelectedItem());
         //
         jBtConfirmar.setEnabled(true);
+    }
+
+    public void verificarBaixa() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
+                    + "WHERE IdMov='" + jDocumentoBaixa.getText() + "'");
+            conecta.rs.first();
+            pCODIGO_MOV_BAIXA = conecta.rs.getString("IdMov");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+
+    public void pesquisarRegistros() {
+        if (jComboBoxOperacaoBaixa.getSelectedItem().equals("Pagar")) {
+            FornecedoresDAO dao = new FornecedoresDAO();
+            try {
+                for (Fornecedor p : dao.read()) {
+                    jClienteFornecedorBaixa.addItem(p);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Fornecedor fornecedor = (Fornecedor) jClienteFornecedorBaixa.getSelectedItem();
+            fornecedor.getIdForn();
+            fornecedor.getRazaoSocial();
+            objBaixa.setIdForn(fornecedor.getIdForn());
+//            //           
+//            BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
+//            try {
+//                for (BancosContas b : daoBanc.read()) {
+//                    jComboBoxContaBanco.addItem(b);
+//                }
+//            } catch (Exception ex) {
+//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            BancosContas banco = (BancosContas) jComboBoxContaBanco.getSelectedItem();
+//            banco.getIdBanco();
+//            objBaixa.setIdBanco(banco.getIdBanco());
+//            //
+//            FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
+//            try {
+//                for (FormaPagamento f : daoFor.read()) {
+//                    jTipoPagamentoBaixa.addItem(f);
+//                }
+//            } catch (Exception ex) {
+//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            FormaPagamento forma = (FormaPagamento) jTipoPagamentoBaixa.getSelectedItem();
+//            forma.getIdForma();
+//            forma.getDescricaoForma();
+//            objBaixa.setIdForma(forma.getIdForma());
+//            //
+//            CentroCustoDAO daoCentro = new CentroCustoDAO();
+//            try {
+//                for (CentroCusto c : daoCentro.read()) {
+//                    jCentroCustoBaixa.addItem(c);
+//                }
+//            } catch (Exception ex) {
+//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            CentroCusto centro = (CentroCusto) jCentroCustoBaixa.getSelectedItem();
+//            centro.getIdCentro();
+//            centro.getDescricaoCentro();
+//            objBaixa.setIdCentro(centro.getIdCentro());
+//            //
+//            TipoContasDAO daoContas = new TipoContasDAO();
+//            try {
+//                for (TipoConta t : daoContas.read()) {
+//                    jTipoDespesaBaixa.addItem(t);
+//                }
+//            } catch (Exception ex) {
+//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            TipoConta tipo = (TipoConta) jTipoDespesaBaixa.getSelectedItem();
+//            tipo.getIdConta();
+//            tipo.getDescricaoConta();
+//            objBaixa.setIdConta(tipo.getIdConta());
+        } else if (jComboBoxOperacaoBaixa.getSelectedItem().equals("Receber")) {
+            ClientesDAO dao = new ClientesDAO();
+            try {
+                for (Clientes c : dao.read()) {
+                    jClienteFornecedorBaixa.addItem(c);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+            }
+//            //
+//            BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
+//            try {
+//                for (BancosContas b : daoBanc.read()) {
+//                    jComboBoxContaBanco.addItem(b);
+//                }
+//            } catch (Exception ex) {
+//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            BancosContas banco = (BancosContas) jComboBoxContaBanco.getSelectedItem();
+//            banco.getIdBanco();
+//            objBaixa.setIdBanco(banco.getIdBanco());
+//            //
+//            FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
+//            try {
+//                for (FormaPagamento f : daoFor.read()) {
+//                    jTipoPagamentoBaixa.addItem(f);
+//                }
+//            } catch (Exception ex) {
+//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            FormaPagamento forma = (FormaPagamento) jTipoPagamentoBaixa.getSelectedItem();
+//            forma.getIdForma();
+//            forma.getDescricaoForma();
+//            objBaixa.setIdForma(forma.getIdForma());
+//            //
+//            CentroCustoDAO daoCentro = new CentroCustoDAO();
+//            try {
+//                for (CentroCusto c : daoCentro.read()) {
+//                    jCentroCustoBaixa.addItem(c);
+//                }
+//            } catch (Exception ex) {
+//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            CentroCusto centro = (CentroCusto) jCentroCustoBaixa.getSelectedItem();
+//            centro.getIdCentro();
+//            centro.getDescricaoCentro();
+//            objBaixa.setIdCentro(centro.getIdCentro());
+//            //
+//            TipoContasDAO daoContas = new TipoContasDAO();
+//            try {
+//                for (TipoConta t : daoContas.read()) {
+//                    jTipoDespesaBaixa.addItem(t);
+//                }
+//            } catch (Exception ex) {
+//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            TipoConta tipo = (TipoConta) jTipoDespesaBaixa.getSelectedItem();
+//            tipo.getIdConta();
+//            tipo.getDescricaoConta();
+//            objBaixa.setIdConta(tipo.getIdConta());
+        }
     }
 
     public void Confirmar() {
@@ -670,5 +871,16 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jValorJuros.setEnabled(!true);
         jComboBoxContaBanco.setEnabled(!true);
         jBtConfirmar.setEnabled(!true);
+    }
+
+    public void buscarCodigo() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER");
+            conecta.rs.last();
+            jCodigoOperacao.setText(conecta.rs.getString("IdBaixa"));
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
     }
 }
