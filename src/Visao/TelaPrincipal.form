@@ -186,7 +186,7 @@
                   <Image iconType="3" name="/Imagens/pound-sterling.png"/>
                 </Property>
                 <Property name="mnemonic" type="int" value="73"/>
-                <Property name="text" type="java.lang.String" value="Tipos de Contas"/>
+                <Property name="text" type="java.lang.String" value="Tipos de Contas/Despesas"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTiposContasActionPerformed"/>
@@ -278,6 +278,9 @@
                 <Property name="mnemonic" type="int" value="77"/>
                 <Property name="text" type="java.lang.String" value="Movimento Banc&#xe1;rio"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMovimentacaoBancariaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jConsultasSQL">
               <Properties>

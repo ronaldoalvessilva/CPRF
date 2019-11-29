@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class BaixaCPR {
 
+    private int idBaixa;
     private int idForma;
     private String FormaPagamento;
     private int idBanco;
@@ -37,12 +38,15 @@ public class BaixaCPR {
     private Float valorOperacao;
     private Float jurosDias;
     private Float valorJurosDias;
+    private Float valorSaldo;
     private int diasAtraso;
+    private String tipoOperacao;
 
     public BaixaCPR() {
     }
 
-    public BaixaCPR(int idForma, String FormaPagamento, int idBanco, String Agencia, String ContaCorrente, int idMov, int idCentro, int idConta, int idForn, String descricaoForma, String descricaoBanco, String descricaoCentro, String descricaoContas, String descricaoFornecedor, String descricaoempresa, Date dataOperacao, String operacaoBaixa, Date dataEmissaoBaixa, String documentoBaixa, Date dataVencimentoOperacao, Float valorPRBaixa, Float valorOperacao, Float jurosDias, Float valorJurosDias, int diasAtraso) {
+    public BaixaCPR(int idBaixa, int idForma, String FormaPagamento, int idBanco, String Agencia, String ContaCorrente, int idMov, int idCentro, int idConta, int idForn, String descricaoForma, String descricaoBanco, String descricaoCentro, String descricaoContas, String descricaoFornecedor, String descricaoempresa, Date dataOperacao, String operacaoBaixa, Date dataEmissaoBaixa, String documentoBaixa, Date dataVencimentoOperacao, Float valorPRBaixa, Float valorOperacao, Float jurosDias, Float valorJurosDias, Float valorSaldo, int diasAtraso, String tipoOperacao) {
+        this.idBaixa = idBaixa;
         this.idForma = idForma;
         this.FormaPagamento = FormaPagamento;
         this.idBanco = idBanco;
@@ -67,7 +71,23 @@ public class BaixaCPR {
         this.valorOperacao = valorOperacao;
         this.jurosDias = jurosDias;
         this.valorJurosDias = valorJurosDias;
+        this.valorSaldo = valorSaldo;
         this.diasAtraso = diasAtraso;
+        this.tipoOperacao = tipoOperacao;
+    }
+
+    /**
+     * @return the idBaixa
+     */
+    public int getIdBaixa() {
+        return idBaixa;
+    }
+
+    /**
+     * @param idBaixa the idBaixa to set
+     */
+    public void setIdBaixa(int idBaixa) {
+        this.idBaixa = idBaixa;
     }
 
     /**
@@ -407,6 +427,20 @@ public class BaixaCPR {
     }
 
     /**
+     * @return the valorSaldo
+     */
+    public Float getValorSaldo() {
+        return valorSaldo;
+    }
+
+    /**
+     * @param valorSaldo the valorSaldo to set
+     */
+    public void setValorSaldo(Float valorSaldo) {
+        this.valorSaldo = valorSaldo;
+    }
+
+    /**
      * @return the diasAtraso
      */
     public int getDiasAtraso() {
@@ -418,5 +452,19 @@ public class BaixaCPR {
      */
     public void setDiasAtraso(int diasAtraso) {
         this.diasAtraso = diasAtraso;
+    }
+
+    /**
+     * @return the tipoOperacao
+     */
+    public String getTipoOperacao() {
+        return tipoOperacao;
+    }
+
+    /**
+     * @param tipoOperacao the tipoOperacao to set
+     */
+    public void setTipoOperacao(String tipoOperacao) {
+        this.tipoOperacao = tipoOperacao;
     }
 }

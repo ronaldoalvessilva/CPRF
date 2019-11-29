@@ -794,7 +794,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jTiposContas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         jTiposContas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pound-sterling.png"))); // NOI18N
         jTiposContas.setMnemonic('I');
-        jTiposContas.setText("Tipos de Contas");
+        jTiposContas.setText("Tipos de Contas/Despesas");
         jTiposContas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTiposContasActionPerformed(evt);
@@ -866,6 +866,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMovimentacaoBancaria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/money_add.png"))); // NOI18N
         jMovimentacaoBancaria.setMnemonic('M');
         jMovimentacaoBancaria.setText("Movimento Bancário");
+        jMovimentacaoBancaria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMovimentacaoBancariaActionPerformed(evt);
+            }
+        });
         jContasPagarReceberFluxo.add(jMovimentacaoBancaria);
 
         jConsultasSQL.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
@@ -2259,6 +2264,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
     }//GEN-LAST:event_jBtDepartamentosActionPerformed
+
+    private void jMovimentacaoBancariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMovimentacaoBancariaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMovimentacaoBancariaActionPerformed
 
     /**
      * @param args the command line arguments

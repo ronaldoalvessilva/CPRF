@@ -39,4 +39,25 @@ public class BaixaDAO {
         conecta.desconecta();
         return objBaixa;
     }
+
+    public BaixaCPR incluirSaldoCPR(BaixaCPR objBaixa) {
+
+        conecta.abrirConexao();
+        try {
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO SALDO_BANCARIO (DataSaldo,Doc,IdBanco,IdBaixa,IdFavorecido,TipoOperacao,ValorMov,SaldoAtual) VALUES(?,?,?,?,?,?,?,?)");
+            pst.setTimestamp(1, new java.sql.Timestamp(objBaixa.getDataOperacao().getTime()));
+            pst.setString(2, objBaixa.getDocumentoBaixa());
+            pst.setInt(3, objBaixa.getIdBanco());
+            pst.setInt(4, objBaixa.getIdBaixa());
+            pst.setInt(5, objBaixa.getIdForn());
+            pst.setString(6, objBaixa.getTipoOperacao());
+            pst.setDouble(7, objBaixa.getValorOperacao());
+            pst.setDouble(8, objBaixa.getValorSaldo());
+            pst.execute();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não Foi possivel INSERIR os Dados.\n\nERRO: " + ex);
+        }
+        conecta.desconecta();
+        return objBaixa;
+    }
 }

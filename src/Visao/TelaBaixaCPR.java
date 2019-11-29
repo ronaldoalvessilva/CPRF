@@ -7,12 +7,9 @@ package Visao;
 
 import Dao.BaixaDAO;
 import Dao.BancosContasBancariasDAO;
-import Dao.CentroCustoDAO;
 import Dao.ClientesDAO;
 import Dao.ConexaoBancoDados;
-import Dao.FormaPagamentoDAO;
 import Dao.FornecedoresDAO;
-import Dao.TipoContasDAO;
 import Modelo.BaixaCPR;
 import Modelo.BancosContas;
 import Modelo.CentroCusto;
@@ -64,6 +61,8 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     float pVALOR_TOTAL_PARCIAL;
     float pVALOR_DIARIO;
     String pCODIGO_MOV_BAIXA = "";
+    String pTIPO_OPERACAO_PAGAR = "D";
+    String pTIPO_OPERACAO_RECEBER = "C";
     /**
      * Creates new form TelaBaixaCPR
      */
@@ -543,6 +542,8 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
 
     private void jBtConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtConfirmarActionPerformed
         // TODO add your handling code here:
+        //VERIFICAR SE REGISTRO JÁ FOI DADO BAIXA.
+        //NÃO PERMITE QUE SEJA DADO BAIXA DUAS VEZES PARA O MESMO REGISTRO.
         verificarBaixa();
         if (jDocumentoBaixa.getText().equals(pCODIGO_MOV_BAIXA)) {
             JOptionPane.showMessageDialog(rootPane, "Esse registro já foi baixado.");
@@ -563,6 +564,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 objBaixa.setDataOperacao(jDataOperacao.getDate());
                 objBaixa.setDocumentoBaixa(jDocumentoBaixa.getText());
                 objBaixa.setDiasAtraso(Integer.valueOf(jDiasAtraso.getText()));
+                objBaixa.setAgencia(pCODIGO_MOV_BAIXA);
                 try {
                     objBaixa.setValorOperacao(VALOR_REAL.parse(jValorOperacao.getText()).floatValue());
                     objBaixa.setJurosDias(VALOR_REAL.parse(jJurosDia.getText()).floatValue());
@@ -570,7 +572,27 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 } catch (ParseException ex) {
                     Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
+                try {
+                    for (BancosContas b : daoBanc.read()) {
+                        jComboBoxAgenciaBaixa.addItem(b);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                BancosContas banco = (BancosContas) jComboBoxAgenciaBaixa.getSelectedItem();
+                banco.getIdBanco();
+                objBaixa.setIdBanco(banco.getIdBanco());
+                //INCLUIR REGISTRO DE BAIXA DE CONTAS A PAGAR E A RECEBER
                 control.incluirBaixaCPR(objBaixa);
+                // INCLUIR SALDO NA TABELA DE SALDO_BANCARIO
+                if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+                    objBaixa.setTipoOperacao(pTIPO_OPERACAO_PAGAR);
+                    control.incluirSaldoCPR(objBaixa);
+                } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+                    objBaixa.setTipoOperacao(pTIPO_OPERACAO_RECEBER);
+                    control.incluirSaldoCPR(objBaixa);
+                }
                 buscarCodigo();
                 JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
             }
