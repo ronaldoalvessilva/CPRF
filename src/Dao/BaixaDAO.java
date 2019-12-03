@@ -24,14 +24,15 @@ public class BaixaDAO {
 
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO BAIXA_CONTAS_PAGAR_RECEBER (IdMov,DataBaixa,TipoConta,DiasAtraso,JurosDia,ValorJuros,ValorBaixa) VALUES(?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO BAIXA_CONTAS_PAGAR_RECEBER (IdMov,IdForn,DataBaixa,TipoConta,DiasAtraso,JurosDia,ValorJuros,ValorBaixa) VALUES(?,?,?,?,?,?,?,?)");
             pst.setInt(1, objBaixa.getIdMov());
-            pst.setTimestamp(2, new java.sql.Timestamp(objBaixa.getDataOperacao().getTime()));
-            pst.setString(3, objBaixa.getOperacaoBaixa());
-            pst.setInt(4, objBaixa.getDiasAtraso());
-            pst.setDouble(5, objBaixa.getJurosDias());
-            pst.setDouble(6, objBaixa.getValorJurosDias());
-            pst.setDouble(7, objBaixa.getValorOperacao());
+            pst.setInt(2, objBaixa.getIdForn());
+            pst.setTimestamp(3, new java.sql.Timestamp(objBaixa.getDataOperacao().getTime()));
+            pst.setString(4, objBaixa.getOperacaoBaixa());
+            pst.setInt(5, objBaixa.getDiasAtraso());
+            pst.setDouble(6, objBaixa.getJurosDias());
+            pst.setDouble(7, objBaixa.getValorJurosDias());
+            pst.setDouble(8, objBaixa.getValorOperacao());
             pst.execute();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possivel INSERIR os Dados.\n\nERRO: " + ex);

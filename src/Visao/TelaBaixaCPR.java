@@ -18,6 +18,7 @@ import Modelo.EmpresaUnidade;
 import Modelo.FormaPagamento;
 import Modelo.Fornecedor;
 import Modelo.TipoConta;
+import static Visao.TelaMovimentacaoContasPR.jCodigo;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxBanco;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxCentroCusto;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxContaCorrente;
@@ -63,6 +64,10 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     String pCODIGO_MOV_BAIXA = "";
     String pTIPO_OPERACAO_PAGAR = "D";
     String pTIPO_OPERACAO_RECEBER = "C";
+    float pVALOR_DOCUMENTO_REAL;
+    float pVALOR_BAIXA;
+    float pJUROS_PESQUISA;
+    float pVALOR_JUROS_PESQUISA;
     /**
      * Creates new form TelaBaixaCPR
      */
@@ -75,6 +80,11 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         initComponents();
         corCampos();
         buscarOperacao();
+        verificarBaixa();
+        if (jCodigo.getText().equals(pCODIGO_MOV_BAIXA)) {
+            mostrarBaixa();
+            Confirmar();
+        }
     }
 
     /**
@@ -125,6 +135,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jComboBoxContaBanco = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         jComboBoxAgenciaBaixa = new javax.swing.JComboBox<>();
+        jBtImprimir = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jBtConfirmar = new javax.swing.JButton();
@@ -419,6 +430,14 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jComboBoxAgenciaBaixa.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxAgenciaBaixa.setEnabled(false);
 
+        jBtImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/240119193225_16.png"))); // NOI18N
+        jBtImprimir.setText("Imprimir");
+        jBtImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtImprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -432,7 +451,9 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jComboBoxContaBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBtImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -443,8 +464,9 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                     .addComponent(jLabel19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jComboBoxAgenciaBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxContaBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jBtImprimir)
+                    .addComponent(jComboBoxContaBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxAgenciaBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -545,7 +567,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         //VERIFICAR SE REGISTRO JÁ FOI DADO BAIXA.
         //NÃO PERMITE QUE SEJA DADO BAIXA DUAS VEZES PARA O MESMO REGISTRO.
         verificarBaixa();
-        if (jDocumentoBaixa.getText().equals(pCODIGO_MOV_BAIXA)) {
+        if (jCodigo.getText().equals(pCODIGO_MOV_BAIXA)) {
             JOptionPane.showMessageDialog(rootPane, "Esse registro já foi baixado.");
         } else {
             pesquisarRegistros();
@@ -561,6 +583,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 DecimalFormat VALOR_REAL = new DecimalFormat("###,##00.0");
                 VALOR_REAL.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
                 objBaixa.setOperacaoBaixa((String) jComboBoxOperacaoBaixa.getSelectedItem());
+                objBaixa.setIdMov(Integer.valueOf(jCodigo.getText()));
                 objBaixa.setDataOperacao(jDataOperacao.getDate());
                 objBaixa.setDocumentoBaixa(jDocumentoBaixa.getText());
                 objBaixa.setDiasAtraso(Integer.valueOf(jDiasAtraso.getText()));
@@ -569,8 +592,36 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                     objBaixa.setValorOperacao(VALOR_REAL.parse(jValorOperacao.getText()).floatValue());
                     objBaixa.setJurosDias(VALOR_REAL.parse(jJurosDia.getText()).floatValue());
                     objBaixa.setValorJurosDias(VALOR_REAL.parse(jValorJuros.getText()).floatValue());
+                    objBaixa.setValorSaldo(VALOR_REAL.parse(jValorOperacao.getText()).floatValue());
                 } catch (ParseException ex) {
                     Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if (jComboBoxOperacaoBaixa.getSelectedItem().equals("Pagar")) {
+                    FornecedoresDAO dao = new FornecedoresDAO();
+                    try {
+                        for (Fornecedor p : dao.read()) {
+                            jComboBoxFornecedorCliente.addItem(p);
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorCliente.getSelectedItem();
+                    fornecedor.getIdForn();
+                    fornecedor.getRazaoSocial();
+                    objBaixa.setIdForn(fornecedor.getIdForn());
+                } else if (jComboBoxOperacaoBaixa.getSelectedItem().equals("Receber")) {
+                    ClientesDAO dao = new ClientesDAO();
+                    try {
+                        for (Clientes c : dao.read()) {
+                            jComboBoxFornecedorCliente.addItem(c);
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Clientes cliente = (Clientes) jComboBoxFornecedorCliente.getSelectedItem();
+                    cliente.getIdForn();
+                    cliente.getRazaoSocial();
+                    objBaixa.setIdForn(cliente.getIdForn());
                 }
                 BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
                 try {
@@ -585,15 +636,17 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 objBaixa.setIdBanco(banco.getIdBanco());
                 //INCLUIR REGISTRO DE BAIXA DE CONTAS A PAGAR E A RECEBER
                 control.incluirBaixaCPR(objBaixa);
+                buscarCodigo();
                 // INCLUIR SALDO NA TABELA DE SALDO_BANCARIO
                 if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+                    objBaixa.setIdBaixa(Integer.valueOf(jCodigoOperacao.getText()));
                     objBaixa.setTipoOperacao(pTIPO_OPERACAO_PAGAR);
                     control.incluirSaldoCPR(objBaixa);
                 } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
                     objBaixa.setTipoOperacao(pTIPO_OPERACAO_RECEBER);
                     control.incluirSaldoCPR(objBaixa);
                 }
-                buscarCodigo();
+                Confirmar();
                 JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
             }
         }
@@ -617,7 +670,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         }
         objBaixa.setDiasAtraso(Integer.valueOf(jDiasAtraso.getText()));
         pVALOR_DIARIO = (objBaixa.getValorPRBaixa() / 30);// ACHA O VALOR DO DIA   
-
+        //
         pVALOR_TOTAL_PARCIAL = (pVALOR_DIARIO * objBaixa.getDiasAtraso()); // VALOR TOTAL DOS DIAS
         pVALOR_JUROS = (pVALOR_TOTAL_PARCIAL * objBaixa.getJurosDias() / 100); // VALOR TOTAL DOS JUROS
         pVALOR_TOTAL_OPERACAO = ((pVALOR_TOTAL_PARCIAL * objBaixa.getJurosDias()) / 100);
@@ -631,6 +684,15 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         String vlDocj = vj.format(pVALOR_JUROS);
         jValorJuros.setText(vlDocj);
     }//GEN-LAST:event_jBtCalcularActionPerformed
+
+    private void jBtImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtImprimirActionPerformed
+        // TODO add your handling code here:
+        if (jCodigoOperacao.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "É necessário ter um registro baixado para realizar a impressão.");
+        } else {
+
+        }
+    }//GEN-LAST:event_jBtImprimirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -677,6 +739,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtCalcular;
     private javax.swing.JButton jBtConfirmar;
+    private javax.swing.JButton jBtImprimir;
     private javax.swing.JButton jBtSair;
     private javax.swing.JComboBox<Object> jCentroCustoBaixa;
     private javax.swing.JComboBox<Object> jClienteFornecedorBaixa;
@@ -745,11 +808,127 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jBtConfirmar.setEnabled(true);
     }
 
+    public void mostrarBaixa() {
+        if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+            conecta.abrirConexao();
+            try {
+                conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
+                        + "INNER JOIN MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                        + "ON BAIXA_CONTAS_PAGAR_RECEBER.IdMov=MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov "
+                        + "INNER JOIN TIPO_CONTA "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                        + "INNER JOIN CENTRO_CUSTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                        + "INNER JOIN BANCOS_CONTAS "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                        + "INNER JOIN TIPO_PAGAMENTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                        + "INNER JOIN FORNECEDORES_AC "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
+                        + "WHERE BAIXA_CONTAS_PAGAR_RECEBER.IdMov='" + jCodigo.getText() + "'");
+                conecta.rs.first();
+                jCodigoOperacao.setText(conecta.rs.getString("IdBaixa"));
+                jDataOperacao.setDate(conecta.rs.getDate("DataEmissao"));
+                jComboBoxOperacaoBaixa.setSelectedItem(conecta.rs.getString("Operacao"));
+                jDataEmissaoBaixa.setDate(conecta.rs.getDate("DataEmissao"));
+                jDocumentoBaixa.setText(conecta.rs.getString("Documento"));
+                jDataVencimentoOperacao.setDate(conecta.rs.getDate("DataVenc"));
+                jTipoDespesaBaixa.addItem(conecta.rs.getString("DescricaoConta"));
+                jCentroCustoBaixa.addItem(conecta.rs.getString("DescricaoCentro"));
+                //
+                pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorBaixa");
+                DecimalFormat vd = new DecimalFormat("#,##0.00");
+                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                jValorOperacao.setText(vlDoc);
+                //
+                pVALOR_BAIXA = conecta.rs.getFloat("ValorDoc");
+                DecimalFormat vdB = new DecimalFormat("#,##0.00");
+                String vlDocBaixa = vdB.format(pVALOR_BAIXA);
+                jValorPRBaixa.setText(vlDocBaixa);
+                //
+                jClienteFornecedorBaixa.addItem(conecta.rs.getString("RazaoSocial"));
+                jTipoPagamentoBaixa.addItem(conecta.rs.getString("DescricaoForma"));
+                jDiasAtraso.setText(conecta.rs.getString("DiasAtraso"));
+                //
+                pJUROS_PESQUISA = conecta.rs.getFloat("JurosDia");
+                DecimalFormat vdJP = new DecimalFormat("#,##0.00");
+                String vl_JUROS = vdJP.format(pJUROS_PESQUISA);
+                jJurosDia.setText(vl_JUROS);
+                //
+                pVALOR_JUROS_PESQUISA = conecta.rs.getFloat("ValorJuros");
+                DecimalFormat vJP = new DecimalFormat("#,##0.00");
+                String vl_JUROS_PESQUISA = vJP.format(pVALOR_JUROS_PESQUISA);
+                jValorJuros.setText(vl_JUROS_PESQUISA);
+                //
+                jComboBoxAgenciaBaixa.addItem(conecta.rs.getString("Agencia"));
+                jComboBoxContaBanco.addItem(conecta.rs.getString("ContaCorrente"));
+            } catch (Exception e) {
+            }
+            conecta.desconecta();
+        } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+            conecta.abrirConexao();
+            try {
+                conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
+                        + "INNER JOIN MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                        + "ON BAIXA_CONTAS_PAGAR_RECEBER.IdMov=MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov "
+                        + "INNER JOIN TIPO_CONTA "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                        + "INNER JOIN CENTRO_CUSTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                        + "INNER JOIN BANCOS_CONTAS "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                        + "INNER JOIN TIPO_PAGAMENTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                        + "INNER JOIN CLIENTES "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
+                        + "WHERE BAIXA_CONTAS_PAGAR_RECEBER.IdMov='" + jCodigo.getText() + "'");
+                conecta.rs.first();
+                jCodigoOperacao.setText(conecta.rs.getString("IdBaixa"));
+                jDataOperacao.setDate(conecta.rs.getDate("DataEmissao"));
+                jComboBoxOperacaoBaixa.setSelectedItem(conecta.rs.getString("Operacao"));
+                jDataEmissaoBaixa.setDate(conecta.rs.getDate("DataEmissao"));
+                jDocumentoBaixa.setText(conecta.rs.getString("Documento"));
+                jDataVencimentoOperacao.setDate(conecta.rs.getDate("DataVenc"));
+                jTipoDespesaBaixa.addItem(conecta.rs.getString("DescricaoConta"));
+                jCentroCustoBaixa.addItem(conecta.rs.getString("DescricaoCentro"));
+                //
+                pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorBaixa");
+                DecimalFormat vd = new DecimalFormat("#,##0.00");
+                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                jValorOperacao.setText(vlDoc);
+                //
+                pVALOR_BAIXA = conecta.rs.getFloat("ValorDoc");
+                DecimalFormat vdB = new DecimalFormat("#,##0.00");
+                String vlDocBaixa = vdB.format(pVALOR_BAIXA);
+                jValorPRBaixa.setText(vlDocBaixa);
+                //
+                jClienteFornecedorBaixa.addItem(conecta.rs.getString("RazaoSocial"));
+                jTipoPagamentoBaixa.addItem(conecta.rs.getString("DescricaoForma"));
+                jDiasAtraso.setText(conecta.rs.getString("DiasAtraso"));
+                //
+                pJUROS_PESQUISA = conecta.rs.getFloat("ValorJuros");
+                DecimalFormat vdJP = new DecimalFormat("#,##0.00");
+                String vl_JUROS = vdJP.format(pVALOR_BAIXA);
+                jJurosDia.setText(vl_JUROS);
+                //
+                pVALOR_JUROS_PESQUISA = conecta.rs.getFloat("ValorJuros");
+                DecimalFormat vJP = new DecimalFormat("#,##0.00");
+                String vl_JUROS_PESQUISA = vJP.format(pVALOR_JUROS_PESQUISA);
+                jValorJuros.setText(vl_JUROS_PESQUISA);
+                //
+                jComboBoxAgenciaBaixa.addItem(conecta.rs.getString("Agencia"));
+                jComboBoxContaBanco.addItem(conecta.rs.getString("ContaCorrente"));
+            } catch (Exception e) {
+            }
+            conecta.desconecta();
+        }
+    }
+
     public void verificarBaixa() {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
-                    + "WHERE IdMov='" + jDocumentoBaixa.getText() + "'");
+                    + "WHERE IdMov='" + jCodigo.getText() + "'");
             conecta.rs.first();
             pCODIGO_MOV_BAIXA = conecta.rs.getString("IdMov");
         } catch (Exception e) {
@@ -771,117 +950,19 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
             fornecedor.getIdForn();
             fornecedor.getRazaoSocial();
             objBaixa.setIdForn(fornecedor.getIdForn());
-//            //           
-//            BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
-//            try {
-//                for (BancosContas b : daoBanc.read()) {
-//                    jComboBoxContaBanco.addItem(b);
-//                }
-//            } catch (Exception ex) {
-//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            BancosContas banco = (BancosContas) jComboBoxContaBanco.getSelectedItem();
-//            banco.getIdBanco();
-//            objBaixa.setIdBanco(banco.getIdBanco());
-//            //
-//            FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
-//            try {
-//                for (FormaPagamento f : daoFor.read()) {
-//                    jTipoPagamentoBaixa.addItem(f);
-//                }
-//            } catch (Exception ex) {
-//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            FormaPagamento forma = (FormaPagamento) jTipoPagamentoBaixa.getSelectedItem();
-//            forma.getIdForma();
-//            forma.getDescricaoForma();
-//            objBaixa.setIdForma(forma.getIdForma());
-//            //
-//            CentroCustoDAO daoCentro = new CentroCustoDAO();
-//            try {
-//                for (CentroCusto c : daoCentro.read()) {
-//                    jCentroCustoBaixa.addItem(c);
-//                }
-//            } catch (Exception ex) {
-//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            CentroCusto centro = (CentroCusto) jCentroCustoBaixa.getSelectedItem();
-//            centro.getIdCentro();
-//            centro.getDescricaoCentro();
-//            objBaixa.setIdCentro(centro.getIdCentro());
-//            //
-//            TipoContasDAO daoContas = new TipoContasDAO();
-//            try {
-//                for (TipoConta t : daoContas.read()) {
-//                    jTipoDespesaBaixa.addItem(t);
-//                }
-//            } catch (Exception ex) {
-//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            TipoConta tipo = (TipoConta) jTipoDespesaBaixa.getSelectedItem();
-//            tipo.getIdConta();
-//            tipo.getDescricaoConta();
-//            objBaixa.setIdConta(tipo.getIdConta());
         } else if (jComboBoxOperacaoBaixa.getSelectedItem().equals("Receber")) {
             ClientesDAO dao = new ClientesDAO();
             try {
                 for (Clientes c : dao.read()) {
-                    jClienteFornecedorBaixa.addItem(c);
+                    jComboBoxFornecedorCliente.addItem(c);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
-//            //
-//            BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
-//            try {
-//                for (BancosContas b : daoBanc.read()) {
-//                    jComboBoxContaBanco.addItem(b);
-//                }
-//            } catch (Exception ex) {
-//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            BancosContas banco = (BancosContas) jComboBoxContaBanco.getSelectedItem();
-//            banco.getIdBanco();
-//            objBaixa.setIdBanco(banco.getIdBanco());
-//            //
-//            FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
-//            try {
-//                for (FormaPagamento f : daoFor.read()) {
-//                    jTipoPagamentoBaixa.addItem(f);
-//                }
-//            } catch (Exception ex) {
-//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            FormaPagamento forma = (FormaPagamento) jTipoPagamentoBaixa.getSelectedItem();
-//            forma.getIdForma();
-//            forma.getDescricaoForma();
-//            objBaixa.setIdForma(forma.getIdForma());
-//            //
-//            CentroCustoDAO daoCentro = new CentroCustoDAO();
-//            try {
-//                for (CentroCusto c : daoCentro.read()) {
-//                    jCentroCustoBaixa.addItem(c);
-//                }
-//            } catch (Exception ex) {
-//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            CentroCusto centro = (CentroCusto) jCentroCustoBaixa.getSelectedItem();
-//            centro.getIdCentro();
-//            centro.getDescricaoCentro();
-//            objBaixa.setIdCentro(centro.getIdCentro());
-//            //
-//            TipoContasDAO daoContas = new TipoContasDAO();
-//            try {
-//                for (TipoConta t : daoContas.read()) {
-//                    jTipoDespesaBaixa.addItem(t);
-//                }
-//            } catch (Exception ex) {
-//                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//            TipoConta tipo = (TipoConta) jTipoDespesaBaixa.getSelectedItem();
-//            tipo.getIdConta();
-//            tipo.getDescricaoConta();
-//            objBaixa.setIdConta(tipo.getIdConta());
+            Clientes cliente = (Clientes) jComboBoxFornecedorCliente.getSelectedItem();
+            cliente.getIdForn();
+            cliente.getRazaoSocial();
+            objBaixa.setIdForn(cliente.getIdForn());
         }
     }
 
@@ -893,6 +974,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jValorJuros.setEnabled(!true);
         jComboBoxContaBanco.setEnabled(!true);
         jBtConfirmar.setEnabled(!true);
+        jBtCalcular.setEnabled(!true);
     }
 
     public void buscarCodigo() {

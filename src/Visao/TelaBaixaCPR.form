@@ -673,6 +673,8 @@
                       <Component id="jComboBoxContaBanco" min="-2" pref="161" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jBtImprimir" min="-2" pref="123" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -686,8 +688,9 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="jComboBoxAgenciaBaixa" alignment="2" min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="jBtImprimir" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="jComboBoxContaBanco" alignment="2" min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="jComboBoxAgenciaBaixa" alignment="2" min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="14" max="32767" attributes="0"/>
               </Group>
@@ -750,6 +753,17 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Object&gt;"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="jBtImprimir">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Imagens/240119193225_16.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Imprimir"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtImprimirActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

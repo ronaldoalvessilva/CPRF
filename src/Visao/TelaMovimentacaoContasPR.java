@@ -1082,6 +1082,10 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
             }
+            Clientes cliente = (Clientes) jComboBoxFornecedorCliente.getSelectedItem();
+            cliente.getIdForn();
+            cliente.getRazaoSocial();
+            objMov.setIdForn(cliente.getIdForn());
             //
             preencherComboBoxContaCorrente();
             BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
@@ -1231,7 +1235,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     jDataEmissao.setDate(conecta.rs.getDate("DataEmissao"));
                     jDataVencimento.setDate(conecta.rs.getDate("DataVenc"));
                     jNumeroDocumento.setText(conecta.rs.getString("Documento"));
-//                    jValorDocumento.setText(conecta.rs.getString("ValorDoc"));
                     pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
                     DecimalFormat vd = new DecimalFormat("#,##0.00");
                     String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
