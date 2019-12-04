@@ -1996,6 +1996,8 @@ public class TelaEmpresa extends javax.swing.JInternalFrame {
         jBtSalvar.setEnabled(!true);
         jBtCancelar.setEnabled(!true);
         jBtAuditoria.setEnabled(true);
+        //
+        jBtNovaUnid.setEnabled(true);
     }
 
     public void Cancelar() {

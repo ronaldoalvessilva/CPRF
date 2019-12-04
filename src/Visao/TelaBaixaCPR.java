@@ -68,6 +68,8 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     float pVALOR_BAIXA;
     float pJUROS_PESQUISA;
     float pVALOR_JUROS_PESQUISA;
+    float pSALDO_BANCARIO;
+    float pSALDO_ATUAL;
     /**
      * Creates new form TelaBaixaCPR
      */
@@ -637,13 +639,20 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 //INCLUIR REGISTRO DE BAIXA DE CONTAS A PAGAR E A RECEBER
                 control.incluirBaixaCPR(objBaixa);
                 buscarCodigo();
+                //PESQUISAR SALDO BANCÁRIO
+                pesquisaSaldoBancario();
                 // INCLUIR SALDO NA TABELA DE SALDO_BANCARIO
                 if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
                     objBaixa.setIdBaixa(Integer.valueOf(jCodigoOperacao.getText()));
                     objBaixa.setTipoOperacao(pTIPO_OPERACAO_PAGAR);
+                    pSALDO_ATUAL = pSALDO_BANCARIO - objBaixa.getValorOperacao();
+                    objBaixa.setValorSaldo(pSALDO_ATUAL);
                     control.incluirSaldoCPR(objBaixa);
                 } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+                    objBaixa.setIdBaixa(Integer.valueOf(jCodigoOperacao.getText()));
                     objBaixa.setTipoOperacao(pTIPO_OPERACAO_RECEBER);
+                    pSALDO_ATUAL = pSALDO_BANCARIO + objBaixa.getValorOperacao();
+                    objBaixa.setValorSaldo(pSALDO_ATUAL);
                     control.incluirSaldoCPR(objBaixa);
                 }
                 Confirmar();
@@ -931,6 +940,17 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                     + "WHERE IdMov='" + jCodigo.getText() + "'");
             conecta.rs.first();
             pCODIGO_MOV_BAIXA = conecta.rs.getString("IdMov");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+
+    public void pesquisaSaldoBancario() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM SALDO_BANCARIO");
+            conecta.rs.last();
+            pSALDO_BANCARIO = conecta.rs.getFloat("SaldoAtual");
         } catch (Exception e) {
         }
         conecta.desconecta();
