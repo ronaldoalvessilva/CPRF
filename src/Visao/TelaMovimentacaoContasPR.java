@@ -490,6 +490,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jBtRefresh.setForeground(new java.awt.Color(0, 102, 0));
         jBtRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/refresh-reload-icone-6258-16.png"))); // NOI18N
         jBtRefresh.setText("Refresh");
+        jBtRefresh.setToolTipText("Atualizar Pesquisa");
         jBtRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtRefreshActionPerformed(evt);
@@ -1029,6 +1030,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     private void jBtAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAuditoriaActionPerformed
         // TODO add your handling code here:
+        TelaAuditoriaMovimentacaoCPR objAud = new TelaAuditoriaMovimentacaoCPR();
+        jPainelPrincipal.add(objAud);
+        objAud.show();
     }//GEN-LAST:event_jBtAuditoriaActionPerformed
 
     private void jComboBoxOperacaoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxOperacaoItemStateChanged
@@ -1228,6 +1232,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             jBtNovo.setEnabled(true);
             jBtAlterar.setEnabled(true);
             jBtExcluir.setEnabled(true);
+            jBtAuditoria.setEnabled(true);
             if (pOPERACAO_PAGAR_RECEBER.equals("Pagar")) {
                 jComboBoxFornecedorCliente.removeAllItems();
                 jComboBoxBanco.removeAllItems();
@@ -1477,14 +1482,23 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
     private void jBtCadastraBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastraBancoActionPerformed
         // TODO add your handling code here:
+        TelaBancosContasBancarias objBancos = new TelaBancosContasBancarias();
+        jPainelPrincipal.add(objBancos);
+        objBancos.show();
     }//GEN-LAST:event_jBtCadastraBancoActionPerformed
 
     private void jBtCadastraDespesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastraDespesaActionPerformed
         // TODO add your handling code here:
+        TelaTipoContas objContas = new TelaTipoContas();
+        jPainelPrincipal.add(objContas);
+        objContas.show();
     }//GEN-LAST:event_jBtCadastraDespesaActionPerformed
 
     private void jBtCadastrarCentroCustoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastrarCentroCustoActionPerformed
         // TODO add your handling code here:
+        TelaCentroCusto objCentro = new TelaCentroCusto();
+        jPainelPrincipal.add(objCentro);
+        objCentro.show();
     }//GEN-LAST:event_jBtCadastrarCentroCustoActionPerformed
 
     private void jBtCadastrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCadastrarClienteActionPerformed

@@ -6,21 +6,21 @@
 package Visao;
 
 import Dao.ConexaoBancoDados;
-import static Visao.TelaEmpresa.jIdEmpresa;
+import static Visao.TelaMovimentacaoContasPR.jCodigo;
 import java.sql.SQLException;
 
 /**
  *
  * @author Ronaldo
  */
-public class TelaAuditoriaEmpresa extends javax.swing.JInternalFrame {
+public class TelaAuditoriaMovimentacaoCPR extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();    
 
     /**
      * Creates new form TelaAuditoriaRolInternas
      */
-    public TelaAuditoriaEmpresa() {
+    public TelaAuditoriaMovimentacaoCPR() {
         initComponents();
         auditoria();      
     }
@@ -249,7 +249,7 @@ public class TelaAuditoriaEmpresa extends javax.swing.JInternalFrame {
     public void auditoria() {
         try {
             conecta.abrirConexao();
-            conecta.executaSQL("SELECT * FROM EMPRESA WHERE IdEmpresa='" + jIdEmpresa.getText() + "'");
+            conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER WHERE IdMov='" + jCodigo.getText() + "'");
             conecta.rs.first();
             jUsuarioInsert.setText(conecta.rs.getString("UsuarioInsert"));
             jDataInsert.setText(conecta.rs.getString("DataInsert"));

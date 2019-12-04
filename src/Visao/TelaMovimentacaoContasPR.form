@@ -875,6 +875,7 @@
               <Image iconType="3" name="/Imagens/refresh-reload-icone-6258-16.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Refresh"/>
+            <Property name="toolTipText" type="java.lang.String" value="Atualizar Pesquisa"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBtRefreshActionPerformed"/>
