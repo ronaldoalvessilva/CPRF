@@ -5,11 +5,15 @@
  */
 package Visao;
 
+import Dao.BaixaDAO;
 import Dao.BancosContasBancariasDAO;
 import Dao.ConexaoBancoDados;
 import Dao.LogSistemaDAO;
+import Dao.MovimentoBancarioDAO;
+import Modelo.BaixaCPR;
 import Modelo.BancosContas;
 import Modelo.LogSistema;
+import Modelo.MovimentoBancario;
 import Util.ModeloTabela;
 import static Visao.TelaLoginSenhaCPRF.nameUser;
 import static Visao.TelaPrincipal.codAbrir;
@@ -24,17 +28,21 @@ import static Visao.TelaPrincipal.codigoUser;
 import static Visao.TelaPrincipal.codigoUserGroup;
 import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
-import static Visao.TelaPrincipal.jPainelPrincipal;
 import static Visao.TelaPrincipal.nomeGrupo;
 import static Visao.TelaPrincipal.nomeTela;
-import static Visao.TelaPrincipal.telaCadastroBancosContas;
-import static Visao.TelaPrincipal.telaCadastroTiposPagto;
+import static Visao.TelaPrincipal.telaMovimentoBancario;
 import static Visao.TelaPrincipal.tipoServidor;
 import java.awt.Color;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Currency;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -42,17 +50,21 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
- * @author ronal
+ * @author Socializa TI 02
  */
-public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
+public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     BancosContas objBanco = new BancosContas();
     BancosContasBancariasDAO control = new BancosContasBancariasDAO();
+    MovimentoBancario objMovBanc = new MovimentoBancario();
+    MovimentoBancarioDAO movBancoDAO = new MovimentoBancarioDAO();
+    BaixaCPR objBaixa = new BaixaCPR();
+    BaixaDAO controlDAO = new BaixaDAO();
     LogSistemaDAO controlLog = new LogSistemaDAO();
     LogSistema objLogSys = new LogSistema();
     // Variáveis para gravar o log
-    String nomeModuloTela = "Cadastros:Bancos/Contas Bancárias:Manutenção";
+    String nomeModuloTela = "Movimentação:Movimento Bancárias:Manutenção";
     String statusMov;
     String horaMov;
     String dataModFinal;
@@ -60,11 +72,16 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
     int acao, flag;
     String dataInicial, dataFinal, dataAgenda;
     int count = 0;
+    String pSTATUS_BANCO = "Ativo";
+    float pSALDO_BANCARIO;
+    float pSALDO_ATUAL;
+    String pTIPO_OPERACAO_PAGAR = "D";
+    String pTIPO_OPERACAO_RECEBER = "C";
 
     /**
-     * Creates new form TelaBancosContasBancarias
+     * Creates new form TelaMovimentoBancario
      */
-    public TelaBancosContasBancarias() {
+    public TelaMovimentoBancario() {
         initComponents();
         corCampos();
     }
@@ -90,7 +107,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jCheckBoxTodos = new javax.swing.JCheckBox();
         jDataPesqInicial = new com.toedter.calendar.JDateChooser();
         jDataPesqFinal = new com.toedter.calendar.JDateChooser();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jTabelaBancos = new javax.swing.JTable();
         jPanel33 = new javax.swing.JPanel();
         jLabel67 = new javax.swing.JLabel();
@@ -102,30 +119,26 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jIdDepCredito = new javax.swing.JTextField();
+        jComboBoxStatus = new javax.swing.JComboBox<>();
+        jDataRegistro = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
+        jFavorecido = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jDataRegistro = new com.toedter.calendar.JDateChooser();
-        jComboBoxStatus = new javax.swing.JComboBox<>();
-        jCodigo = new javax.swing.JTextField();
-        jNomeBanco = new javax.swing.JTextField();
-        jAgencia = new javax.swing.JTextField();
-        jContaCorrente = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jOperacao = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
-        jFavorecido = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
+        jComboBoxAgencia = new javax.swing.JComboBox<>();
+        jComboBoxContaCorrente = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        jEndereco = new javax.swing.JTextField();
+        jValorRegistro = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jObservacao = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
-        jCidade = new javax.swing.JTextField();
-        jComboBoxEstado = new javax.swing.JComboBox();
-        jPanel5 = new javax.swing.JPanel();
+        jDepositanteSacado = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jComboBoxTipoDepositoSaque = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
         jBtNovo = new javax.swing.JButton();
-        jBtAlterar = new javax.swing.JButton();
-        jBtExcluir = new javax.swing.JButton();
         jBtSalvar = new javax.swing.JButton();
         jBtCancelar = new javax.swing.JButton();
         jBtSair = new javax.swing.JButton();
@@ -133,7 +146,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("...::: Bancos/Contas Bancárias :::...");
+        setTitle("...::: Movimentação Bancária :::...");
 
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
@@ -204,7 +217,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtDataPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jCheckBoxTodos))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,18 +246,29 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
             new String [] {
                 "Código", "Data", "Status", "Descrição"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTabelaBancos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTabelaBancosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTabelaBancos);
+        jScrollPane2.setViewportView(jTabelaBancos);
         if (jTabelaBancos.getColumnModel().getColumnCount() > 0) {
-            jTabelaBancos.getColumnModel().getColumn(0).setPreferredWidth(60);
-            jTabelaBancos.getColumnModel().getColumn(1).setPreferredWidth(70);
-            jTabelaBancos.getColumnModel().getColumn(2).setPreferredWidth(70);
-            jTabelaBancos.getColumnModel().getColumn(3).setPreferredWidth(250);
+            jTabelaBancos.getColumnModel().getColumn(0).setMinWidth(60);
+            jTabelaBancos.getColumnModel().getColumn(0).setMaxWidth(60);
+            jTabelaBancos.getColumnModel().getColumn(1).setMinWidth(70);
+            jTabelaBancos.getColumnModel().getColumn(1).setMaxWidth(70);
+            jTabelaBancos.getColumnModel().getColumn(2).setMinWidth(70);
+            jTabelaBancos.getColumnModel().getColumn(2).setMaxWidth(70);
+            jTabelaBancos.getColumnModel().getColumn(3).setMinWidth(250);
         }
 
         jPanel33.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -299,11 +323,9 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -317,13 +339,13 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6))
+                .addGap(3, 3, 3))
         );
 
         jTabbedPane1.addTab("Listagem", jPanel1);
@@ -337,52 +359,75 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jLabel2.setText("Status");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setText("Data");
+        jLabel3.setText("Data Registro");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setText("Nome do Banco");
+        jIdDepCredito.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jIdDepCredito.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jIdDepCredito.setEnabled(false);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel5.setText("Agência");
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setText("Conta Corrente");
+        jComboBoxStatus.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Saque", "Depósito" }));
+        jComboBoxStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxStatus.setEnabled(false);
 
         jDataRegistro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jDataRegistro.setEnabled(false);
 
-        jComboBoxStatus.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Ativo", "Inativo" }));
-        jComboBoxStatus.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jComboBoxStatus.setEnabled(false);
-
-        jCodigo.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jCodigo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jCodigo.setEnabled(false);
-
-        jNomeBanco.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jNomeBanco.setEnabled(false);
-
-        jAgencia.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jAgencia.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jAgencia.setEnabled(false);
-
-        jContaCorrente.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jContaCorrente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jContaCorrente.setEnabled(false);
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel10.setText("Operação");
-
-        jOperacao.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jOperacao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jOperacao.setEnabled(false);
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel14.setText("Favorecido");
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setText("Favorecido");
 
         jFavorecido.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jFavorecido.setEnabled(false);
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setText("Agencia");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Conta Corrente");
+
+        jComboBoxAgencia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxAgencia.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxAgencia.setEnabled(false);
+        jComboBoxAgencia.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxAgenciaItemStateChanged(evt);
+            }
+        });
+
+        jComboBoxContaCorrente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxContaCorrente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxContaCorrente.setEnabled(false);
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("Valor R$");
+
+        jValorRegistro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jValorRegistro.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jValorRegistro.setEnabled(false);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel8.setText("Observação");
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        jObservacao.setColumns(20);
+        jObservacao.setRows(5);
+        jObservacao.setEnabled(false);
+        jScrollPane1.setViewportView(jObservacao);
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel9.setText("Depositante/Sacado");
+
+        jDepositanteSacado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jDepositanteSacado.setEnabled(false);
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel10.setText("Tipo Depósito/Saque");
+
+        jComboBoxTipoDepositoSaque.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxTipoDepositoSaque.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Transferência bancária", "Dinheiro", "Cheque" }));
+        jComboBoxTipoDepositoSaque.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxTipoDepositoSaque.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -391,171 +436,102 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jFavorecido)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jIdDepCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBoxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(20, 20, 20)
-                                .addComponent(jLabel2)))
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jComboBoxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jDataRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jFavorecido)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jAgencia, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxAgencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
-                                .addGap(68, 68, 68)
-                                .addComponent(jLabel10)
-                                .addGap(0, 63, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jContaCorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jOperacao))))
-                    .addComponent(jNomeBanco)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jComboBoxContaCorrente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1)
+                    .addComponent(jDepositanteSacado)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jValorRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel14))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jComboBoxTipoDepositoSaque, 0, 241, Short.MAX_VALUE))))
                 .addContainerGap())
         );
+
+        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBoxAgencia, jIdDepCredito});
+
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel2))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDataRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jIdDepCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDataRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxAgencia, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxContaCorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jNomeBanco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jAgencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jContaCorrente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jFavorecido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel7.setText("Endereço");
-
-        jEndereco.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jEndereco.setEnabled(false);
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel8.setText("Cidade");
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel9.setText("Estado");
-
-        jCidade.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jCidade.setEnabled(false);
-
-        jComboBoxEstado.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione...", "AC", "AL", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
-        jComboBoxEstado.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jComboBoxEstado.setEnabled(false);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(jCidade)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(12, 12, 12))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9)
-                        .addGap(73, 73, 73))))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDepositanteSacado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jValorRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxTipoDepositoSaque, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
 
         jBtNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/page_add.png"))); // NOI18N
         jBtNovo.setToolTipText("Novo");
         jBtNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtNovoActionPerformed(evt);
-            }
-        });
-
-        jBtAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/8437_16x16.png"))); // NOI18N
-        jBtAlterar.setToolTipText("Alterar");
-        jBtAlterar.setEnabled(false);
-        jBtAlterar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtAlterarActionPerformed(evt);
-            }
-        });
-
-        jBtExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/3630_16x16.png"))); // NOI18N
-        jBtExcluir.setToolTipText("Excluir");
-        jBtExcluir.setEnabled(false);
-        jBtExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtExcluirActionPerformed(evt);
             }
         });
 
@@ -595,72 +571,60 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jBtNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                .addComponent(jBtAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addComponent(jBtCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(jBtAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtAlterar, jBtCancelar, jBtExcluir, jBtNovo, jBtSair, jBtSalvar});
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtCancelar, jBtNovo, jBtSair, jBtSalvar});
 
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtAuditoria)
-                    .addComponent(jBtAlterar)
-                    .addComponent(jBtExcluir)
-                    .addComponent(jBtSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtNovo)
-                    .addComponent(jBtCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jBtSair)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jBtNovo)
+                        .addComponent(jBtSalvar)
+                        .addComponent(jBtCancelar))
+                    .addComponent(jBtAuditoria))
                 .addGap(3, 3, 3))
         );
 
-        jPanel5Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtAlterar, jBtCancelar, jBtExcluir, jBtNovo, jBtSair, jBtSalvar});
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtCancelar, jBtNovo, jBtSair, jBtSalvar});
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(10, 10, 10))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel2);
@@ -669,16 +633,14 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jTabbedPane1)
         );
 
-        setBounds(300, 50, 418, 417);
+        setBounds(350, 30, 426, 434);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtCodigoPesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCodigoPesqActionPerformed
@@ -765,8 +727,6 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
             bloquearBotoes();
             bloquearCampos();
             jBtNovo.setEnabled(true);
-            jBtAlterar.setEnabled(true);
-            jBtExcluir.setEnabled(true);
             jBtCancelar.setEnabled(true);
             jBtAuditoria.setEnabled(true);
             //
@@ -775,17 +735,16 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                 conecta.executaSQL("SELECT * FROM BANCOS_CONTAS "
                         + "WHERE IdBanco='" + IdLanc + "'");
                 conecta.rs.first();
-                jCodigo.setText(String.valueOf(conecta.rs.getInt("IdBanco")));
-                jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusBanco"));
-                jDataRegistro.setDate(conecta.rs.getDate("DataBanco"));
-                jNomeBanco.setText(conecta.rs.getString("DescricaoBanco"));
-                jAgencia.setText(conecta.rs.getString("Agencia"));
-                jContaCorrente.setText(conecta.rs.getString("ContaCorrente"));
-                jOperacao.setText(conecta.rs.getString("OperacaoBanco"));
-                jFavorecido.setText(conecta.rs.getString("Favorecido"));
-                jEndereco.setText(conecta.rs.getString("Endereco"));
-                jCidade.setText(conecta.rs.getString("Cidade"));
-                jComboBoxEstado.setSelectedItem(conecta.rs.getString("Estado"));
+                jIdDepCredito.setText(String.valueOf(conecta.rs.getInt("")));
+                jComboBoxStatus.setSelectedItem(conecta.rs.getString(""));
+                jDataRegistro.setDate(conecta.rs.getDate(""));
+                jComboBoxAgencia.addItem(conecta.rs.getString(""));
+                jComboBoxContaCorrente.addItem(conecta.rs.getString(""));
+                jFavorecido.setText(conecta.rs.getString(""));
+                jDepositanteSacado.setText(conecta.rs.getString(""));
+                jValorRegistro.setText(conecta.rs.getString(""));
+                jComboBoxTipoDepositoSaque.setSelectedItem(conecta.rs.getString(""));
+                jObservacao.setText(conecta.rs.getString(""));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa..." + e);
             }
@@ -795,8 +754,8 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
 
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroBancosContas);
-        if (codigoUser == codUserAcesso && nomeTela.equals(telaCadastroBancosContas) && codIncluir == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
+        buscarAcessoUsuario(telaMovimentoBancario);
+        if (codigoUser == codUserAcesso && nomeTela.equals(telaMovimentoBancario) && codIncluir == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
             acao = 1;
             desbloquearCampos();
             limparCampos();
@@ -805,105 +764,85 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
             statusMov = "Incluiu";
             horaMov = jHoraSistema.getText();
             dataModFinal = jDataSistema.getText();
+            //
+            preencherComboBoxContaCorrente();
+            BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
+            try {
+                for (BancosContas b : daoBanc.read()) {
+                    jComboBoxAgencia.addItem(b);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(TelaMovimentoBancario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            BancosContas banco = (BancosContas) jComboBoxAgencia.getSelectedItem();
+            banco.getIdBanco();
+            objMovBanc.setIdBanco(banco.getIdBanco());
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
     }//GEN-LAST:event_jBtNovoActionPerformed
 
-    private void jBtAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAlterarActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroBancosContas);
-        if (codigoUser == codUserAcesso && nomeTela.equals(telaCadastroBancosContas) && codAlterar == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
-            acao = 2;
-            desbloquearCampos();
-            bloquearBotoes();
-            Alterar();
-            statusMov = "Alterar";
-            horaMov = jHoraSistema.getText();
-            dataModFinal = jDataSistema.getText();
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-        }
-    }//GEN-LAST:event_jBtAlterarActionPerformed
-
-    private void jBtExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtExcluirActionPerformed
-        // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroBancosContas);
-        if (codigoUser == codUserAcesso && nomeTela.equals(telaCadastroBancosContas) && codExcluir == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
-            statusMov = "Excluiu";
-            horaMov = jHoraSistema.getText();
-            dataModFinal = jDataSistema.getText();
-//            verificarTipoPagamento();
-            int resposta = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o interno selecionado?", "Confirmação",
-                    JOptionPane.YES_NO_OPTION);
-            if (resposta == JOptionPane.YES_OPTION) {
-                objBanco.setIdBanco(Integer.valueOf(jCodigo.getText()));
-                control.excluirBancos(objBanco);
-                objLog();
-                controlLog.incluirLogSistema(objLogSys); // Grava o log da operação
-                JOptionPane.showMessageDialog(rootPane, "Registro EXCLUIDO com sucesso !!!");
-                bloquearCampos();
-                bloquearBotoes();
-                limparCampos();
-                Excluir();
-            }
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-        }
-    }//GEN-LAST:event_jBtExcluirActionPerformed
-
     private void jBtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaCadastroBancosContas);
-        if (codigoUser == codUserAcesso && nomeTela.equals(telaCadastroBancosContas) && codGravar == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
-            if (jComboBoxStatus.getSelectedItem().equals("Selecione...")) {
-                JOptionPane.showMessageDialog(rootPane, "Selecione o status do banco.");
-            } else if (jNomeBanco.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Informe o nome do banco.");
-            } else if (jAgencia.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Informe a agência do banco.");
-            } else if (jContaCorrente.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Informe a conta do banco.");
-            } else if (jFavorecido.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Informe o nome do favorecido.");
+        buscarAcessoUsuario(telaMovimentoBancario);
+        if (codigoUser == codUserAcesso && nomeTela.equals(telaMovimentoBancario) && codGravar == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
+            DecimalFormat VALOR_REAL = new DecimalFormat("###,##00.0");
+            VALOR_REAL.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
+            if (jComboBoxStatus.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecione o status do registro.");
+            } else if (jDataRegistro.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data do registro.");
+            } else if (jComboBoxAgencia.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a agência para o depósito.");
+            } else if (jComboBoxContaCorrente.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a conta corrente para o depósito.");
+            } else if (jDepositanteSacado.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o nome do depositante.");
+            } else if (jValorRegistro.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o valor para o depósito.");
+            } else if (jValorRegistro.getText().equals("0")) {
+                JOptionPane.showMessageDialog(rootPane, "O valor do depósito não pode ser zero..");
+            } else if (jComboBoxTipoDepositoSaque.getSelectedItem().equals("Selecione...")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o tipo de depósito.");
             } else {
-                objBanco.setStatusBanco((String) jComboBoxStatus.getSelectedItem());
-                objBanco.setDataBanco(jDataRegistro.getDate());
-                objBanco.setDescricaoBanco(jNomeBanco.getText());
-                objBanco.setAgencia(jAgencia.getText());
-                objBanco.setContaCorrente(jContaCorrente.getText());
-                objBanco.setOperacao(jOperacao.getText());
-                objBanco.setFavorecido(jFavorecido.getText());
-                objBanco.setEndereco(jEndereco.getText());
-                objBanco.setCidade(jCidade.getText());
-                objBanco.setEstado((String) jComboBoxEstado.getSelectedItem());
+                objMovBanc.setStatusMov((String) jComboBoxStatus.getSelectedItem());
+                objMovBanc.setDataRegistro(jDataRegistro.getDate());
+                objMovBanc.setDepositante(jDepositanteSacado.getText());
+                try {
+                    objMovBanc.setValorDeposito(VALOR_REAL.parse(jValorRegistro.getText()).floatValue());
+                } catch (ParseException ex) {
+                    Logger.getLogger(TelaMovimentoBancario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                objMovBanc.setTipoDeposito((String) jComboBoxTipoDepositoSaque.getSelectedItem());
+                objMovBanc.setObservacao(jObservacao.getText());
                 if (acao == 1) {
-                    objBanco.setUsuarioInsert(nameUser);
-                    objBanco.setDataInsert(dataModFinal);
-                    objBanco.setHorarioInsert(horaMov);
+                    objMovBanc.setUsuarioInsert(nameUser);
+                    objMovBanc.setDataInsert(dataModFinal);
+                    objMovBanc.setHorarioInsert(horaMov);
                     //
-                    control.incluirBancos(objBanco);
+                    movBancoDAO.incluirMovimentoBancos(objMovBanc);
                     buscarCodigo();
+                    //PESQUISAR SALDO BANCÁRIO
+                    pesquisaSaldoBancario();
+                    // INCLUIR SALDO NA TABELA DE SALDO_BANCARIO
+                    if (jComboBoxStatus.getSelectedItem().equals("Saque")) {
+                        objBaixa.setIdBaixa(Integer.valueOf(jIdDepCredito.getText()));
+                        objBaixa.setTipoOperacao(pTIPO_OPERACAO_PAGAR);
+                        pSALDO_ATUAL = pSALDO_BANCARIO - objBaixa.getValorOperacao();
+                        objBaixa.setValorSaldo(pSALDO_ATUAL);
+                        controlDAO.incluirSaldoCPR(objBaixa);
+                    } else if (jComboBoxStatus.getSelectedItem().equals("Depósito")) {
+                        objBaixa.setIdBaixa(Integer.valueOf(jIdDepCredito.getText()));
+                        objBaixa.setTipoOperacao(pTIPO_OPERACAO_RECEBER);
+                        pSALDO_ATUAL = pSALDO_BANCARIO + objBaixa.getValorOperacao();
+                        objBaixa.setValorSaldo(pSALDO_ATUAL);
+                        controlDAO.incluirSaldoCPR(objBaixa);
+                    }
                     objLog();
                     controlLog.incluirLogSistema(objLogSys); // Grava o log da operação  
                     bloquearCampos();
                     bloquearBotoes();
                     Salvar();
-                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
-                }
-                if (acao == 2) {
-                    objBanco.setUsuarioUp(nameUser);
-                    objBanco.setDataUp(dataModFinal);
-                    objBanco.setHorarioUp(horaMov);
-                    //
-                    objBanco.setIdBanco(Integer.valueOf(jCodigo.getText()));
-                    control.alterarBancos(objBanco);
-                    objLog();
-                    controlLog.incluirLogSistema(objLogSys); // Grava o log da operação    
-                    bloquearCampos();
-                    bloquearBotoes();
-                    Salvar();
-                    JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
             }
         } else {
@@ -913,7 +852,6 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
 
     private void jBtCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCancelarActionPerformed
         // TODO add your handling code here:
-        Cancelar();
     }//GEN-LAST:event_jBtCancelarActionPerformed
 
     private void jBtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSairActionPerformed
@@ -923,41 +861,54 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
 
     private void jBtAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtAuditoriaActionPerformed
         // TODO add your handling code here:
-        TelaAuditoriaBC objAudBC = new TelaAuditoriaBC();
-        jPainelPrincipal.add(objAudBC);
-        objAudBC.show();
     }//GEN-LAST:event_jBtAuditoriaActionPerformed
+
+    private void jComboBoxAgenciaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxAgenciaItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED) {
+            jComboBoxContaCorrente.removeAllItems();
+            conecta.abrirConexao();
+            try {
+                conecta.executaSQL("SELECT * FROM BANCOS_CONTAS "
+                        + "WHERE Agencia='" + jComboBoxAgencia.getSelectedItem() + "'");
+                conecta.rs.first();
+                jComboBoxContaCorrente.addItem(conecta.rs.getString("ContaCorrente"));
+                jFavorecido.setText(conecta.rs.getString("Favorecido"));
+            } catch (Exception e) {
+            }
+            conecta.desconecta();
+            BancosContas banco = (BancosContas) jComboBoxAgencia.getSelectedItem();
+            banco.getIdBanco();
+            objMovBanc.setIdBanco(banco.getIdBanco());
+        }
+    }//GEN-LAST:event_jComboBoxAgenciaItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField jAgencia;
-    private javax.swing.JButton jBtAlterar;
     private javax.swing.JButton jBtAuditoria;
     private javax.swing.JButton jBtCancelar;
     private javax.swing.JButton jBtCodigoPesq;
     private javax.swing.JButton jBtDataPesq;
-    private javax.swing.JButton jBtExcluir;
     private javax.swing.JButton jBtNovo;
     private javax.swing.JButton jBtSair;
     private javax.swing.JButton jBtSalvar;
     private javax.swing.JCheckBox jCheckBoxTodos;
-    private javax.swing.JTextField jCidade;
-    public static javax.swing.JTextField jCodigo;
     private javax.swing.JTextField jCodigoPesq;
-    private javax.swing.JComboBox jComboBoxEstado;
+    public static javax.swing.JComboBox<Object> jComboBoxAgencia;
+    public static javax.swing.JComboBox<Object> jComboBoxContaCorrente;
     private javax.swing.JComboBox<String> jComboBoxStatus;
-    private javax.swing.JTextField jContaCorrente;
+    private javax.swing.JComboBox<String> jComboBoxTipoDepositoSaque;
     private com.toedter.calendar.JDateChooser jDataPesqFinal;
     private com.toedter.calendar.JDateChooser jDataPesqInicial;
     private com.toedter.calendar.JDateChooser jDataRegistro;
-    private javax.swing.JTextField jEndereco;
-    private javax.swing.JTextField jFavorecido;
+    private javax.swing.JTextField jDepositanteSacado;
+    public static javax.swing.JTextField jFavorecido;
+    public static javax.swing.JTextField jIdDepCredito;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -967,8 +918,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jNomeBanco;
-    private javax.swing.JTextField jOperacao;
+    private javax.swing.JTextArea jObservacao;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
@@ -977,71 +927,66 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel34;
     private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     public static javax.swing.JTable jTabelaBancos;
+    private javax.swing.JFormattedTextField jValorRegistro;
     public static javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
 
     public void corCampos() {
-        jCodigo.setBackground(Color.white);
+        jIdDepCredito.setBackground(Color.white);
         jComboBoxStatus.setBackground(Color.white);
         jDataRegistro.setBackground(Color.white);
-        jNomeBanco.setBackground(Color.white);
-        jAgencia.setBackground(Color.white);
-        jContaCorrente.setBackground(Color.white);
-        jOperacao.setBackground(Color.white);
+        jComboBoxAgencia.setBackground(Color.white);
+        jComboBoxContaCorrente.setBackground(Color.white);
         jFavorecido.setBackground(Color.white);
-        jEndereco.setBackground(Color.white);
-        jCidade.setBackground(Color.white);
-        jComboBoxEstado.setBackground(Color.white);
+        jDepositanteSacado.setBackground(Color.white);
+        jValorRegistro.setBackground(Color.white);
+        jComboBoxTipoDepositoSaque.setBackground(Color.white);
+        jObservacao.setBackground(Color.white);
     }
 
     public void bloquearCampos() {
-        jCodigo.setEnabled(!true);
+        jIdDepCredito.setEnabled(!true);
         jComboBoxStatus.setEnabled(!true);
         jDataRegistro.setEnabled(!true);
-        jNomeBanco.setEnabled(!true);
-        jAgencia.setEnabled(!true);
-        jContaCorrente.setEnabled(!true);
-        jOperacao.setEnabled(!true);
+        jComboBoxAgencia.setEnabled(!true);
+        jComboBoxContaCorrente.setEnabled(!true);
         jFavorecido.setEnabled(!true);
-        jEndereco.setEnabled(!true);
-        jCidade.setEnabled(!true);
-        jComboBoxEstado.setEnabled(!true);
+        jDepositanteSacado.setEnabled(!true);
+        jValorRegistro.setEnabled(!true);
+        jComboBoxTipoDepositoSaque.setEnabled(!true);
+        jObservacao.setEnabled(!true);
     }
 
     public void desbloquearCampos() {
         jComboBoxStatus.setEnabled(true);
-        jNomeBanco.setEnabled(true);
-        jAgencia.setEnabled(true);
-        jContaCorrente.setEnabled(true);
-        jOperacao.setEnabled(true);
+        jComboBoxAgencia.setEnabled(true);
+        jComboBoxContaCorrente.setEnabled(true);
         jFavorecido.setEnabled(true);
-        jEndereco.setEnabled(true);
-        jCidade.setEnabled(true);
-        jComboBoxEstado.setEnabled(true);
+        jDepositanteSacado.setEnabled(true);
+        jValorRegistro.setEnabled(true);
+        jComboBoxTipoDepositoSaque.setEnabled(true);
+        jObservacao.setEnabled(true);
     }
 
     public void limparCampos() {
-        jCodigo.setText("");
+        jIdDepCredito.setText("");
         jComboBoxStatus.setSelectedItem("Selecione...");
         jDataRegistro.setDate(null);
-        jNomeBanco.setText("");
-        jAgencia.setText("");
-        jContaCorrente.setText("");
-        jOperacao.setText("");
+        jComboBoxAgencia.removeAllItems();
+        jComboBoxContaCorrente.removeAllItems();
         jFavorecido.setText("");
-        jEndereco.setText("");
-        jCidade.setText("");
-        jComboBoxEstado.setSelectedItem("Selecione...");
+        jDepositanteSacado.setText("");
+        jValorRegistro.setText("");
+        jComboBoxTipoDepositoSaque.setSelectedItem("Selecione...");
+        jObservacao.setText("");
     }
 
     public void bloquearBotoes() {
         jBtNovo.setEnabled(!true);
-        jBtAlterar.setEnabled(!true);
-        jBtExcluir.setEnabled(!true);
         jBtSalvar.setEnabled(!true);
         jBtCancelar.setEnabled(!true);
         jBtAuditoria.setEnabled(!true);
@@ -1053,59 +998,58 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jBtCancelar.setEnabled(true);
     }
 
-    public void Alterar() {
-        jBtSalvar.setEnabled(true);
-        jBtCancelar.setEnabled(true);
-    }
-
-    public void Excluir() {
-        jBtNovo.setEnabled(true);
-    }
-
     public void Salvar() {
         jBtNovo.setEnabled(true);
-        jBtAlterar.setEnabled(true);
-        jBtExcluir.setEnabled(true);
-        jBtAuditoria.setEnabled(true);
     }
 
     public void Cancelar() {
-        if (jCodigo.getText().equals("")) {
-            limparCampos();
-            bloquearCampos();
+        if (jIdDepCredito.getText().equals("")) {
             bloquearBotoes();
+            bloquearCampos();
+            limparCampos();
             jBtNovo.setEnabled(true);
         } else {
             bloquearBotoes();
             bloquearCampos();
             jBtNovo.setEnabled(true);
-            jBtAlterar.setEnabled(true);
-            jBtExcluir.setEnabled(true);
-            jBtSalvar.setEnabled(true);
-            jBtAuditoria.setEnabled(true);
         }
     }
 
     public void buscarCodigo() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM BANCOS_CONTAS");
+            conecta.executaSQL("SELECT * FROM MOVIMENTO_BANCARIO");
             conecta.rs.last();
-            jCodigo.setText(conecta.rs.getString("IdBanco"));
+            jIdDepCredito.setText(conecta.rs.getString("IdMovBanc"));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível obter o código do registro.\nERRO: " + e);
         }
         conecta.desconecta();
     }
 
-    public void verificarTipoPagamento() {
+    public void pesquisaSaldoBancario() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER");
+            conecta.executaSQL("SELECT * FROM SALDO_BANCARIO");
             conecta.rs.last();
-//            pCODIGO_TIPO_PAGAMENTO = conecta.rs.getInt("IdBanco");
+            pSALDO_BANCARIO = conecta.rs.getFloat("SaldoAtual");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Não foi possível obter o código do registro.\nERRO: " + e);
+        }
+        conecta.desconecta();
+    }
+
+    public void preencherComboBoxContaCorrente() {
+        jComboBoxContaCorrente.removeAllItems();
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM BANCOS_CONTAS "
+                    + "WHERE StatusBanco='" + pSTATUS_BANCO + "'");
+            conecta.rs.first();
+            do {
+                jComboBoxContaCorrente.addItem(conecta.rs.getString("ContaCorrente"));
+                jFavorecido.setText(conecta.rs.getString("Favorecido"));
+            } while (conecta.rs.next());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não Existe dados a serem exibidos !!!");
         }
         conecta.desconecta();
     }
@@ -1182,7 +1126,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         objLogSys.setDataMov(dataModFinal);
         objLogSys.setHorarioMov(horaMov);
         objLogSys.setNomeModuloTela(nomeModuloTela);
-        objLogSys.setIdLancMov(Integer.valueOf(jCodigo.getText()));
+        objLogSys.setIdLancMov(Integer.valueOf(jIdDepCredito.getText()));
         objLogSys.setNomeUsuarioLogado(nameUser);
         objLogSys.setStatusMov(statusMov);
     }

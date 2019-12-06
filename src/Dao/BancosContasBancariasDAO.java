@@ -27,19 +27,20 @@ public class BancosContasBancariasDAO {
     public BancosContas incluirBancos(BancosContas objBanco) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO BANCOS_CONTAS (StatusBanco,DataBanco,DescricaoBanco,Agencia,ContaCorrente,OperacaoBanco,Endereco,Cidade,Estado,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO BANCOS_CONTAS (StatusBanco,DataBanco,DescricaoBanco,Agencia,ContaCorrente,OperacaoBanco,Favorecido,Endereco,Cidade,Estado,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objBanco.getStatusBanco());
             pst.setTimestamp(2, new java.sql.Timestamp(objBanco.getDataBanco().getTime()));
             pst.setString(3, objBanco.getDescricaoBanco());
             pst.setString(4, objBanco.getAgencia());
             pst.setString(5, objBanco.getContaCorrente());
             pst.setString(6, objBanco.getOperacao());
-            pst.setString(7, objBanco.getEndereco());
-            pst.setString(8, objBanco.getCidade());
-            pst.setString(9, objBanco.getEstado());
-            pst.setString(10, objBanco.getUsuarioInsert());
-            pst.setString(11, objBanco.getDataInsert());
-            pst.setString(12, objBanco.getHorarioInsert());
+            pst.setString(7, objBanco.getFavorecido());
+            pst.setString(8, objBanco.getEndereco());
+            pst.setString(9, objBanco.getCidade());
+            pst.setString(10, objBanco.getEstado());
+            pst.setString(11, objBanco.getUsuarioInsert());
+            pst.setString(12, objBanco.getDataInsert());
+            pst.setString(13, objBanco.getHorarioInsert());
             pst.execute();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível INSERIR os Dados\nERRO: " + ex);
@@ -51,19 +52,20 @@ public class BancosContasBancariasDAO {
     public BancosContas alterarBancos(BancosContas objBanco) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE BANCOS_CONTAS SET StatusBanco=?,DataBanco=?,DescricaoBanco=?,Agencia=?,ContaCorrente=?,OperacaoBanco=?,Endereco=?,Cidade=?,Estado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdBanco='" + objBanco.getIdBanco() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE BANCOS_CONTAS SET StatusBanco=?,DataBanco=?,DescricaoBanco=?,Agencia=?,ContaCorrente=?,OperacaoBanco=?,Favorecido=?,Endereco=?,Cidade=?,Estado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdBanco='" + objBanco.getIdBanco() + "'");
             pst.setString(1, objBanco.getStatusBanco());
             pst.setTimestamp(2, new java.sql.Timestamp(objBanco.getDataBanco().getTime()));
             pst.setString(3, objBanco.getDescricaoBanco());
             pst.setString(4, objBanco.getAgencia());
             pst.setString(5, objBanco.getContaCorrente());
             pst.setString(6, objBanco.getOperacao());
-            pst.setString(7, objBanco.getEndereco());
-            pst.setString(8, objBanco.getCidade());
-            pst.setString(9, objBanco.getEstado());
-            pst.setString(10, objBanco.getUsuarioUp());
-            pst.setString(11, objBanco.getDataUp());
-            pst.setString(12, objBanco.getHorarioUp());
+            pst.setString(7, objBanco.getFavorecido());
+            pst.setString(8, objBanco.getEndereco());
+            pst.setString(9, objBanco.getCidade());
+            pst.setString(10, objBanco.getEstado());
+            pst.setString(11, objBanco.getUsuarioUp());
+            pst.setString(12, objBanco.getDataUp());
+            pst.setString(13, objBanco.getHorarioUp());
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível ALTERAR os Dados\nERRO: " + ex);
@@ -96,6 +98,7 @@ public class BancosContasBancariasDAO {
                 pDigiBanco.setAgencia(conecta.rs.getString("Agencia"));
                 pDigiBanco.setDescricaoBanco(conecta.rs.getString("DescricaoBanco"));
                 pDigiBanco.setContaCorrente(conecta.rs.getString("ContaCorrente"));
+                pDigiBanco.setFavorecido(conecta.rs.getString("Favorecido"));
                 listaBancos.add(pDigiBanco);
             }
             return listaBancos;

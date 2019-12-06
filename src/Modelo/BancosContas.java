@@ -20,6 +20,7 @@ public class BancosContas {
     private String agencia;
     private String contaCorrente;
     private String operacao;
+    private String favorecido;
     private String endereco;
     private String cidade;
     private String estado;
@@ -33,7 +34,7 @@ public class BancosContas {
     public BancosContas() {
     }
 
-    public BancosContas(int idBanco, String statusBanco, Date dataBanco, String descricaoBanco, String agencia, String contaCorrente, String operacao, String endereco, String cidade, String estado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
+    public BancosContas(int idBanco, String statusBanco, Date dataBanco, String descricaoBanco, String agencia, String contaCorrente, String operacao, String favorecido, String endereco, String cidade, String estado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
         this.idBanco = idBanco;
         this.statusBanco = statusBanco;
         this.dataBanco = dataBanco;
@@ -41,6 +42,7 @@ public class BancosContas {
         this.agencia = agencia;
         this.contaCorrente = contaCorrente;
         this.operacao = operacao;
+        this.favorecido = favorecido;
         this.endereco = endereco;
         this.cidade = cidade;
         this.estado = estado;
@@ -148,6 +150,20 @@ public class BancosContas {
      */
     public void setOperacao(String operacao) {
         this.operacao = operacao;
+    }
+
+    /**
+     * @return the favorecido
+     */
+    public String getFavorecido() {
+        return favorecido;
+    }
+
+    /**
+     * @param favorecido the favorecido to set
+     */
+    public void setFavorecido(String favorecido) {
+        this.favorecido = favorecido;
     }
 
     /**
