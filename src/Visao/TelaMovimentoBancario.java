@@ -73,8 +73,8 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
     String dataInicial, dataFinal, dataAgenda;
     int count = 0;
     String pSTATUS_BANCO = "Ativo";
-    float pSALDO_BANCARIO;
-    float pSALDO_ATUAL;
+    float pSALDO_BANCARIO = 0;
+    float pSALDO_ATUAL = 0;
     String pTIPO_OPERACAO_PAGAR = "D";
     String pTIPO_OPERACAO_RECEBER = "C";
 
@@ -123,7 +123,6 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
         jComboBoxStatus = new javax.swing.JComboBox<>();
         jDataRegistro = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
-        jFavorecido = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jComboBoxAgencia = new javax.swing.JComboBox<>();
@@ -137,6 +136,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
         jDepositanteSacado = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jComboBoxTipoDepositoSaque = new javax.swing.JComboBox<>();
+        jFavorecido = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jBtNovo = new javax.swing.JButton();
         jBtSalvar = new javax.swing.JButton();
@@ -376,9 +376,6 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Favorecido");
 
-        jFavorecido.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jFavorecido.setEnabled(false);
-
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("Agencia");
 
@@ -429,6 +426,9 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
         jComboBoxTipoDepositoSaque.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxTipoDepositoSaque.setEnabled(false);
 
+        jFavorecido.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jFavorecido.setEnabled(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -436,7 +436,22 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jDepositanteSacado)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jValorRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jComboBoxTipoDepositoSaque, 0, 241, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jIdDepCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -460,22 +475,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jComboBoxContaCorrente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jScrollPane1)
-                    .addComponent(jDepositanteSacado)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jValorRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jComboBoxTipoDepositoSaque, 0, 241, Short.MAX_VALUE))))
+                            .addComponent(jComboBoxContaCorrente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -499,7 +499,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jComboBoxAgencia, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxContaCorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -597,10 +597,9 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                 .addGap(3, 3, 3)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBtSair)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jBtNovo)
-                        .addComponent(jBtSalvar)
-                        .addComponent(jBtCancelar))
+                    .addComponent(jBtSalvar)
+                    .addComponent(jBtCancelar)
+                    .addComponent(jBtNovo)
                     .addComponent(jBtAuditoria))
                 .addGap(3, 3, 3))
         );
@@ -650,8 +649,8 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
         if (jCodigoPesq.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe o código para pesquisa.");
         } else {
-            preencherTabelaBancos("SELECT * FROM BANCOS_CONTAS "
-                    + "WHERE IdBanco='" + jCodigoPesq.getText() + "'");
+            preencherTabelaBancos("SELECT * FROM MOVIMENTO_BANCARIO "
+                    + "WHERE IdMovBanc='" + jCodigoPesq.getText() + "'");
         }
     }//GEN-LAST:event_jBtCodigoPesqActionPerformed
 
@@ -675,8 +674,8 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                         SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
                         dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                         dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                        preencherTabelaBancos("SELECT * FROM BANCOS_CONTAS "
-                                + "WHERE DataBanco BETWEEN'" + dataInicial + "' "
+                        preencherTabelaBancos("SELECT * FROM MOVIMENTO_BANCARIO "
+                                + "WHERE DataRegistro BETWEEN'" + dataInicial + "' "
                                 + "AND '" + dataFinal + "'");
                     }
                 }
@@ -696,8 +695,8 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                         SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
                         dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                         dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                        preencherTabelaBancos("SELECT * FROM BANCOS_CONTAS "
-                                + "WHERE DataBanco BETWEEN'" + dataInicial + "' "
+                        preencherTabelaBancos("SELECT * FROM MOVIMENTO_BANCARIO "
+                                + "WHERE DataRegistro BETWEEN'" + dataInicial + "' "
                                 + "AND '" + dataFinal + "'");
                     }
                 }
@@ -710,7 +709,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
         count = 0;
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
-            this.preencherTabelaBancos("SELECT * FROM BANCOS_CONTAS");
+            this.preencherTabelaBancos("SELECT * FROM MOVIMENTO_BANCARIO");
         } else {
             jtotalRegistros.setText("");
             limparTabela();
@@ -732,19 +731,21 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
             //
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM BANCOS_CONTAS "
-                        + "WHERE IdBanco='" + IdLanc + "'");
+                conecta.executaSQL("SELECT * FROM MOVIMENTO_BANCARIO "
+                        + "INNER JOIN BANCOS_CONTAS "
+                        + "ON MOVIMENTO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
+                        + "WHERE MOVIMENTO_BANCARIO.IdMovBanc='" + IdLanc + "'");
                 conecta.rs.first();
-                jIdDepCredito.setText(String.valueOf(conecta.rs.getInt("")));
-                jComboBoxStatus.setSelectedItem(conecta.rs.getString(""));
-                jDataRegistro.setDate(conecta.rs.getDate(""));
-                jComboBoxAgencia.addItem(conecta.rs.getString(""));
-                jComboBoxContaCorrente.addItem(conecta.rs.getString(""));
-                jFavorecido.setText(conecta.rs.getString(""));
-                jDepositanteSacado.setText(conecta.rs.getString(""));
-                jValorRegistro.setText(conecta.rs.getString(""));
-                jComboBoxTipoDepositoSaque.setSelectedItem(conecta.rs.getString(""));
-                jObservacao.setText(conecta.rs.getString(""));
+                jIdDepCredito.setText(String.valueOf(conecta.rs.getInt("IdMovBanc")));
+                jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusRegistro"));
+                jDataRegistro.setDate(conecta.rs.getDate("DataRegistro"));
+                jComboBoxAgencia.addItem(conecta.rs.getString("Agencia"));
+                jComboBoxContaCorrente.addItem(conecta.rs.getString("ContaCorrente"));
+                jFavorecido.setText(conecta.rs.getString("Favorecido"));
+                jDepositanteSacado.setText(conecta.rs.getString("Depositante"));
+                jValorRegistro.setText(conecta.rs.getString("ValorDeposito"));
+                jComboBoxTipoDepositoSaque.setSelectedItem(conecta.rs.getString("TipoDeposito"));
+                jObservacao.setText(conecta.rs.getString("Observacao"));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa..." + e);
             }
@@ -777,6 +778,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
             BancosContas banco = (BancosContas) jComboBoxAgencia.getSelectedItem();
             banco.getIdBanco();
             objMovBanc.setIdBanco(banco.getIdBanco());
+            objBaixa.setIdBanco(banco.getIdBanco());
         } else {
             JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
         }
@@ -810,6 +812,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                 objMovBanc.setDepositante(jDepositanteSacado.getText());
                 try {
                     objMovBanc.setValorDeposito(VALOR_REAL.parse(jValorRegistro.getText()).floatValue());
+                    objBaixa.setValorOperacao(VALOR_REAL.parse(jValorRegistro.getText()).floatValue());
                 } catch (ParseException ex) {
                     Logger.getLogger(TelaMovimentoBancario.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -823,19 +826,23 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                     movBancoDAO.incluirMovimentoBancos(objMovBanc);
                     buscarCodigo();
                     //PESQUISAR SALDO BANCÁRIO
-                    pesquisaSaldoBancario();
+                    pesquisaSaldoBancario();                    
                     // INCLUIR SALDO NA TABELA DE SALDO_BANCARIO
-                    if (jComboBoxStatus.getSelectedItem().equals("Saque")) {
+                    if (jComboBoxStatus.getSelectedItem().equals("Saque")) { 
                         objBaixa.setIdBaixa(Integer.valueOf(jIdDepCredito.getText()));
-                        objBaixa.setTipoOperacao(pTIPO_OPERACAO_PAGAR);
+                        objBaixa.setTipoOperacao(pTIPO_OPERACAO_PAGAR);  
+                        objBaixa.setDataOperacao(jDataRegistro.getDate());
+                        objBaixa.setDocumentoBaixa(jIdDepCredito.getText());                                                
                         pSALDO_ATUAL = pSALDO_BANCARIO - objBaixa.getValorOperacao();
                         objBaixa.setValorSaldo(pSALDO_ATUAL);
                         controlDAO.incluirSaldoCPR(objBaixa);
                     } else if (jComboBoxStatus.getSelectedItem().equals("Depósito")) {
                         objBaixa.setIdBaixa(Integer.valueOf(jIdDepCredito.getText()));
                         objBaixa.setTipoOperacao(pTIPO_OPERACAO_RECEBER);
+                        objBaixa.setDataOperacao(jDataRegistro.getDate()); 
+                         objBaixa.setDocumentoBaixa(jIdDepCredito.getText());  
                         pSALDO_ATUAL = pSALDO_BANCARIO + objBaixa.getValorOperacao();
-                        objBaixa.setValorSaldo(pSALDO_ATUAL);
+                        objBaixa.setValorSaldo(pSALDO_ATUAL);                        
                         controlDAO.incluirSaldoCPR(objBaixa);
                     }
                     objLog();
@@ -902,7 +909,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser jDataPesqInicial;
     private com.toedter.calendar.JDateChooser jDataRegistro;
     private javax.swing.JTextField jDepositanteSacado;
-    public static javax.swing.JTextField jFavorecido;
+    private javax.swing.JTextField jFavorecido;
     public static javax.swing.JTextField jIdDepCredito;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1056,7 +1063,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
 
     public void preencherTabelaBancos(String sql) {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código ", "Data", "Status", "Descrição"};
+        String[] Colunas = new String[]{"Código ", "Data", "Status", "Depositante"};
         conecta.abrirConexao();
         try {
             conecta.executaSQL(sql);
@@ -1064,13 +1071,13 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
             do {
                 count = count + 1;
                 // Formatar a data no formato Brasil
-                dataAgenda = conecta.rs.getString("DataBanco");
+                dataAgenda = conecta.rs.getString("DataRegistro");
                 String dia = dataAgenda.substring(8, 10);
                 String mes = dataAgenda.substring(5, 7);
                 String ano = dataAgenda.substring(0, 4);
                 dataAgenda = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(count));
-                dados.add(new Object[]{conecta.rs.getInt("IdBanco"), dataAgenda, conecta.rs.getString("StatusBanco"), conecta.rs.getString("DescricaoBanco")});
+                dados.add(new Object[]{conecta.rs.getInt("IdMovBanc"), dataAgenda, conecta.rs.getString("StatusRegistro"), conecta.rs.getString("Depositante")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
@@ -1093,7 +1100,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
 
     public void limparTabela() {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código ", "Data", "Status", "Descrição"};
+        String[] Colunas = new String[]{"Código ", "Data", "Status", "Depositante"};
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTabelaBancos.setModel(modelo);
         jTabelaBancos.getColumnModel().getColumn(0).setPreferredWidth(60);

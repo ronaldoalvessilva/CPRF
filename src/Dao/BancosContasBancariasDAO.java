@@ -22,19 +22,19 @@ public class BancosContasBancariasDAO {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     BancosContas objBanco = new BancosContas();
-    String pSTATUS_BANCO = "Ativo";
+    String pSTATUS_FAVORECIDO = "Ativo";
 
     public BancosContas incluirBancos(BancosContas objBanco) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO BANCOS_CONTAS (StatusBanco,DataBanco,DescricaoBanco,Agencia,ContaCorrente,OperacaoBanco,Favorecido,Endereco,Cidade,Estado,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO BANCOS_CONTAS (StatusBanco,DataBanco,DescricaoBanco,Agencia,ContaCorrente,OperacaoBanco,IdForn,Endereco,Cidade,Estado,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objBanco.getStatusBanco());
             pst.setTimestamp(2, new java.sql.Timestamp(objBanco.getDataBanco().getTime()));
             pst.setString(3, objBanco.getDescricaoBanco());
             pst.setString(4, objBanco.getAgencia());
             pst.setString(5, objBanco.getContaCorrente());
             pst.setString(6, objBanco.getOperacao());
-            pst.setString(7, objBanco.getFavorecido());
+            pst.setInt(7, objBanco.getIdForn());
             pst.setString(8, objBanco.getEndereco());
             pst.setString(9, objBanco.getCidade());
             pst.setString(10, objBanco.getEstado());
@@ -91,7 +91,7 @@ public class BancosContasBancariasDAO {
         List<BancosContas> listaBancos = new ArrayList<BancosContas>();
         try {
             conecta.executaSQL("SELECT * FROM BANCOS_CONTAS "
-                    + "WHERE StatusBanco='" + pSTATUS_BANCO + "'");
+                    + "WHERE StatusBanco='" + pSTATUS_FAVORECIDO + "'");
             while (conecta.rs.next()) {
                 BancosContas pDigiBanco = new BancosContas();
                 pDigiBanco.setIdBanco(conecta.rs.getInt("IdBanco"));

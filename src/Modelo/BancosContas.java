@@ -14,6 +14,8 @@ import java.util.Date;
 public class BancosContas {
 
     private int idBanco;
+    private int idForn;
+    private int nomeFavorecido;
     private String statusBanco;
     private Date dataBanco;
     private String descricaoBanco;
@@ -34,8 +36,10 @@ public class BancosContas {
     public BancosContas() {
     }
 
-    public BancosContas(int idBanco, String statusBanco, Date dataBanco, String descricaoBanco, String agencia, String contaCorrente, String operacao, String favorecido, String endereco, String cidade, String estado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
+    public BancosContas(int idBanco, int idForn, int nomeFavorecido, String statusBanco, Date dataBanco, String descricaoBanco, String agencia, String contaCorrente, String operacao, String favorecido, String endereco, String cidade, String estado, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
         this.idBanco = idBanco;
+        this.idForn = idForn;
+        this.nomeFavorecido = nomeFavorecido;
         this.statusBanco = statusBanco;
         this.dataBanco = dataBanco;
         this.descricaoBanco = descricaoBanco;
@@ -66,6 +70,34 @@ public class BancosContas {
      */
     public void setIdBanco(int idBanco) {
         this.idBanco = idBanco;
+    }
+
+    /**
+     * @return the idForn
+     */
+    public int getIdForn() {
+        return idForn;
+    }
+
+    /**
+     * @param idForn the idForn to set
+     */
+    public void setIdForn(int idForn) {
+        this.idForn = idForn;
+    }
+
+    /**
+     * @return the nomeFavorecido
+     */
+    public int getNomeFavorecido() {
+        return nomeFavorecido;
+    }
+
+    /**
+     * @param nomeFavorecido the nomeFavorecido to set
+     */
+    public void setNomeFavorecido(int nomeFavorecido) {
+        this.nomeFavorecido = nomeFavorecido;
     }
 
     /**
