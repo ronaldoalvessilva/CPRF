@@ -27,7 +27,7 @@ public class BancosContasBancariasDAO {
     public BancosContas incluirBancos(BancosContas objBanco) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO BANCOS_CONTAS (StatusBanco,DataBanco,DescricaoBanco,Agencia,ContaCorrente,OperacaoBanco,IdForn,Endereco,Cidade,Estado,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO BANCOS_CONTAS (StatusBanco,DataBanco,DescricaoBanco,Agencia,ContaCorrente,OperacaoBanco,IdForn,TipoFavorecido,Endereco,Cidade,Estado,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objBanco.getStatusBanco());
             pst.setTimestamp(2, new java.sql.Timestamp(objBanco.getDataBanco().getTime()));
             pst.setString(3, objBanco.getDescricaoBanco());
@@ -35,12 +35,13 @@ public class BancosContasBancariasDAO {
             pst.setString(5, objBanco.getContaCorrente());
             pst.setString(6, objBanco.getOperacao());
             pst.setInt(7, objBanco.getIdForn());
-            pst.setString(8, objBanco.getEndereco());
-            pst.setString(9, objBanco.getCidade());
-            pst.setString(10, objBanco.getEstado());
-            pst.setString(11, objBanco.getUsuarioInsert());
-            pst.setString(12, objBanco.getDataInsert());
-            pst.setString(13, objBanco.getHorarioInsert());
+            pst.setString(8, objBanco.getFavorecido());
+            pst.setString(9, objBanco.getEndereco());
+            pst.setString(10, objBanco.getCidade());
+            pst.setString(11, objBanco.getEstado());
+            pst.setString(12, objBanco.getUsuarioInsert());
+            pst.setString(13, objBanco.getDataInsert());
+            pst.setString(14, objBanco.getHorarioInsert());
             pst.execute();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível INSERIR os Dados\nERRO: " + ex);
@@ -52,20 +53,21 @@ public class BancosContasBancariasDAO {
     public BancosContas alterarBancos(BancosContas objBanco) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("UPDATE BANCOS_CONTAS SET StatusBanco=?,DataBanco=?,DescricaoBanco=?,Agencia=?,ContaCorrente=?,OperacaoBanco=?,Favorecido=?,Endereco=?,Cidade=?,Estado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdBanco='" + objBanco.getIdBanco() + "'");
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE BANCOS_CONTAS SET StatusBanco=?,DataBanco=?,DescricaoBanco=?,Agencia=?,ContaCorrente=?,OperacaoBanco=?,IdForn=?,TipoFavorecido=?,Endereco=?,Cidade=?,Estado=?,UsuarioUp=?,DataUp=?,HorarioUp=? WHERE IdBanco='" + objBanco.getIdBanco() + "'");
             pst.setString(1, objBanco.getStatusBanco());
             pst.setTimestamp(2, new java.sql.Timestamp(objBanco.getDataBanco().getTime()));
             pst.setString(3, objBanco.getDescricaoBanco());
             pst.setString(4, objBanco.getAgencia());
             pst.setString(5, objBanco.getContaCorrente());
             pst.setString(6, objBanco.getOperacao());
-            pst.setString(7, objBanco.getFavorecido());
-            pst.setString(8, objBanco.getEndereco());
-            pst.setString(9, objBanco.getCidade());
-            pst.setString(10, objBanco.getEstado());
-            pst.setString(11, objBanco.getUsuarioUp());
-            pst.setString(12, objBanco.getDataUp());
-            pst.setString(13, objBanco.getHorarioUp());
+            pst.setInt(7, objBanco.getIdForn());
+            pst.setString(8, objBanco.getFavorecido());
+            pst.setString(9, objBanco.getEndereco());
+            pst.setString(10, objBanco.getCidade());
+            pst.setString(11, objBanco.getEstado());
+            pst.setString(12, objBanco.getUsuarioUp());
+            pst.setString(13, objBanco.getDataUp());
+            pst.setString(14, objBanco.getHorarioUp());
             pst.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível ALTERAR os Dados\nERRO: " + ex);

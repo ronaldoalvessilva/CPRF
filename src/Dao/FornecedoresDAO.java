@@ -118,6 +118,7 @@ public class FornecedoresDAO {
             while (conecta.rs.next()) {
                 Fornecedor pDigiForn = new Fornecedor();
                 pDigiForn.setIdForn(conecta.rs.getInt("IdForn"));
+                pDigiForn.setStatusFor(conecta.rs.getString("StatusFor"));
                 pDigiForn.setRazaoSocial(conecta.rs.getString("RazaoSocial"));
                 listaFornecedores.add(pDigiForn);
             }

@@ -46,6 +46,9 @@ public class Clientes {
     private String horarioUp;     
     private String modulo;        
 
+    public Clientes() {
+    }
+
     public Clientes(int idForn, String classFor, Date dataCadastro, String statusFor, String razaoSocial, String nomeFantasia, String departamento, String cnpj, String insEstadual, String nomeContato, String telefone, String telefone1, String celular, String email, String fax, String endereco, String compl, String cep, String cidade, String estado, String enderecoCob, String complCob, String cepCob, String cidadeCob, String estadoCob, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, String modulo) {
         this.idForn = idForn;
         this.classFor = classFor;
@@ -79,9 +82,6 @@ public class Clientes {
         this.horarioInsert = horarioInsert;
         this.horarioUp = horarioUp;
         this.modulo = modulo;
-    }
-
-    public Clientes() {
     }
 
     /**
@@ -535,5 +535,5 @@ public class Clientes {
     @Override
     public String toString() {
         return getRazaoSocial(); //To change body of generated methods, choose Tools | Templates.
-    }    
+    }
 }

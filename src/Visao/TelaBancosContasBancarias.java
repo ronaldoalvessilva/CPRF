@@ -72,6 +72,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
     String dataInicial, dataFinal, dataAgenda;
     int count = 0;
     String pSTATUS_BANCO = "Ativo";
+    String pSTATUS_FORN_CLIE = "Ativo";
 
     /**
      * Creates new form TelaBancosContasBancarias
@@ -130,7 +131,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jLabel14 = new javax.swing.JLabel();
         jComboBoxTipoFornecedor = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
-        jComboBoxFavorecido = new javax.swing.JComboBox<>();
+        jComboBoxFornecedorClienteBanco = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jEndereco = new javax.swing.JTextField();
@@ -199,7 +200,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jLabel16.setText("Cliente/Forn:");
 
         jComboBoxTipoCliente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxTipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "F", "C" }));
+        jComboBoxTipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Fornecedor", "Cliente" }));
         jComboBoxTipoCliente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
@@ -411,7 +412,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jLabel14.setText("Favorecido");
 
         jComboBoxTipoFornecedor.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxTipoFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "F", "C" }));
+        jComboBoxTipoFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Fornecedor", "Cliente" }));
         jComboBoxTipoFornecedor.setToolTipText("C - Cliente F- Fornecedor");
         jComboBoxTipoFornecedor.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxTipoFornecedor.setEnabled(false);
@@ -424,12 +425,12 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel15.setText("Tipo Favorecido");
 
-        jComboBoxFavorecido.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxFavorecido.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jComboBoxFavorecido.setEnabled(false);
-        jComboBoxFavorecido.addItemListener(new java.awt.event.ItemListener() {
+        jComboBoxFornecedorClienteBanco.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxFornecedorClienteBanco.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxFornecedorClienteBanco.setEnabled(false);
+        jComboBoxFornecedorClienteBanco.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBoxFavorecidoItemStateChanged(evt);
+                jComboBoxFornecedorClienteBancoItemStateChanged(evt);
             }
         });
 
@@ -440,7 +441,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxFavorecido, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBoxFornecedorClienteBanco, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -467,15 +468,15 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                             .addComponent(jLabel6)
                             .addComponent(jContaCorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
-                                .addComponent(jOperacao, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)))
+                                .addComponent(jOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
-                            .addComponent(jComboBoxTipoFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jComboBoxTipoFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -516,7 +517,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                 .addGap(5, 5, 5)
                 .addComponent(jLabel14)
                 .addGap(5, 5, 5)
-                .addComponent(jComboBoxFavorecido, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBoxFornecedorClienteBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5))
         );
 
@@ -809,7 +810,9 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
 
     private void jTabelaBancosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaBancosMouseClicked
         // TODO add your handling code here:
-        if (jComboBoxTipoCliente.getSelectedItem().equals("F")) {
+        if (jComboBoxTipoCliente.getSelectedItem().equals("Selecione...")) {
+            JOptionPane.showMessageDialog(rootPane, "Selecione um tipo de favorecido...");
+        } else if (jComboBoxTipoCliente.getSelectedItem().equals("Fornecedor")) {
             flag = 1;
             if (flag == 1) {
                 String IdLanc = "" + jTabelaBancos.getValueAt(jTabelaBancos.getSelectedRow(), 0);
@@ -823,6 +826,8 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                 jBtCancelar.setEnabled(true);
                 jBtAuditoria.setEnabled(true);
                 //
+                jComboBoxFornecedorClienteBanco.removeAllItems();
+                jComboBoxTipoFornecedor.removeAllItems();
                 conecta.abrirConexao();
                 try {
                     conecta.executaSQL("SELECT * FROM BANCOS_CONTAS "
@@ -837,7 +842,8 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                     jAgencia.setText(conecta.rs.getString("Agencia"));
                     jContaCorrente.setText(conecta.rs.getString("ContaCorrente"));
                     jOperacao.setText(conecta.rs.getString("OperacaoBanco"));
-                    jComboBoxFavorecido.addItem(conecta.rs.getString("RazaoSocial"));
+                    jComboBoxTipoFornecedor.addItem(conecta.rs.getString("TipoFavorecido"));
+                    jComboBoxFornecedorClienteBanco.addItem(conecta.rs.getString("RazaoSocial"));
                     jEndereco.setText(conecta.rs.getString("Endereco"));
                     jCidade.setText(conecta.rs.getString("Cidade"));
                     jComboBoxEstado.setSelectedItem(conecta.rs.getString("Estado"));
@@ -846,7 +852,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                 }
                 conecta.desconecta();
             }
-        } else if (jComboBoxTipoCliente.getSelectedItem().equals("C")) {
+        } else if (jComboBoxTipoCliente.getSelectedItem().equals("Cliente")) {
             flag = 1;
             if (flag == 1) {
                 String IdLanc = "" + jTabelaBancos.getValueAt(jTabelaBancos.getSelectedRow(), 0);
@@ -860,6 +866,8 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                 jBtCancelar.setEnabled(true);
                 jBtAuditoria.setEnabled(true);
                 //
+                jComboBoxFornecedorClienteBanco.removeAllItems();
+                jComboBoxTipoFornecedor.removeAllItems();
                 conecta.abrirConexao();
                 try {
                     conecta.executaSQL("SELECT * FROM BANCOS_CONTAS "
@@ -874,7 +882,8 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                     jAgencia.setText(conecta.rs.getString("Agencia"));
                     jContaCorrente.setText(conecta.rs.getString("ContaCorrente"));
                     jOperacao.setText(conecta.rs.getString("OperacaoBanco"));
-                    jComboBoxFavorecido.addItem(conecta.rs.getString("RazaoSocial"));
+                    jComboBoxTipoFornecedor.addItem(conecta.rs.getString("TipoFavorecido"));
+                    jComboBoxFornecedorClienteBanco.addItem(conecta.rs.getString("RazaoSocial"));
                     jEndereco.setText(conecta.rs.getString("Endereco"));
                     jCidade.setText(conecta.rs.getString("Cidade"));
                     jComboBoxEstado.setSelectedItem(conecta.rs.getString("Estado"));
@@ -894,6 +903,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
             desbloquearCampos();
             limparCampos();
             bloquearBotoes();
+//            preencherComboBox_CLIENTES();
             Novo();
             statusMov = "Incluiu";
             horaMov = jHoraSistema.getText();
@@ -957,7 +967,9 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Informe a agência do banco.");
             } else if (jContaCorrente.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe a conta do banco.");
-            } else if (jComboBoxFavorecido.getSelectedItem().equals("")) {
+            } else if (jComboBoxTipoFornecedor.getSelectedItem().equals("Selecione...")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o tipo de favorecido.");
+            } else if (jComboBoxFornecedorClienteBanco.getSelectedItem().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o nome do favorecido.");
             } else {
                 objBanco.setStatusBanco((String) jComboBoxStatus.getSelectedItem());
@@ -965,8 +977,8 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
                 objBanco.setDescricaoBanco(jNomeBanco.getText());
                 objBanco.setAgencia(jAgencia.getText());
                 objBanco.setContaCorrente(jContaCorrente.getText());
+                objBanco.setFavorecido((String) jComboBoxTipoFornecedor.getSelectedItem());
                 objBanco.setOperacao(jOperacao.getText());
-                objBanco.setFavorecido((String) jComboBoxFavorecido.getSelectedItem());
                 objBanco.setEndereco(jEndereco.getText());
                 objBanco.setCidade(jCidade.getText());
                 objBanco.setEstado((String) jComboBoxEstado.getSelectedItem());
@@ -1023,56 +1035,52 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
 
     private void jComboBoxTipoFornecedorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxTipoFornecedorItemStateChanged
         // TODO add your handling code here:
-        if (evt.getStateChange() == evt.SELECTED && jComboBoxTipoFornecedor.getSelectedItem().equals("F")) {
-//            jComboBoxFavorecido.removeAllItems();
-//            conecta.abrirConexao();
-//            try {
-//                conecta.executaSQL("SELECT * FROM FORNECEDORES_AC");
-//                conecta.rs.first();
-//                jComboBoxFavorecido.addItem(conecta.rs.getString("Favorecido"));
-//            } catch (Exception e) {
-//            }
-//            conecta.desconecta();
-//            BancosContas banco = (BancosContas) jComboBoxFavorecido.getSelectedItem();
-//            banco.getIdBanco();
-//            objBanco.setIdBanco(banco.getIdBanco());
-            preencherComboBox_FORNECEDOR();
-        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxTipoFornecedor.getSelectedItem().equals("C")) {
-            preencherComboBox_CLIENTES();
-        }
-    }//GEN-LAST:event_jComboBoxTipoFornecedorItemStateChanged
-
-    private void jComboBoxFavorecidoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxFavorecidoItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == evt.SELECTED && jComboBoxTipoFornecedor.getSelectedItem().equals("F")) {
-            jComboBoxFavorecido.removeAllItems();
+        jComboBoxFornecedorClienteBanco.removeAllItems();
+        if (evt.getStateChange() == evt.SELECTED && jComboBoxTipoFornecedor.getSelectedItem().equals("Fornecedor")) {
             FornecedoresDAO dao = new FornecedoresDAO();
             try {
                 for (Fornecedor p : dao.read()) {
-                    jComboBoxFavorecido.addItem(p);
+                    jComboBoxFornecedorClienteBanco.addItem(p);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(TelaBancosContasBancarias.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Fornecedor fornecedor = (Fornecedor) jComboBoxFavorecido.getSelectedItem();
+            Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorClienteBanco.getSelectedItem();
             fornecedor.getIdForn();
+            fornecedor.getStatusFor();
             fornecedor.getRazaoSocial();
             objBanco.setIdForn(fornecedor.getIdForn());
-        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxTipoFornecedor.getSelectedItem().equals("C")) {
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxTipoFornecedor.getSelectedItem().equals("Cliente")) {
             ClientesDAO dao = new ClientesDAO();
             try {
                 for (Clientes c : dao.read()) {
-                    jComboBoxFavorecido.addItem(c);
+                    jComboBoxFornecedorClienteBanco.addItem(c);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(TelaBancosContasBancarias.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Clientes cliente = (Clientes) jComboBoxFavorecido.getSelectedItem();
+            Clientes cliente = (Clientes) jComboBoxFornecedorClienteBanco.getSelectedItem();
             cliente.getIdForn();
+            cliente.getStatusFor();
             cliente.getRazaoSocial();
             objBanco.setIdForn(cliente.getIdForn());
         }
-    }//GEN-LAST:event_jComboBoxFavorecidoItemStateChanged
+    }//GEN-LAST:event_jComboBoxTipoFornecedorItemStateChanged
+
+    private void jComboBoxFornecedorClienteBancoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxFornecedorClienteBancoItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == evt.SELECTED && jComboBoxTipoFornecedor.getSelectedItem().equals("Fornecedor")) {
+            Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorClienteBanco.getSelectedItem();
+            fornecedor.getIdForn();
+            fornecedor.getRazaoSocial();
+            objBanco.setIdForn(fornecedor.getIdForn());
+        } else if (evt.getStateChange() == evt.SELECTED && jComboBoxTipoFornecedor.getSelectedItem().equals("Cliente")) {
+            Clientes clientes = (Clientes) jComboBoxFornecedorClienteBanco.getSelectedItem();
+            clientes.getIdForn();
+            clientes.getRazaoSocial();
+            objBanco.setIdForn(clientes.getIdForn());
+        }
+    }//GEN-LAST:event_jComboBoxFornecedorClienteBancoItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1091,7 +1099,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
     public static javax.swing.JTextField jCodigo;
     private javax.swing.JTextField jCodigoPesq;
     private javax.swing.JComboBox jComboBoxEstado;
-    private javax.swing.JComboBox<Object> jComboBoxFavorecido;
+    public static javax.swing.JComboBox<Object> jComboBoxFornecedorClienteBanco;
     private javax.swing.JComboBox<String> jComboBoxStatus;
     private javax.swing.JComboBox<String> jComboBoxTipoCliente;
     private javax.swing.JComboBox<String> jComboBoxTipoFornecedor;
@@ -1142,7 +1150,7 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jAgencia.setBackground(Color.white);
         jContaCorrente.setBackground(Color.white);
         jOperacao.setBackground(Color.white);
-        jComboBoxFavorecido.setBackground(Color.white);
+        jComboBoxFornecedorClienteBanco.setBackground(Color.white);
         jEndereco.setBackground(Color.white);
         jCidade.setBackground(Color.white);
         jComboBoxEstado.setBackground(Color.white);
@@ -1156,10 +1164,11 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jAgencia.setEnabled(!true);
         jContaCorrente.setEnabled(!true);
         jOperacao.setEnabled(!true);
-        jComboBoxFavorecido.setEnabled(!true);
+        jComboBoxFornecedorClienteBanco.setEnabled(!true);
         jEndereco.setEnabled(!true);
         jCidade.setEnabled(!true);
         jComboBoxEstado.setEnabled(!true);
+        jComboBoxTipoFornecedor.setEnabled(!true);
     }
 
     public void desbloquearCampos() {
@@ -1168,10 +1177,11 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jAgencia.setEnabled(true);
         jContaCorrente.setEnabled(true);
         jOperacao.setEnabled(true);
-        jComboBoxFavorecido.setEnabled(true);
+        jComboBoxFornecedorClienteBanco.setEnabled(true);
         jEndereco.setEnabled(true);
         jCidade.setEnabled(true);
         jComboBoxEstado.setEnabled(true);
+        jComboBoxTipoFornecedor.setEnabled(true);
     }
 
     public void limparCampos() {
@@ -1182,10 +1192,11 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
         jAgencia.setText("");
         jContaCorrente.setText("");
         jOperacao.setText("");
-        jComboBoxFavorecido.setSelectedItem("");
+        jComboBoxFornecedorClienteBanco.setSelectedItem("");
         jEndereco.setText("");
         jCidade.setText("");
         jComboBoxEstado.setSelectedItem("Selecione...");
+        jComboBoxTipoFornecedor.setSelectedItem("Selecione...");
     }
 
     public void bloquearBotoes() {
@@ -1261,14 +1272,14 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
     }
 
     public void preencherComboBox_CLIENTES() {
-        jComboBoxFavorecido.removeAllItems();
+        jComboBoxFornecedorClienteBanco.removeAllItems();
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT * FROM CLIENTES "
-                    + "WHERE StatusClie='" + pSTATUS_BANCO + "'");
+                    + "WHERE StatusClie='" + pSTATUS_FORN_CLIE + "'");
             conecta.rs.first();
             do {
-                jComboBoxFavorecido.addItem(conecta.rs.getString("RazaoSocial"));
+                jComboBoxFornecedorClienteBanco.addItem(conecta.rs.getString("RazaoSocial"));
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Existe dados a serem exibidos !!!");
@@ -1277,14 +1288,14 @@ public class TelaBancosContasBancarias extends javax.swing.JInternalFrame {
     }
 
     public void preencherComboBox_FORNECEDOR() {
-        jComboBoxFavorecido.removeAllItems();
+        jComboBoxFornecedorClienteBanco.removeAllItems();
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM FORNECEDOR_AC "
-                    + "WHERE StatusForn='" + pSTATUS_BANCO + "'");
+            conecta.executaSQL("SELECT * FROM FORNECEDORES_AC "
+                    + "WHERE StatusFor='" + pSTATUS_FORN_CLIE + "'");
             conecta.rs.first();
             do {
-                jComboBoxFavorecido.addItem(conecta.rs.getString("RazaoSocial"));
+                jComboBoxFornecedorClienteBanco.addItem(conecta.rs.getString("RazaoSocial"));
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Existe dados a serem exibidos !!!");

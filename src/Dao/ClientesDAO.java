@@ -119,6 +119,7 @@ public class ClientesDAO {
             while (conecta.rs.next()) {
                 Clientes pDigiClie = new Clientes();
                 pDigiClie.setIdForn(conecta.rs.getInt("IdClie"));
+                pDigiClie.setStatusFor(conecta.rs.getString("StatusClie"));
                 pDigiClie.setRazaoSocial(conecta.rs.getString("RazaoSocial"));
                 listaClientes.add(pDigiClie);
             }
