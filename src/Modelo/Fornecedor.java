@@ -43,10 +43,16 @@ public class Fornecedor {
     private String dataInsert;
     private String dataUp;
     private String horarioInsert;
-    private String horarioUp;     
-    private String modulo;        
+    private String horarioUp;
+    private String modulo;
+    private int idBanco;
+    private String agencia;
+    private String contaCorrente;
 
-    public Fornecedor(int idForn, String classFor, Date dataCadastro, String statusFor, String razaoSocial, String nomeFantasia, String departamento, String cnpj, String insEstadual, String nomeContato, String telefone, String telefone1, String celular, String email, String fax, String endereco, String compl, String cep, String cidade, String estado, String enderecoCob, String complCob, String cepCob, String cidadeCob, String estadoCob, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, String modulo) {
+    public Fornecedor() {
+    }
+
+    public Fornecedor(int idForn, String classFor, Date dataCadastro, String statusFor, String razaoSocial, String nomeFantasia, String departamento, String cnpj, String insEstadual, String nomeContato, String telefone, String telefone1, String celular, String email, String fax, String endereco, String compl, String cep, String cidade, String estado, String enderecoCob, String complCob, String cepCob, String cidadeCob, String estadoCob, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, String modulo, int idBanco, String agencia, String contaCorrente) {
         this.idForn = idForn;
         this.classFor = classFor;
         this.dataCadastro = dataCadastro;
@@ -79,9 +85,9 @@ public class Fornecedor {
         this.horarioInsert = horarioInsert;
         this.horarioUp = horarioUp;
         this.modulo = modulo;
-    }
-
-    public Fornecedor() {
+        this.idBanco = idBanco;
+        this.agencia = agencia;
+        this.contaCorrente = contaCorrente;
     }
 
     /**
@@ -532,8 +538,50 @@ public class Fornecedor {
         this.modulo = modulo;
     }
 
+    /**
+     * @return the idBanco
+     */
+    public int getIdBanco() {
+        return idBanco;
+    }
+
+    /**
+     * @param idBanco the idBanco to set
+     */
+    public void setIdBanco(int idBanco) {
+        this.idBanco = idBanco;
+    }
+
+    /**
+     * @return the agencia
+     */
+    public String getAgencia() {
+        return agencia;
+    }
+
+    /**
+     * @param agencia the agencia to set
+     */
+    public void setAgencia(String agencia) {
+        this.agencia = agencia;
+    }
+
+    /**
+     * @return the contaCorrente
+     */
+    public String getContaCorrente() {
+        return contaCorrente;
+    }
+
+    /**
+     * @param contaCorrente the contaCorrente to set
+     */
+    public void setContaCorrente(String contaCorrente) {
+        this.contaCorrente = contaCorrente;
+    }
+
     @Override
     public String toString() {
         return getRazaoSocial(); //To change body of generated methods, choose Tools | Templates.
-    }    
+    }
 }

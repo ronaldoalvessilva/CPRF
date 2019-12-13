@@ -100,7 +100,7 @@ public class BancosContasBancariasDAO {
                 pDigiBanco.setAgencia(conecta.rs.getString("Agencia"));
                 pDigiBanco.setDescricaoBanco(conecta.rs.getString("DescricaoBanco"));
                 pDigiBanco.setContaCorrente(conecta.rs.getString("ContaCorrente"));
-                pDigiBanco.setFavorecido(conecta.rs.getString("Favorecido"));
+                pDigiBanco.setIdForn(conecta.rs.getInt("IdForn"));
                 listaBancos.add(pDigiBanco);
             }
             return listaBancos;

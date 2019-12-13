@@ -18,6 +18,7 @@ public class MovimentoBancario {
     private Date dataRegistro;
     private String agencia;
     private int idBanco;
+    private int idForn;
     private String contaCorrente;
     private String favorecido;
     private String depositante;
@@ -31,12 +32,13 @@ public class MovimentoBancario {
     public MovimentoBancario() {
     }
 
-    public MovimentoBancario(int idMovBanco, String statusMov, Date dataRegistro, String agencia, int idBanco, String contaCorrente, String favorecido, String depositante, Float valorDeposito, String tipoDeposito, String observacao, String usuarioInsert, String dataInsert, String horarioInsert) {
+    public MovimentoBancario(int idMovBanco, String statusMov, Date dataRegistro, String agencia, int idBanco, int idForn, String contaCorrente, String favorecido, String depositante, Float valorDeposito, String tipoDeposito, String observacao, String usuarioInsert, String dataInsert, String horarioInsert) {
         this.idMovBanco = idMovBanco;
         this.statusMov = statusMov;
         this.dataRegistro = dataRegistro;
         this.agencia = agencia;
         this.idBanco = idBanco;
+        this.idForn = idForn;
         this.contaCorrente = contaCorrente;
         this.favorecido = favorecido;
         this.depositante = depositante;
@@ -116,6 +118,20 @@ public class MovimentoBancario {
      */
     public void setIdBanco(int idBanco) {
         this.idBanco = idBanco;
+    }
+
+    /**
+     * @return the idForn
+     */
+    public int getIdForn() {
+        return idForn;
+    }
+
+    /**
+     * @param idForn the idForn to set
+     */
+    public void setIdForn(int idForn) {
+        this.idForn = idForn;
     }
 
     /**
