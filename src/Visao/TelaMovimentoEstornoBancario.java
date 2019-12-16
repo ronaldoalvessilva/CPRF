@@ -8,10 +8,10 @@ package Visao;
 import Dao.BaixaDAO;
 import Dao.BancosContasBancariasDAO;
 import Dao.ConexaoBancoDados;
+import Dao.EstornoBancarioDAO;
 import Dao.ListarClientesDAO;
 import Dao.ListarFornecedorDAO_CP;
 import Dao.LogSistemaDAO;
-import Dao.MovimentoBancarioDAO;
 import Dao.listaFornecedorMovBanco;
 import Dao.listarClienteMovBanco;
 import Modelo.BaixaCPR;
@@ -36,7 +36,7 @@ import static Visao.TelaPrincipal.jDataSistema;
 import static Visao.TelaPrincipal.jHoraSistema;
 import static Visao.TelaPrincipal.nomeGrupo;
 import static Visao.TelaPrincipal.nomeTela;
-import static Visao.TelaPrincipal.telaMovimentoBancario;
+import static Visao.TelaPrincipal.telaMovimentacaoBancariaEstorno;
 import static Visao.TelaPrincipal.tipoServidor;
 import java.awt.Color;
 import java.sql.SQLException;
@@ -58,7 +58,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author Socializa TI 02
  */
-public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
+public class TelaMovimentoEstornoBancario extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     BancosContas objBanco = new BancosContas();
@@ -68,13 +68,13 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
     ListarClientesDAO listaClieDao = new ListarClientesDAO();
     ListarFornecedorDAO_CP listaFornDao = new ListarFornecedorDAO_CP();
     MovimentoBancario objMovBanc = new MovimentoBancario();
-    MovimentoBancarioDAO movBancoDAO = new MovimentoBancarioDAO();
+    EstornoBancarioDAO movBancoDAO = new EstornoBancarioDAO();
     BaixaCPR objBaixa = new BaixaCPR();
     BaixaDAO controlDAO = new BaixaDAO();
     LogSistemaDAO controlLog = new LogSistemaDAO();
     LogSistema objLogSys = new LogSistema();
     // Variáveis para gravar o log
-    String nomeModuloTela = "Movimentação:Movimento Bancárias:Manutenção";
+    String nomeModuloTela = "Movimentação:Movimento Bancárias - Estorno:Manutenção";
     String statusMov;
     String horaMov;
     String dataModFinal;
@@ -91,7 +91,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
     /**
      * Creates new form TelaMovimentoBancario
      */
-    public TelaMovimentoBancario() {
+    public TelaMovimentoEstornoBancario() {
         initComponents();
         corCampos();
     }
@@ -158,7 +158,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("...::: Movimentação Bancária :::...");
+        setTitle("...::: Movimentação Bancária  - Estorno :::...");
 
         jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
@@ -431,7 +431,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
         jDepositanteSacado.setEnabled(false);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel10.setText("Tipo Depósito/Saque");
+        jLabel10.setText("Tipo Estorno");
 
         jComboBoxTipoDepositoSaque.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jComboBoxTipoDepositoSaque.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Transferência bancária", "Dinheiro", "Cheque" }));
@@ -681,8 +681,8 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
         if (jCodigoPesq.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Informe o código para pesquisa.");
         } else {
-            preencherTabelaBancos("SELECT * FROM MOVIMENTO_BANCARIO "
-                    + "WHERE IdMovBanc='" + jCodigoPesq.getText() + "'");
+            preencherTabelaBancos("SELECT * FROM ESTORNO_BANCARIO "
+                    + "WHERE IdEstBanc='" + jCodigoPesq.getText() + "'");
         }
     }//GEN-LAST:event_jBtCodigoPesqActionPerformed
 
@@ -706,8 +706,8 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                         SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
                         dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                         dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                        preencherTabelaBancos("SELECT * FROM MOVIMENTO_BANCARIO "
-                                + "WHERE DataRegistro BETWEEN'" + dataInicial + "' "
+                        preencherTabelaBancos("SELECT * FROM ESTORNO_BANCARIO "
+                                + "WHERE DataEstorno BETWEEN'" + dataInicial + "' "
                                 + "AND '" + dataFinal + "'");
                     }
                 }
@@ -727,8 +727,8 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                         SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
                         dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
                         dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                        preencherTabelaBancos("SELECT * FROM MOVIMENTO_BANCARIO "
-                                + "WHERE DataRegistro BETWEEN'" + dataInicial + "' "
+                        preencherTabelaBancos("SELECT * FROM ESTORNO_BANCARIO "
+                                + "WHERE DataEstorno BETWEEN'" + dataInicial + "' "
                                 + "AND '" + dataFinal + "'");
                     }
                 }
@@ -741,7 +741,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
         count = 0;
         flag = 1;
         if (evt.getStateChange() == evt.SELECTED) {
-            this.preencherTabelaBancos("SELECT * FROM MOVIMENTO_BANCARIO");
+            this.preencherTabelaBancos("SELECT * FROM ESTORNO_BANCARIO");
         } else {
             jtotalRegistros.setText("");
             limparTabela();
@@ -763,20 +763,19 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
             //
             conecta.abrirConexao();
             try {
-                conecta.executaSQL("SELECT * FROM MOVIMENTO_BANCARIO "
+                conecta.executaSQL("SELECT * FROM ESTORNO_BANCARIO "
                         + "INNER JOIN BANCOS_CONTAS "
-                        + "ON MOVIMENTO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
-                        + "WHERE MOVIMENTO_BANCARIO.IdMovBanc='" + IdLanc + "'");
+                        + "ON ESTORNO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
+                        + "WHERE ESTORNO_BANCARIO.IdEstBanc='" + IdLanc + "'");
                 conecta.rs.first();
-                jIdDepCredito.setText(String.valueOf(conecta.rs.getInt("IdMovBanc")));
-                jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusRegistro"));
-                jDataRegistro.setDate(conecta.rs.getDate("DataRegistro"));
+                jIdDepCredito.setText(String.valueOf(conecta.rs.getInt("IdEstBanc")));
+                jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusEstorno"));
+                jDataRegistro.setDate(conecta.rs.getDate("DataEstorno"));
                 jComboBoxAgencia.addItem(conecta.rs.getString("Agencia"));
                 jComboBoxContaCorrente.addItem(conecta.rs.getString("ContaCorrente"));
-//                jComboBoxFavorecido.setText(conecta.rs.getString("IdForn"));
                 jDepositanteSacado.setText(conecta.rs.getString("Depositante"));
-                jValorRegistro.setText(conecta.rs.getString("ValorDeposito"));
-                jComboBoxTipoDepositoSaque.setSelectedItem(conecta.rs.getString("TipoDeposito"));
+                jValorRegistro.setText(conecta.rs.getString("ValorEstorno"));
+                jComboBoxTipoDepositoSaque.setSelectedItem(conecta.rs.getString("TipoEstorno"));
                 jObservacao.setText(conecta.rs.getString("Observacao"));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa..." + e);
@@ -787,8 +786,8 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
 
     private void jBtNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtNovoActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaMovimentoBancario);
-        if (codigoUser == codUserAcesso && nomeTela.equals(telaMovimentoBancario) && codIncluir == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
+        buscarAcessoUsuario(telaMovimentacaoBancariaEstorno);
+        if (codigoUser == codUserAcesso && nomeTela.equals(telaMovimentacaoBancariaEstorno) && codIncluir == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
             acao = 1;
             desbloquearCampos();
             limparCampos();
@@ -804,8 +803,8 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
 
     private void jBtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtSalvarActionPerformed
         // TODO add your handling code here:
-        buscarAcessoUsuario(telaMovimentoBancario);
-        if (codigoUser == codUserAcesso && nomeTela.equals(telaMovimentoBancario) && codGravar == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
+        buscarAcessoUsuario(telaMovimentacaoBancariaEstorno);
+        if (codigoUser == codUserAcesso && nomeTela.equals(telaMovimentacaoBancariaEstorno) && codGravar == 1 || nameUser.equals("ADMINISTRADOR DO SISTEMA") || nomeGrupo.equals("ADMINISTRADORES")) {
             DecimalFormat VALOR_REAL = new DecimalFormat("###,##00.0");
             VALOR_REAL.setCurrency(Currency.getInstance(new Locale("pt", "BR")));
             if (jComboBoxStatus.getSelectedItem().equals("")) {
@@ -832,7 +831,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                     objMovBanc.setValorDeposito(VALOR_REAL.parse(jValorRegistro.getText()).floatValue());
                     objBaixa.setValorOperacao(VALOR_REAL.parse(jValorRegistro.getText()).floatValue());
                 } catch (ParseException ex) {
-                    Logger.getLogger(TelaMovimentoBancario.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TelaMovimentoEstornoBancario.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 objMovBanc.setTipoDeposito((String) jComboBoxTipoDepositoSaque.getSelectedItem());
                 objMovBanc.setObservacao(jObservacao.getText());
@@ -1113,9 +1112,9 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
     public void buscarCodigo() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM MOVIMENTO_BANCARIO");
+            conecta.executaSQL("SELECT * FROM ESTORNO_BANCARIO");
             conecta.rs.last();
-            jIdDepCredito.setText(conecta.rs.getString("IdMovBanc"));
+            jIdDepCredito.setText(conecta.rs.getString("IdEstBanc"));
         } catch (Exception e) {
         }
         conecta.desconecta();
@@ -1164,13 +1163,13 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
             do {
                 count = count + 1;
                 // Formatar a data no formato Brasil
-                dataAgenda = conecta.rs.getString("DataRegistro");
+                dataAgenda = conecta.rs.getString("DataEstorno");
                 String dia = dataAgenda.substring(8, 10);
                 String mes = dataAgenda.substring(5, 7);
                 String ano = dataAgenda.substring(0, 4);
                 dataAgenda = dia + "/" + mes + "/" + ano;
                 jtotalRegistros.setText(Integer.toString(count));
-                dados.add(new Object[]{conecta.rs.getInt("IdMovBanc"), dataAgenda, conecta.rs.getString("StatusRegistro"), conecta.rs.getString("Depositante")});
+                dados.add(new Object[]{conecta.rs.getInt("IdEstBanc"), dataAgenda, conecta.rs.getString("StatusEstorno"), conecta.rs.getString("Depositante")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
