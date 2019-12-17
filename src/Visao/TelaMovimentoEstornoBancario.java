@@ -850,7 +850,7 @@ public class TelaMovimentoEstornoBancario extends javax.swing.JInternalFrame {
                         objBaixa.setTipoOperacao(pTIPO_OPERACAO_PAGAR);
                         objBaixa.setDataOperacao(jDataRegistro.getDate());
                         objBaixa.setDocumentoBaixa(jIdDepCredito.getText());
-                        pSALDO_ATUAL = pSALDO_BANCARIO - objBaixa.getValorOperacao();
+                        pSALDO_ATUAL = pSALDO_BANCARIO + objBaixa.getValorOperacao();
                         objBaixa.setValorSaldo(pSALDO_ATUAL);
                         controlDAO.incluirSaldoCPR(objBaixa);
                     } else if (jComboBoxStatus.getSelectedItem().equals("Depósito")) {
@@ -858,7 +858,7 @@ public class TelaMovimentoEstornoBancario extends javax.swing.JInternalFrame {
                         objBaixa.setTipoOperacao(pTIPO_OPERACAO_RECEBER);
                         objBaixa.setDataOperacao(jDataRegistro.getDate());
                         objBaixa.setDocumentoBaixa(jIdDepCredito.getText());
-                        pSALDO_ATUAL = pSALDO_BANCARIO + objBaixa.getValorOperacao();
+                        pSALDO_ATUAL = pSALDO_BANCARIO - objBaixa.getValorOperacao();
                         objBaixa.setValorSaldo(pSALDO_ATUAL);
                         controlDAO.incluirSaldoCPR(objBaixa);
                     }
