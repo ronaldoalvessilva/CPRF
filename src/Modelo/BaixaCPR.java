@@ -41,11 +41,12 @@ public class BaixaCPR {
     private Float valorSaldo;
     private int diasAtraso;
     private String tipoOperacao;
+    private String contaBaixada;
 
     public BaixaCPR() {
     }
 
-    public BaixaCPR(int idBaixa, int idForma, String FormaPagamento, int idBanco, String Agencia, String ContaCorrente, int idMov, int idCentro, int idConta, int idForn, String descricaoForma, String descricaoBanco, String descricaoCentro, String descricaoContas, String descricaoFornecedor, String descricaoempresa, Date dataOperacao, String operacaoBaixa, Date dataEmissaoBaixa, String documentoBaixa, Date dataVencimentoOperacao, Float valorPRBaixa, Float valorOperacao, Float jurosDias, Float valorJurosDias, Float valorSaldo, int diasAtraso, String tipoOperacao) {
+    public BaixaCPR(int idBaixa, int idForma, String FormaPagamento, int idBanco, String Agencia, String ContaCorrente, int idMov, int idCentro, int idConta, int idForn, String descricaoForma, String descricaoBanco, String descricaoCentro, String descricaoContas, String descricaoFornecedor, String descricaoempresa, Date dataOperacao, String operacaoBaixa, Date dataEmissaoBaixa, String documentoBaixa, Date dataVencimentoOperacao, Float valorPRBaixa, Float valorOperacao, Float jurosDias, Float valorJurosDias, Float valorSaldo, int diasAtraso, String tipoOperacao, String contaBaixada) {
         this.idBaixa = idBaixa;
         this.idForma = idForma;
         this.FormaPagamento = FormaPagamento;
@@ -74,6 +75,7 @@ public class BaixaCPR {
         this.valorSaldo = valorSaldo;
         this.diasAtraso = diasAtraso;
         this.tipoOperacao = tipoOperacao;
+        this.contaBaixada = contaBaixada;
     }
 
     /**
@@ -466,5 +468,19 @@ public class BaixaCPR {
      */
     public void setTipoOperacao(String tipoOperacao) {
         this.tipoOperacao = tipoOperacao;
+    }
+
+    /**
+     * @return the contaBaixada
+     */
+    public String getContaBaixada() {
+        return contaBaixada;
+    }
+
+    /**
+     * @param contaBaixada the contaBaixada to set
+     */
+    public void setContaBaixada(String contaBaixada) {
+        this.contaBaixada = contaBaixada;
     }
 }

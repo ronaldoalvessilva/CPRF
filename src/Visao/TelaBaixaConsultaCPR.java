@@ -18,22 +18,15 @@ import Modelo.EmpresaUnidade;
 import Modelo.FormaPagamento;
 import Modelo.Fornecedor;
 import Modelo.TipoConta;
+import static Visao.TelaConsultasPagasRecebidas.idLanc;
+import static Visao.TelaConsultasPagasRecebidas.jComboBoxContas;
 import static Visao.TelaMovimentacaoContasPR.jCodigo;
-import static Visao.TelaMovimentacaoContasPR.jComboBoxBanco;
-import static Visao.TelaMovimentacaoContasPR.jComboBoxCentroCusto;
-import static Visao.TelaMovimentacaoContasPR.jComboBoxContaCorrente;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxFornecedorCliente;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxOperacao;
-import static Visao.TelaMovimentacaoContasPR.jComboBoxTipoDespesa;
-import static Visao.TelaMovimentacaoContasPR.jComboBoxTipoPagamento;
-import static Visao.TelaMovimentacaoContasPR.jDataEmissao;
-import static Visao.TelaMovimentacaoContasPR.jDataVencimento;
-import static Visao.TelaMovimentacaoContasPR.jNumeroDocumento;
 import static Visao.TelaMovimentacaoContasPR.jValorDocumento;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -44,7 +37,7 @@ import javax.swing.JOptionPane;
  *
  * @author ronal
  */
-public class TelaBaixaCPR extends javax.swing.JDialog {
+public class TelaBaixaConsultaCPR extends javax.swing.JDialog {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     TipoConta objTipoConta = new TipoConta();
@@ -74,17 +67,16 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     /**
      * Creates new form TelaBaixaCPR
      */
-    public static TelaMovimentacaoContasPR pMOVI_CONTAS_PR;
+    public static TelaConsultasPagasRecebidas pMOVI_CONTAS_PR_CONSULTA;
 
-    public TelaBaixaCPR(TelaMovimentacaoContasPR parent, boolean modal) {
-        this.pMOVI_CONTAS_PR = parent;
+    public TelaBaixaConsultaCPR(TelaConsultasPagasRecebidas parent, boolean modal) {
+        this.pMOVI_CONTAS_PR_CONSULTA = parent;
         this.setModal(modal);
-        setLocationRelativeTo(pMOVI_CONTAS_PR);
+        setLocationRelativeTo(pMOVI_CONTAS_PR_CONSULTA);
         initComponents();
         corCampos();
-        buscarOperacao();
         verificarBaixa();
-        if (jCodigo.getText().equals(pCODIGO_MOV_BAIXA)) {
+        if (idLanc.equals(pCODIGO_MOV_BAIXA)) {
             mostrarBaixa();
             Confirmar();
         }
@@ -151,7 +143,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
         jComboBoxOperacaoBaixa.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxOperacaoBaixa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Pagar", "Receber" }));
+        jComboBoxOperacaoBaixa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pagar", "Receber", "Pago", "Recebido" }));
         jComboBoxOperacaoBaixa.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jComboBoxOperacaoBaixa.setEnabled(false);
 
@@ -207,6 +199,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jValorOperacao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jValorOperacao.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jValorOperacao.setText("0");
+        jValorOperacao.setEnabled(false);
         jValorOperacao.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -345,6 +338,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jDiasAtraso.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jDiasAtraso.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jDiasAtraso.setText("0");
+        jDiasAtraso.setEnabled(false);
         jDiasAtraso.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -356,6 +350,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jJurosDia.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jJurosDia.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jJurosDia.setText("0");
+        jJurosDia.setEnabled(false);
         jJurosDia.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -364,11 +359,13 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jValorJuros.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jValorJuros.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jValorJuros.setText("0");
+        jValorJuros.setEnabled(false);
         jValorJuros.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         jBtCalcular.setForeground(new java.awt.Color(0, 0, 204));
         jBtCalcular.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/calculator.png"))); // NOI18N
         jBtCalcular.setText("Calcular");
+        jBtCalcular.setEnabled(false);
         jBtCalcular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtCalcularActionPerformed(evt);
@@ -476,13 +473,15 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jPanel4.setBackground(new java.awt.Color(51, 102, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true)));
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(204, 0, 0));
-        jLabel18.setText("BAIXA");
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setText("BAIXA - CONSULTA");
 
         jBtConfirmar.setForeground(new java.awt.Color(0, 102, 0));
         jBtConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/40_16x16.png"))); // NOI18N
         jBtConfirmar.setText("Confirmar");
+        jBtConfirmar.setEnabled(false);
         jBtConfirmar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jBtConfirmar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jBtConfirmar.addActionListener(new java.awt.event.ActionListener() {
@@ -508,8 +507,8 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtSair)
@@ -681,7 +680,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
             objBaixa.setJurosDias(VALOR_REAL.parse(jJurosDia.getText()).floatValue());
             objBaixa.setValorJurosDias(VALOR_REAL.parse(jValorJuros.getText()).floatValue());
         } catch (ParseException ex) {
-            Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaBaixaConsultaCPR.class.getName()).log(Level.SEVERE, null, ex);
         }
         objBaixa.setDiasAtraso(Integer.valueOf(jDiasAtraso.getText()));
         pVALOR_DIARIO = (objBaixa.getValorPRBaixa() / 30);// ACHA O VALOR DO DIA   
@@ -726,20 +725,21 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaBaixaCPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaBaixaConsultaCPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaBaixaCPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaBaixaConsultaCPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaBaixaCPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaBaixaConsultaCPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaBaixaCPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaBaixaConsultaCPR.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TelaBaixaCPR dialog = new TelaBaixaCPR(pMOVI_CONTAS_PR, true);
+                TelaBaixaConsultaCPR dialog = new TelaBaixaConsultaCPR(pMOVI_CONTAS_PR_CONSULTA, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -805,26 +805,8 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jValorPRBaixa.setBackground(Color.white);
     }
 
-    public void buscarOperacao() {
-        jDataOperacao.setCalendar(Calendar.getInstance());
-        jComboBoxOperacaoBaixa.setSelectedItem(jComboBoxOperacao.getSelectedItem());
-        jDataEmissaoBaixa.setDate(jDataEmissao.getDate());
-        jDocumentoBaixa.setText(jNumeroDocumento.getText());
-        jDataVencimentoOperacao.setDate(jDataVencimento.getDate());
-        jTipoDespesaBaixa.addItem(jComboBoxTipoDespesa.getSelectedItem());
-        jCentroCustoBaixa.addItem(jComboBoxCentroCusto.getSelectedItem());
-        jValorPRBaixa.setText(jValorDocumento.getText());
-        jValorOperacao.setText(jValorDocumento.getText());
-        jClienteFornecedorBaixa.addItem(jComboBoxFornecedorCliente.getSelectedItem());
-        jTipoPagamentoBaixa.addItem(jComboBoxTipoPagamento.getSelectedItem());
-        jComboBoxAgenciaBaixa.addItem(jComboBoxBanco.getSelectedItem());
-        jComboBoxContaBanco.addItem(jComboBoxContaCorrente.getSelectedItem());
-        //
-        jBtConfirmar.setEnabled(true);
-    }
-
     public void mostrarBaixa() {
-        if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+        if (jComboBoxContas.getSelectedItem().equals("CONTAS PAGAS")) {
             conecta.abrirConexao();
             try {
                 conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
@@ -840,11 +822,11 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                         + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
                         + "INNER JOIN FORNECEDORES_AC "
                         + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
-                        + "WHERE BAIXA_CONTAS_PAGAR_RECEBER.IdMov='" + jCodigo.getText() + "'");
+                        + "WHERE BAIXA_CONTAS_PAGAR_RECEBER.IdMov='" + idLanc + "'");
                 conecta.rs.first();
                 jCodigoOperacao.setText(conecta.rs.getString("IdBaixa"));
                 jDataOperacao.setDate(conecta.rs.getDate("DataEmissao"));
-                jComboBoxOperacaoBaixa.setSelectedItem(conecta.rs.getString("Operacao"));
+                jComboBoxOperacaoBaixa.setSelectedItem("Pago");
                 jDataEmissaoBaixa.setDate(conecta.rs.getDate("DataEmissao"));
                 jDocumentoBaixa.setText(conecta.rs.getString("Documento"));
                 jDataVencimentoOperacao.setDate(conecta.rs.getDate("DataVenc"));
@@ -880,7 +862,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
             } catch (Exception e) {
             }
             conecta.desconecta();
-        } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+        } else if (jComboBoxContas.getSelectedItem().equals("CONTAS RECEBIDAS")) {
             conecta.abrirConexao();
             try {
                 conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
@@ -896,11 +878,11 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                         + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
                         + "INNER JOIN CLIENTES "
                         + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
-                        + "WHERE BAIXA_CONTAS_PAGAR_RECEBER.IdMov='" + jCodigo.getText() + "'");
+                        + "WHERE BAIXA_CONTAS_PAGAR_RECEBER.IdMov='" + idLanc + "'");
                 conecta.rs.first();
                 jCodigoOperacao.setText(conecta.rs.getString("IdBaixa"));
                 jDataOperacao.setDate(conecta.rs.getDate("DataEmissao"));
-                jComboBoxOperacaoBaixa.setSelectedItem(conecta.rs.getString("Operacao"));
+                jComboBoxOperacaoBaixa.setSelectedItem("Recebido");
                 jDataEmissaoBaixa.setDate(conecta.rs.getDate("DataEmissao"));
                 jDocumentoBaixa.setText(conecta.rs.getString("Documento"));
                 jDataVencimentoOperacao.setDate(conecta.rs.getDate("DataVenc"));
@@ -943,7 +925,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
-                    + "WHERE IdMov='" + jCodigo.getText() + "'");
+                    + "WHERE IdMov='" + idLanc + "'");
             conecta.rs.first();
             pCODIGO_MOV_BAIXA = conecta.rs.getString("IdMov");
         } catch (Exception e) {
@@ -970,7 +952,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                     jClienteFornecedorBaixa.addItem(p);
                 }
             } catch (Exception ex) {
-                Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TelaBaixaConsultaCPR.class.getName()).log(Level.SEVERE, null, ex);
             }
             Fornecedor fornecedor = (Fornecedor) jClienteFornecedorBaixa.getSelectedItem();
             fornecedor.getIdForn();

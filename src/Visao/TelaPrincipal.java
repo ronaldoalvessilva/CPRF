@@ -96,6 +96,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaParametrosSistema objPara = null;
     private TelaMovimentoBancario objMovbanc = null;
     private TelaMovimentoEstornoBancario objEstorno = null;
+    private TelaConsultasPagasRecebidas objConsultaCP = null;
 
     //
     String statusAgenda = "Pendente";
@@ -149,7 +150,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static String telaMovimentacaoCPR = "Movimentação:Contas a Pagar e Receber:Manutenção";
     public static String telaMovimentoBancario = "Movimentação:Movimento Bancário:Manutenção";
     public static String telaMovimentacaoBancariaEstorno = "Movimentação:Movimento Bancário Estorno:Manutenção";
-//    public static String botaoEncerrarSup = "Encerrar Chamado no Suporte";
+    public static String telaConsultaCPR = "Movimentação:Consulta de Contas Pagas e Recebidas";
 //    public static String botaoImprimirSup = "Imprimir Chamado no Suporte";
 //    public static String botaoEnviarSup = "Enviar Chamado no Suporte";
 //    public static String botaoReabrirSup = "Reabrir Chamado no Suporte";
@@ -204,6 +205,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     String pNomeMB = "";
     String pNomeMBE = "";
     //    
+    String pNomeCPR = "";
+
     public static String tipoServidor = "";
     public static String tipoBancoDados = "";
 
@@ -325,7 +328,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jDepositoSaques = new javax.swing.JMenuItem();
         jEstornos = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
         jConsultasSQL = new javax.swing.JMenuItem();
+        jContasPagasRecebidas = new javax.swing.JMenuItem();
         jRelatorios = new javax.swing.JMenu();
         listagemChamadosSuporteTecnico = new javax.swing.JMenuItem();
         listagemChamadosDesenvolvimento = new javax.swing.JMenuItem();
@@ -692,7 +697,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu4.add(jEmpresa);
 
-        jParametrosSistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jParametrosSistema.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         jParametrosSistema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/controller.png"))); // NOI18N
         jParametrosSistema.setMnemonic('S');
         jParametrosSistema.setText("Parametros do Sistema");
@@ -880,6 +885,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jDepositoSaques);
 
+        jEstornos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        jEstornos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/refresh-reload-icone-6258-16.png"))); // NOI18N
+        jEstornos.setMnemonic('S');
         jEstornos.setText("Estornos");
         jEstornos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -890,6 +898,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jContasPagarReceberFluxo.add(jMenu1);
 
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/11985_16x16.png"))); // NOI18N
+        jMenu2.setText("Consultas");
+
         jConsultasSQL.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         jConsultasSQL.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/money_1.png"))); // NOI18N
         jConsultasSQL.setMnemonic('Q');
@@ -899,7 +910,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 jConsultasSQLActionPerformed(evt);
             }
         });
-        jContasPagarReceberFluxo.add(jConsultasSQL);
+        jMenu2.add(jConsultasSQL);
+
+        jContasPagasRecebidas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
+        jContasPagasRecebidas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/lock-ok-icone-5568-16.png"))); // NOI18N
+        jContasPagasRecebidas.setText("Contas Pagas/Recebidas");
+        jContasPagasRecebidas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jContasPagasRecebidasActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jContasPagasRecebidas);
+
+        jContasPagarReceberFluxo.add(jMenu2);
 
         jMenuBar1.add(jContasPagarReceberFluxo);
 
@@ -2350,6 +2373,40 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jEstornosActionPerformed
 
+    private void jContasPagasRecebidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jContasPagasRecebidasActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaConsultaCPR);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaConsultaCPR) && codAbrir == 1) {
+            if (objConsultaCP == null || objConsultaCP.isClosed()) {
+                objConsultaCP = new TelaConsultasPagasRecebidas();
+                TelaPrincipal.jPainelPrincipal.add(objConsultaCP);
+                objConsultaCP.setVisible(true);
+            } else {
+                if (objConsultaCP.isVisible()) {
+                    if (objConsultaCP.isIcon()) { // Se esta minimizado
+                        try {
+                            objConsultaCP.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objConsultaCP.toFront(); // traz para frente
+                        objConsultaCP.pack();//volta frame 
+                    }
+                } else {
+                    objConsultaCP = new TelaConsultasPagasRecebidas();
+                    TelaPrincipal.jPainelPrincipal.add(objConsultaCP);//adicona frame ao JDesktopPane  
+                    objConsultaCP.setVisible(true);
+                }
+            }
+            try {
+                objConsultaCP.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jContasPagasRecebidasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2413,6 +2470,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jConsultasSQL;
     private javax.swing.JMenuItem jContasPagarReceber;
     private javax.swing.JMenu jContasPagarReceberFluxo;
+    private javax.swing.JMenuItem jContasPagasRecebidas;
     public static javax.swing.JTextField jDataSistema;
     private javax.swing.JMenuItem jDepartamentos;
     private javax.swing.JMenuItem jDepositoSaques;
@@ -2428,6 +2486,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLoginConectado;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jModulosSistema;
@@ -2628,6 +2687,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
             pNomeMBE = conecta.rs.getString("NomeTela");
         } catch (SQLException ex) {
         }
+        try {
+            conecta.executaSQL("SELECT * FROM TELAS "
+                    + "WHERE NomeTela='" + telaConsultaCPR + "'");
+            conecta.rs.first();
+            pNomeCPR = conecta.rs.getString("NomeTela");
+        } catch (SQLException ex) {
+        }
         // CADASTRO
         if (!pNomeCE.equals(telaCadastroEmpresa) || pNomeCE == null || pNomeCE.equals("")) {
             buscarCodigoModulo();
@@ -2741,6 +2807,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             buscarCodigoModulo();
             objCadastroTela.setIdModulo(pCodModulo);
             objCadastroTela.setNomeTela(telaMovimentacaoBancariaEstorno);
+            controle.incluirTelaAcesso(objCadastroTela);
+        }
+        if (!pNomeCPR.equals(telaConsultaCPR) || pNomeCPR == null || pNomeCPR.equals("")) {
+            buscarCodigoModulo();
+            objCadastroTela.setIdModulo(pCodModulo);
+            objCadastroTela.setNomeTela(telaConsultaCPR);
             controle.incluirTelaAcesso(objCadastroTela);
         }
     }

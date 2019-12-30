@@ -61,4 +61,18 @@ public class BaixaDAO {
         conecta.desconecta();
         return objBaixa;
     }
+
+    public BaixaCPR atualizarMovimentoCPR(BaixaCPR objBaixa) {
+
+        conecta.abrirConexao();
+        try {
+            PreparedStatement pst = conecta.con.prepareStatement("UPDATE MOVIMENTO_CONTAS_PAGAR_RECEBER SET ContaBaixada=? WHERE IdMov='" + objBaixa.getIdMov() + "'");
+            pst.setString(1, objBaixa.getContaBaixada());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não Foi possivel ALTERAR MOVIMENTAÇÃO DE CONTAS.\n\nERRO: " + ex);
+        }
+        conecta.desconecta();
+        return objBaixa;
+    }
 }

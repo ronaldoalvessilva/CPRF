@@ -26,7 +26,7 @@ public class MovimentacaoCPR_DAO {
     public MovimentoCPR incluirMovimentoCPR(MovimentoCPR objMov) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO MOVIMENTO_CONTAS_PAGAR_RECEBER (IdForma,IdBanco,IdCentro,IdConta,IdForn,Operacao,DataEmissao,DataVenc,Documento,ValorDoc,Historico,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO MOVIMENTO_CONTAS_PAGAR_RECEBER (IdForma,IdBanco,IdCentro,IdConta,IdForn,Operacao,DataEmissao,DataVenc,Documento,ValorDoc,Historico,UsuarioInsert,DataInsert,HorarioInsert,ContaBaixada) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             pst.setInt(1, objMov.getIdForma());
             pst.setInt(2, objMov.getIdBanco());
             pst.setInt(3, objMov.getIdCentro());
@@ -41,6 +41,7 @@ public class MovimentacaoCPR_DAO {
             pst.setString(12, objMov.getUsuarioInsert());
             pst.setString(13, objMov.getDataInsert());
             pst.setString(14, objMov.getHorarioInsert());
+            pst.setString(15, objMov.getContaBaixada());
             pst.execute();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível INSERIR os Dados.\nERRO: " + ex);

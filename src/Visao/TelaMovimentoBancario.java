@@ -94,6 +94,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
     public TelaMovimentoBancario() {
         initComponents();
         corCampos();
+        formatarCampos();
     }
 
     /**
@@ -1089,6 +1090,10 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
         jObservacao.setBackground(Color.white);
     }
 
+    public void formatarCampos(){
+        jObservacao.setLineWrap(true);
+        jObservacao.setWrapStyleWord(true);
+    }
     public void bloquearCampos() {
         jIdDepCredito.setEnabled(!true);
         jComboBoxStatus.setEnabled(!true);

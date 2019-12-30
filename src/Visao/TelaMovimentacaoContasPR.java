@@ -104,6 +104,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     String pOPERACAO_RECEBER = "Receber";
     String pOPERACAO_PAGAR_RECEBER = "";
     String pCODIGO_MOV_BAIXA = "";
+    String pCONTA_BAIXADA = "Não";
     //
 
     public static TelaBaixaCPR pBAIXA_CPR;
@@ -114,6 +115,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     public TelaMovimentacaoContasPR() {
         initComponents();
         corCampos();
+        formatarCampos();
     }
 
     public void mostraTelaBaixa() {
@@ -253,7 +255,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             }
         });
 
-        jBtBaixa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/030818095625_16.png"))); // NOI18N
+        jBtBaixa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/kde-file-downloads-icone-4393-16.png"))); // NOI18N
         jBtBaixa.setToolTipText("Baixa de Titulo");
         jBtBaixa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -468,7 +470,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
         jBtPesquisaCP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtPesquisaCP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Saque16.png"))); // NOI18N
-        jBtPesquisaCP.setText("<< Mostrar Despesas  >>");
+        jBtPesquisaCP.setText("<< Mostrar Despesas a Pagar  >>");
         jBtPesquisaCP.setToolTipText("Pesquisa Contas a Pagar");
         jBtPesquisaCP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -478,7 +480,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
 
         jBtPesquisaCR.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jBtPesquisaCR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Deposito16.png"))); // NOI18N
-        jBtPesquisaCR.setText("<< Mostrar Receitas >>");
+        jBtPesquisaCR.setText("<< Mostrar Receitas a Receber>>");
         jBtPesquisaCR.setToolTipText("Pesquisar Contas a Receber");
         jBtPesquisaCR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -920,6 +922,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 objMov.setDataEmissao(jDataEmissao.getDate());
                 objMov.setDataVenc(jDataVencimento.getDate());
                 objMov.setDocumento(jNumeroDocumento.getText());
+                objMov.setContaBaixada(pCONTA_BAIXADA);
                 try {
                     objMov.setValorDoc(VALOR_REAL.parse(jValorDocumento.getText()).floatValue());
                 } catch (ParseException ex) {
@@ -1451,6 +1454,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 + "INNER JOIN TIPO_PAGAMENTO "
                 + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
                 + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.Operacao='" + pOPERACAO_PAGAR + "' "
+                + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
                 + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
     }//GEN-LAST:event_jBtPesquisaCPActionPerformed
 
@@ -1468,6 +1472,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 + "INNER JOIN TIPO_PAGAMENTO "
                 + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
                 + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.Operacao='" + pOPERACAO_RECEBER + "' "
+                + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
                 + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
     }//GEN-LAST:event_jBtPesquisaCRActionPerformed
 
@@ -1752,8 +1757,12 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jHistorico.setBackground(Color.white);
     }
 
+    public void formatarCampos() {
+        jHistorico.setLineWrap(true);
+        jHistorico.setWrapStyleWord(true);
+    }
+
     public void limparCampos() {
-        jLabel4.setText("");
         jCodigo.setText("");
         jComboBoxOperacao.setSelectedItem("Selecione...");
         jDataEmissao.setDate(null);

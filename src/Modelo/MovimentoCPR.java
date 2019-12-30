@@ -41,8 +41,41 @@ public class MovimentoCPR {
     private String horarioInsert;
     private String horarioUp;
     private int idEmpresa;
+    private String contaBaixada;
 
     public MovimentoCPR() {
+    }
+
+    public MovimentoCPR(int idMov, int idForma, String FormaPagamento, int idBanco, String Agencia, String ContaCorrente, int idCentro, int idConta, int idForn, String descricaoForma, String descricaoBanco, String descricaoCentro, String descricaoContas, String descricaoFornecedor, String descricaoempresa, String operacao, Date dataEmissao, Date dataVenc, String documento, Float valorDoc, String historico, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp, int idEmpresa, String contaBaixada) {
+        this.idMov = idMov;
+        this.idForma = idForma;
+        this.FormaPagamento = FormaPagamento;
+        this.idBanco = idBanco;
+        this.Agencia = Agencia;
+        this.ContaCorrente = ContaCorrente;
+        this.idCentro = idCentro;
+        this.idConta = idConta;
+        this.idForn = idForn;
+        this.descricaoForma = descricaoForma;
+        this.descricaoBanco = descricaoBanco;
+        this.descricaoCentro = descricaoCentro;
+        this.descricaoContas = descricaoContas;
+        this.descricaoFornecedor = descricaoFornecedor;
+        this.descricaoempresa = descricaoempresa;
+        this.operacao = operacao;
+        this.dataEmissao = dataEmissao;
+        this.dataVenc = dataVenc;
+        this.documento = documento;
+        this.valorDoc = valorDoc;
+        this.historico = historico;
+        this.usuarioInsert = usuarioInsert;
+        this.usuarioUp = usuarioUp;
+        this.dataInsert = dataInsert;
+        this.dataUp = dataUp;
+        this.horarioInsert = horarioInsert;
+        this.horarioUp = horarioUp;
+        this.idEmpresa = idEmpresa;
+        this.contaBaixada = contaBaixada;
     }
 
     /**
@@ -435,5 +468,19 @@ public class MovimentoCPR {
      */
     public void setIdEmpresa(int idEmpresa) {
         this.idEmpresa = idEmpresa;
+    }
+
+    /**
+     * @return the contaBaixada
+     */
+    public String getContaBaixada() {
+        return contaBaixada;
+    }
+
+    /**
+     * @param contaBaixada the contaBaixada to set
+     */
+    public void setContaBaixada(String contaBaixada) {
+        this.contaBaixada = contaBaixada;
     }
 }
