@@ -770,14 +770,62 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                 conecta.rs.first();
                 jIdDepCredito.setText(String.valueOf(conecta.rs.getInt("IdMovBanc")));
                 jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusRegistro"));
+                jComboBoxTipoPessoa.setSelectedItem(conecta.rs.getString("TipoPessoa"));
                 jDataRegistro.setDate(conecta.rs.getDate("DataRegistro"));
                 jComboBoxAgencia.addItem(conecta.rs.getString("Agencia"));
                 jComboBoxContaCorrente.addItem(conecta.rs.getString("ContaCorrente"));
-//                jComboBoxFavorecido.setText(conecta.rs.getString("IdForn"));
                 jDepositanteSacado.setText(conecta.rs.getString("Depositante"));
                 jValorRegistro.setText(conecta.rs.getString("ValorDeposito"));
                 jComboBoxTipoDepositoSaque.setSelectedItem(conecta.rs.getString("TipoDeposito"));
                 jObservacao.setText(conecta.rs.getString("Observacao"));
+                //
+                if (jComboBoxTipoPessoa.getSelectedItem().equals("Jurídica")) {
+                    jComboBoxContaCorrente.removeAllItems();
+                    jComboBoxAgencia.removeAllItems();
+                    jComboBoxFavorecido.removeAllItems();
+                    listaFornecedorMovBanco listaFornecedorDAO = new listaFornecedorMovBanco();
+                    try {
+                        for (Fornecedor f : listaFornecedorDAO.read()) {
+                            jComboBoxFavorecido.addItem(f);
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(TelaBancosContasBancarias.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Fornecedor fornecedor = (Fornecedor) jComboBoxFavorecido.getSelectedItem();
+                    fornecedor.getIdForn();
+                    fornecedor.getRazaoSocial();
+                    fornecedor.getIdBanco();
+                    jComboBoxAgencia.addItem(fornecedor.getAgencia());
+                    jComboBoxContaCorrente.addItem(fornecedor.getContaCorrente());
+                    objMovBanc.setIdBanco(fornecedor.getIdBanco());
+                    objMovBanc.setIdForn(fornecedor.getIdForn());
+                    //
+                    objBaixa.setIdBanco(fornecedor.getIdBanco());
+                    objBaixa.setIdForn(fornecedor.getIdForn());
+                } else if (jComboBoxTipoPessoa.getSelectedItem().equals("Fisíca")) {
+                    jComboBoxContaCorrente.removeAllItems();
+                    jComboBoxAgencia.removeAllItems();
+                    jComboBoxFavorecido.removeAllItems();
+                    listarClienteMovBanco listaClientesDAO = new listarClienteMovBanco();
+                    try {
+                        for (Clientes c : listaClientesDAO.read()) {
+                            jComboBoxFavorecido.addItem(c);
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(TelaBancosContasBancarias.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Clientes clientes = (Clientes) jComboBoxFavorecido.getSelectedItem();
+                    clientes.getIdForn();
+                    clientes.getRazaoSocial();
+                    clientes.getIdBanco();
+                    jComboBoxAgencia.addItem(clientes.getAgencia());
+                    jComboBoxContaCorrente.addItem(clientes.getContaCorrente());
+                    objMovBanc.setIdForn(clientes.getIdForn());
+                    objMovBanc.setIdBanco(clientes.getIdBanco());
+                    //
+                    objBaixa.setIdBanco(clientes.getIdBanco());
+                    objBaixa.setIdForn(clientes.getIdForn());
+                }
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa..." + e);
             }
@@ -827,6 +875,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
             } else {
                 objMovBanc.setStatusMov((String) jComboBoxStatus.getSelectedItem());
                 objMovBanc.setDataRegistro(jDataRegistro.getDate());
+                objMovBanc.setTipoPessoa((String)jComboBoxTipoPessoa.getSelectedItem());
                 objMovBanc.setDepositante(jDepositanteSacado.getText());
                 try {
                     objMovBanc.setValorDeposito(VALOR_REAL.parse(jValorRegistro.getText()).floatValue());

@@ -16,6 +16,7 @@ public class MovimentoBancario {
     private int idMovBanco;
     private String statusMov;
     private Date dataRegistro;
+    private String tipoPessoa;
     private String agencia;
     private int idBanco;
     private int idForn;
@@ -32,10 +33,11 @@ public class MovimentoBancario {
     public MovimentoBancario() {
     }
 
-    public MovimentoBancario(int idMovBanco, String statusMov, Date dataRegistro, String agencia, int idBanco, int idForn, String contaCorrente, String favorecido, String depositante, Float valorDeposito, String tipoDeposito, String observacao, String usuarioInsert, String dataInsert, String horarioInsert) {
+    public MovimentoBancario(int idMovBanco, String statusMov, Date dataRegistro, String tipoPessoa, String agencia, int idBanco, int idForn, String contaCorrente, String favorecido, String depositante, Float valorDeposito, String tipoDeposito, String observacao, String usuarioInsert, String dataInsert, String horarioInsert) {
         this.idMovBanco = idMovBanco;
         this.statusMov = statusMov;
         this.dataRegistro = dataRegistro;
+        this.tipoPessoa = tipoPessoa;
         this.agencia = agencia;
         this.idBanco = idBanco;
         this.idForn = idForn;
@@ -90,6 +92,20 @@ public class MovimentoBancario {
      */
     public void setDataRegistro(Date dataRegistro) {
         this.dataRegistro = dataRegistro;
+    }
+
+    /**
+     * @return the tipoPessoa
+     */
+    public String getTipoPessoa() {
+        return tipoPessoa;
+    }
+
+    /**
+     * @param tipoPessoa the tipoPessoa to set
+     */
+    public void setTipoPessoa(String tipoPessoa) {
+        this.tipoPessoa = tipoPessoa;
     }
 
     /**

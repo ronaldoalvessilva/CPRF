@@ -23,17 +23,18 @@ public class MovimentoBancarioDAO {
     public MovimentoBancario incluirMovimentoBancos(MovimentoBancario objMovBanc) {
         conecta.abrirConexao();
         try {
-            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO MOVIMENTO_BANCARIO (StatusRegistro,IdBanco,DataRegistro,Depositante,ValorDeposito,TipoDeposito,Observacao,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = conecta.con.prepareStatement("INSERT INTO MOVIMENTO_BANCARIO (StatusRegistro,IdBanco,DataRegistro,TipoPessoa,Depositante,ValorDeposito,TipoDeposito,Observacao,UsuarioInsert,DataInsert,HorarioInsert) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
             pst.setString(1, objMovBanc.getStatusMov());
             pst.setInt(2, objMovBanc.getIdBanco());
             pst.setTimestamp(3, new java.sql.Timestamp(objMovBanc.getDataRegistro().getTime()));
-            pst.setString(4, objMovBanc.getDepositante());
-            pst.setDouble(5, objMovBanc.getValorDeposito());
-            pst.setString(6, objMovBanc.getTipoDeposito());
-            pst.setString(7, objMovBanc.getObservacao());
-            pst.setString(8, objMovBanc.getUsuarioInsert());
-            pst.setString(9, objMovBanc.getDataInsert());
-            pst.setString(10, objMovBanc.getHorarioInsert());
+            pst.setString(4, objMovBanc.getTipoPessoa());
+            pst.setString(5, objMovBanc.getDepositante());
+            pst.setDouble(6, objMovBanc.getValorDeposito());
+            pst.setString(7, objMovBanc.getTipoDeposito());
+            pst.setString(8, objMovBanc.getObservacao());
+            pst.setString(9, objMovBanc.getUsuarioInsert());
+            pst.setString(10, objMovBanc.getDataInsert());
+            pst.setString(11, objMovBanc.getHorarioInsert());
             pst.execute();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não Foi possível INSERIR os Dados\nERRO: " + ex);
