@@ -97,6 +97,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private TelaMovimentoBancario objMovbanc = null;
     private TelaMovimentoEstornoBancario objEstorno = null;
     private TelaConsultasPagasRecebidas objConsultaCP = null;
+    private TelaSaldoBancario objConSaldo = null;
 
     //
     String statusAgenda = "Pendente";
@@ -328,6 +329,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jDepositoSaques = new javax.swing.JMenuItem();
         jEstornos = new javax.swing.JMenuItem();
+        jSaldoBancario = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jConsultasSQL = new javax.swing.JMenuItem();
         jContasPagasRecebidas = new javax.swing.JMenuItem();
@@ -895,6 +897,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jEstornos);
+
+        jSaldoBancario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
+        jSaldoBancario.setText("Saldo Bancário");
+        jSaldoBancario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSaldoBancarioActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jSaldoBancario);
 
         jContasPagarReceberFluxo.add(jMenu1);
 
@@ -2407,6 +2418,41 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jContasPagasRecebidasActionPerformed
 
+    private void jSaldoBancarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSaldoBancarioActionPerformed
+        // TODO add your handling code here:
+        buscarAcessoUsuario(telaConsultaCPR);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaConsultaCPR) && codAbrir == 1) {
+            if (objConSaldo == null || objConSaldo.isClosed()) {
+                objConSaldo = new TelaSaldoBancario();
+                TelaPrincipal.jPainelPrincipal.add(objConSaldo);
+                objConSaldo.setVisible(true);
+            } else {
+                if (objConSaldo.isVisible()) {
+                    if (objConSaldo.isIcon()) { // Se esta minimizado
+                        try {
+                            objConSaldo.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objConSaldo.toFront(); // traz para frente
+                        objConSaldo.pack();//volta frame 
+                    }
+                } else {
+                    objConSaldo = new TelaSaldoBancario();
+                    TelaPrincipal.jPainelPrincipal.add(objConSaldo);//adicona frame ao JDesktopPane  
+                    objConSaldo.setVisible(true);
+                }
+            }
+            try {
+                objConSaldo.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+//        private TelaSaldoBancario objConSaldo = null;
+    }//GEN-LAST:event_jSaldoBancarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2498,6 +2544,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jParametrosSistema;
     private javax.swing.JMenu jRelatorios;
     private javax.swing.JMenuItem jSair;
+    private javax.swing.JMenuItem jSaldoBancario;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator5;

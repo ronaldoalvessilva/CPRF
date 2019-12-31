@@ -71,6 +71,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     float pSALDO_BANCARIO;
     float pSALDO_ATUAL;
     String pCONTA_BAIXADA = "Sim";
+    String pCODIGO_BANCO = "";
     /**
      * Creates new form TelaBaixaCPR
      */
@@ -590,7 +591,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 objBaixa.setDataOperacao(jDataOperacao.getDate());
                 objBaixa.setDocumentoBaixa(jDocumentoBaixa.getText());
                 objBaixa.setDiasAtraso(Integer.valueOf(jDiasAtraso.getText()));
-                objBaixa.setAgencia(pCODIGO_MOV_BAIXA);                
+                objBaixa.setAgencia(pCODIGO_MOV_BAIXA);
                 try {
                     objBaixa.setValorOperacao(VALOR_REAL.parse(jValorOperacao.getText()).floatValue());
                     objBaixa.setJurosDias(VALOR_REAL.parse(jJurosDia.getText()).floatValue());
@@ -850,6 +851,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 jDataVencimentoOperacao.setDate(conecta.rs.getDate("DataVenc"));
                 jTipoDespesaBaixa.addItem(conecta.rs.getString("DescricaoConta"));
                 jCentroCustoBaixa.addItem(conecta.rs.getString("DescricaoCentro"));
+                pCODIGO_BANCO = conecta.rs.getString("IdBanco");
                 //
                 pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorBaixa");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
@@ -906,6 +908,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 jDataVencimentoOperacao.setDate(conecta.rs.getDate("DataVenc"));
                 jTipoDespesaBaixa.addItem(conecta.rs.getString("DescricaoConta"));
                 jCentroCustoBaixa.addItem(conecta.rs.getString("DescricaoCentro"));
+                pCODIGO_BANCO = conecta.rs.getString("IdBanco");
                 //
                 pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorBaixa");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
@@ -954,7 +957,11 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     public void pesquisaSaldoBancario() {
         conecta.abrirConexao();
         try {
-            conecta.executaSQL("SELECT * FROM SALDO_BANCARIO");
+            conecta.executaSQL("SELECT * FROM SALDO_BANCARIO "
+                    + "INNER JOIN BANCOS_CONTAS "
+                    + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
+                    + "WHERE BANCOS_CONTAS.IdBanco='" + pCODIGO_BANCO + "' "
+                    + "AND Agencia='" + jComboBoxAgenciaBaixa.getSelectedItem() + "'");
             conecta.rs.last();
             pSALDO_BANCARIO = conecta.rs.getFloat("SaldoAtual");
         } catch (Exception e) {
