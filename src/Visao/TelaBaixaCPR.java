@@ -961,7 +961,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                     + "INNER JOIN BANCOS_CONTAS "
                     + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
                     + "WHERE BANCOS_CONTAS.IdBanco='" + pCODIGO_BANCO + "' "
-                    + "AND Agencia='" + jComboBoxAgenciaBaixa.getSelectedItem() + "'");
+                    + "AND Agencia='" + jComboBoxAgenciaBaixa.getSelectedItem().toString().trim() + "'");
             conecta.rs.last();
             pSALDO_BANCARIO = conecta.rs.getFloat("SaldoAtual");
         } catch (Exception e) {

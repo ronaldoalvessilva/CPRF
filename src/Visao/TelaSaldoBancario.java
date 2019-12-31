@@ -166,25 +166,24 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jNomeBanco)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4)
-                        .addComponent(jSaldoAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jContaCorrente, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jAgencia, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBoxTipoFornecedorSaldo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jBtPesquisar)
-                                        .addComponent(jLabel8))
-                                    .addGap(0, 128, Short.MAX_VALUE)))))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jSaldoAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jContaCorrente, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jAgencia, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBoxTipoFornecedorSaldo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jBtPesquisar)
+                                    .addComponent(jLabel8))
+                                .addGap(0, 128, Short.MAX_VALUE))))
                     .addComponent(jComboBoxCorrentista, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -279,7 +278,7 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Data Mov.", "Doc.", "Histórico", "Op.", "Valor R$", "Saldo Atual R$"
+                "Data Mov.", "Doc.", "Op.", "Valor R$", "Saldo Atual R$"
             }
         ));
         jScrollPane1.setViewportView(jTabelaHistoricoBancario);
@@ -288,14 +287,12 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
             jTabelaHistoricoBancario.getColumnModel().getColumn(0).setMaxWidth(70);
             jTabelaHistoricoBancario.getColumnModel().getColumn(1).setMinWidth(80);
             jTabelaHistoricoBancario.getColumnModel().getColumn(1).setMaxWidth(80);
-            jTabelaHistoricoBancario.getColumnModel().getColumn(2).setMinWidth(200);
-            jTabelaHistoricoBancario.getColumnModel().getColumn(2).setMaxWidth(200);
-            jTabelaHistoricoBancario.getColumnModel().getColumn(3).setMinWidth(30);
-            jTabelaHistoricoBancario.getColumnModel().getColumn(3).setMaxWidth(30);
-            jTabelaHistoricoBancario.getColumnModel().getColumn(4).setMinWidth(90);
-            jTabelaHistoricoBancario.getColumnModel().getColumn(4).setMaxWidth(90);
-            jTabelaHistoricoBancario.getColumnModel().getColumn(5).setMinWidth(100);
-            jTabelaHistoricoBancario.getColumnModel().getColumn(5).setMaxWidth(100);
+            jTabelaHistoricoBancario.getColumnModel().getColumn(2).setMinWidth(30);
+            jTabelaHistoricoBancario.getColumnModel().getColumn(2).setMaxWidth(30);
+            jTabelaHistoricoBancario.getColumnModel().getColumn(3).setMinWidth(90);
+            jTabelaHistoricoBancario.getColumnModel().getColumn(3).setMaxWidth(90);
+            jTabelaHistoricoBancario.getColumnModel().getColumn(4).setMinWidth(100);
+            jTabelaHistoricoBancario.getColumnModel().getColumn(4).setMaxWidth(100);
         }
 
         jPanel34.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED)));
@@ -518,104 +515,44 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
         if (tipoServidor == null || tipoServidor.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
         } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
-            if (pFAVORECIDO.equals("Fornecedor")) {
-                if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else if (jDataPesqFinal.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                    jDataPesqFinal.requestFocus();
-                } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
-                    JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                } else {
-                    SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
-                    dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                    dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                    preencherTabelaContaFornecedor("SELECT * FROM SALDO_BANCARIO "
-                            + "INNER JOIN BANCOS_CONTAS "
-                            + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
-                            + "INNER JOIN MOVIMENTO_BANCARIO "
-                            + "ON BANCOS_CONTAS.IdBanco=MOVIMENTO_BANCARIO.IdBanco "
-                            + "INNER JOIN FORNECEDORES_AC "
-                            + "ON SALDO_BANCARIO.IdFavorecido=FORNECEDORES_AC.IdForn "
-                            + "WHERE DataSaldo BETWEEN'" + dataInicial + "' "
-                            + "AND '" + dataFinal + "' "
-                            + "AND Agencia='" + jAgencia.getText() + "'");
-                }
-            } else if (pFAVORECIDO.equals("Cliente")) {
-                if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else if (jDataPesqFinal.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                    jDataPesqFinal.requestFocus();
-                } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
-                    JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                } else {
-                    SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
-                    dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                    dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                    preencherTabelaContaCliente("SELECT * FROM SALDO_BANCARIO "
-                            + "INNER JOIN BANCOS_CONTAS "
-                            + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
-                            + "INNER JOIN MOVIMENTO_BANCARIO "
-                            + "ON BANCOS_CONTAS.IdBanco=MOVIMENTO_BANCARIO.IdBanco "
-                            + "INNER JOIN CLIENTES "
-                            + "ON SALDO_BANCARIO.IdFavorecido=CLIENTES.IdClie "
-                            + "WHERE DataSaldo BETWEEN'" + dataInicial + "' "
-                            + "AND '" + dataFinal + "' "
-                            + "AND Agencia='" + jAgencia.getText() + "'");
-                }
+            if (jDataPesqInicial.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                jDataPesqInicial.requestFocus();
+            } else if (jDataPesqFinal.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                jDataPesqFinal.requestFocus();
+            } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
+                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+            } else {
+                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
+                preencherTabelaContaFornecedor("SELECT * FROM SALDO_BANCARIO "
+                        + "INNER JOIN BANCOS_CONTAS "
+                        + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
+                        + "WHERE DataSaldo BETWEEN'" + dataInicial + "' "
+                        + "AND '" + dataFinal + "' "
+                        + "AND Agencia='" + jAgencia.getText().trim() + "'");
             }
         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
-            if (pFAVORECIDO.equals("Fornecedor")) {
-                if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else if (jDataPesqFinal.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                    jDataPesqFinal.requestFocus();
-                } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
-                    JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                } else {
-                    SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                    dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                    dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                    preencherTabelaContaFornecedor("SELECT * FROM SALDO_BANCARIO "
-                            + "INNER JOIN BANCOS_CONTAS "
-                            + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
-                            + "INNER JOIN MOVIMENTO_BANCARIO "
-                            + "ON BANCOS_CONTAS.IdBanco=MOVIMENTO_BANCARIO.IdBanco "
-                            + "INNER JOIN FORNECEDORES_AC "
-                            + "ON SALDO_BANCARIO.IdFavorecido=FORNECEDORES_AC.IdForn "
-                            + "WHERE DataSaldo BETWEEN'" + dataInicial + "' "
-                            + "AND '" + dataFinal + "' "
-                            + "AND Agencia='" + jAgencia.getText() + "'");
-                }
-            } else if (pFAVORECIDO.equals("Cliente")) {
-                if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else if (jDataPesqFinal.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                    jDataPesqFinal.requestFocus();
-                } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
-                    JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                } else {
-                    SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                    dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                    dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                    preencherTabelaContaCliente("SELECT * FROM SALDO_BANCARIO "
-                            + "INNER JOIN BANCOS_CONTAS "
-                            + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
-                            + "INNER JOIN MOVIMENTO_BANCARIO "
-                            + "ON BANCOS_CONTAS.IdBanco=MOVIMENTO_BANCARIO.IdBanco "
-                            + "INNER JOIN CLIENTES "
-                            + "ON SALDO_BANCARIO.IdFavorecido=CLIENTES.IdClie "
-                            + "WHERE DataSaldo BETWEEN'" + dataInicial + "' "
-                            + "AND '" + dataFinal + "' "
-                            + "AND Agencia='" + jAgencia.getText() + "'");
-                }
+            if (jDataPesqInicial.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                jDataPesqInicial.requestFocus();
+            } else if (jDataPesqFinal.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                jDataPesqFinal.requestFocus();
+            } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
+                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+            } else {
+                SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
+                preencherTabelaContaFornecedor("SELECT * FROM SALDO_BANCARIO "
+                        + "INNER JOIN BANCOS_CONTAS "
+                        + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
+                        + "WHERE DataSaldo BETWEEN'" + dataInicial + "' "
+                        + "AND '" + dataFinal + "' "
+                        + "AND Agencia='" + jAgencia.getText().trim() + "'");
             }
         }
     }//GEN-LAST:event_jBtPesquisarMovActionPerformed
@@ -687,7 +624,7 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
 
     public void preencherTabelaContaCliente(String sql) {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Data Mov. ", "Doc.", "Histórico", "Op.", "Valor R$", "Saldo Atual R$"};
+        String[] Colunas = new String[]{"Data Mov. ", "Doc.", "Op.", "Valor R$", "Saldo Atual R$"};
         conecta.abrirConexao();
         try {
             conecta.executaSQL(sql);
@@ -712,7 +649,7 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
                 pVALOR_SALDO_ATUAL = vlDocSa;
                 //
                 jtotalRegistros.setText(Integer.toString(count));
-                dados.add(new Object[]{dataMov, conecta.rs.getString("Doc"), conecta.rs.getString("Observacao"), conecta.rs.getString("TipoOperacao"), pVALOR_DOCUMENTO, pVALOR_SALDO_ATUAL});
+                dados.add(new Object[]{dataMov, conecta.rs.getString("Doc"), conecta.rs.getString("TipoOperacao"), pVALOR_DOCUMENTO, pVALOR_SALDO_ATUAL});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
@@ -723,14 +660,14 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
         jTabelaHistoricoBancario.getColumnModel().getColumn(0).setResizable(false);
         jTabelaHistoricoBancario.getColumnModel().getColumn(1).setPreferredWidth(80);
         jTabelaHistoricoBancario.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setPreferredWidth(250);
+//        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setPreferredWidth(250);
+//        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setPreferredWidth(30);
         jTabelaHistoricoBancario.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(3).setPreferredWidth(30);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(3).setPreferredWidth(90);
         jTabelaHistoricoBancario.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(4).setPreferredWidth(90);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(4).setPreferredWidth(100);
         jTabelaHistoricoBancario.getColumnModel().getColumn(4).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(5).setPreferredWidth(100);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(5).setResizable(false);
         jTabelaHistoricoBancario.setAutoResizeMode(jTabelaHistoricoBancario.AUTO_RESIZE_OFF);
         jTabelaHistoricoBancario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         alinharCamposTabela();
@@ -739,7 +676,7 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
 
     public void preencherTabelaContaFornecedor(String sql) {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Data Mov. ", "Doc.", "Histórico", "Op.", "Valor R$", "Saldo Atual R$"};
+        String[] Colunas = new String[]{"Data Mov. ", "Doc.", "Op.", "Valor R$", "Saldo Atual R$"};
         conecta.abrirConexao();
         try {
             conecta.executaSQL(sql);
@@ -764,7 +701,7 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
                 pVALOR_SALDO_ATUAL = vlDocSa;
                 //
                 jtotalRegistros.setText(Integer.toString(count));
-                dados.add(new Object[]{dataMov, conecta.rs.getString("Doc"), conecta.rs.getString("Observacao"), conecta.rs.getString("TipoOperacao"), pVALOR_DOCUMENTO, pVALOR_SALDO_ATUAL});
+                dados.add(new Object[]{dataMov, conecta.rs.getString("Doc"), conecta.rs.getString("TipoOperacao"), pVALOR_DOCUMENTO, pVALOR_SALDO_ATUAL});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
@@ -775,14 +712,14 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
         jTabelaHistoricoBancario.getColumnModel().getColumn(0).setResizable(false);
         jTabelaHistoricoBancario.getColumnModel().getColumn(1).setPreferredWidth(80);
         jTabelaHistoricoBancario.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setPreferredWidth(250);
+//        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setPreferredWidth(250);
+//        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setPreferredWidth(30);
         jTabelaHistoricoBancario.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(3).setPreferredWidth(30);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(3).setPreferredWidth(90);
         jTabelaHistoricoBancario.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(4).setPreferredWidth(90);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(4).setPreferredWidth(100);
         jTabelaHistoricoBancario.getColumnModel().getColumn(4).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(5).setPreferredWidth(100);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(5).setResizable(false);
         jTabelaHistoricoBancario.setAutoResizeMode(jTabelaHistoricoBancario.AUTO_RESIZE_OFF);
         jTabelaHistoricoBancario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         alinharCamposTabela();
@@ -791,21 +728,21 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
 
     public void limparTabela() {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Data Mov. ", "Doc.", "Histórico", "Op.", "Valor R$", "Saldo Atual R$"};
+        String[] Colunas = new String[]{"Data Mov. ", "Doc.", "Op.", "Valor R$", "Saldo Atual R$"};
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTabelaHistoricoBancario.setModel(modelo);
         jTabelaHistoricoBancario.getColumnModel().getColumn(0).setPreferredWidth(70);
         jTabelaHistoricoBancario.getColumnModel().getColumn(0).setResizable(false);
         jTabelaHistoricoBancario.getColumnModel().getColumn(1).setPreferredWidth(80);
         jTabelaHistoricoBancario.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setPreferredWidth(250);
+//        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setPreferredWidth(250);
+//        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setPreferredWidth(30);
         jTabelaHistoricoBancario.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(3).setPreferredWidth(30);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(3).setPreferredWidth(90);
         jTabelaHistoricoBancario.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(4).setPreferredWidth(90);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(4).setPreferredWidth(100);
         jTabelaHistoricoBancario.getColumnModel().getColumn(4).setResizable(false);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(5).setPreferredWidth(100);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(5).setResizable(false);
         jTabelaHistoricoBancario.setAutoResizeMode(jTabelaHistoricoBancario.AUTO_RESIZE_OFF);
         jTabelaHistoricoBancario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         modelo.getLinhas().clear();
@@ -821,8 +758,8 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
         //
         jTabelaHistoricoBancario.getColumnModel().getColumn(0).setCellRenderer(centralizado);
         jTabelaHistoricoBancario.getColumnModel().getColumn(1).setCellRenderer(centralizado);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+        jTabelaHistoricoBancario.getColumnModel().getColumn(3).setCellRenderer(direita);
         jTabelaHistoricoBancario.getColumnModel().getColumn(4).setCellRenderer(direita);
-        jTabelaHistoricoBancario.getColumnModel().getColumn(5).setCellRenderer(direita);
     }
 }
