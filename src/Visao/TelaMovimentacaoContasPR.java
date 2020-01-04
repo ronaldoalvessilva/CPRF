@@ -105,6 +105,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     String pOPERACAO_PAGAR_RECEBER = "";
     String pCODIGO_MOV_BAIXA = "";
     String pCONTA_BAIXADA = "Não";
+    public static int pCODIGO_BANCO;
     //
 
     public static TelaBaixaCPR pBAIXA_CPR;
@@ -1286,6 +1287,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
                 banco.getIdBanco();
                 objMov.setIdBanco(banco.getIdBanco());
+                pCODIGO_BANCO = banco.getIdBanco();
                 //
                 ListarFormaPagamentoDAO_CP listaForma = new ListarFormaPagamentoDAO_CP();
                 try {
@@ -1372,6 +1374,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
                 banco.getIdBanco();
                 objMov.setIdBanco(banco.getIdBanco());
+                pCODIGO_BANCO = banco.getIdBanco();
                 //
                 ListarFormaPagamentoDAO_CR listaForma = new ListarFormaPagamentoDAO_CR();
                 try {

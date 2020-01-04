@@ -30,6 +30,7 @@ import static Visao.TelaMovimentacaoContasPR.jDataEmissao;
 import static Visao.TelaMovimentacaoContasPR.jDataVencimento;
 import static Visao.TelaMovimentacaoContasPR.jNumeroDocumento;
 import static Visao.TelaMovimentacaoContasPR.jValorDocumento;
+import static Visao.TelaMovimentacaoContasPR.pCODIGO_BANCO;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -71,7 +72,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     float pSALDO_BANCARIO;
     float pSALDO_ATUAL;
     String pCONTA_BAIXADA = "Sim";
-    String pCODIGO_BANCO = "";
+
     /**
      * Creates new form TelaBaixaCPR
      */
@@ -851,7 +852,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 jDataVencimentoOperacao.setDate(conecta.rs.getDate("DataVenc"));
                 jTipoDespesaBaixa.addItem(conecta.rs.getString("DescricaoConta"));
                 jCentroCustoBaixa.addItem(conecta.rs.getString("DescricaoCentro"));
-                pCODIGO_BANCO = conecta.rs.getString("IdBanco");
+//                pCODIGO_BANCO = conecta.rs.getString("IdBanco");
                 //
                 pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorBaixa");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
@@ -908,7 +909,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 jDataVencimentoOperacao.setDate(conecta.rs.getDate("DataVenc"));
                 jTipoDespesaBaixa.addItem(conecta.rs.getString("DescricaoConta"));
                 jCentroCustoBaixa.addItem(conecta.rs.getString("DescricaoCentro"));
-                pCODIGO_BANCO = conecta.rs.getString("IdBanco");
+//                pCODIGO_BANCO = conecta.rs.getString("IdBanco");
                 //
                 pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorBaixa");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
@@ -960,8 +961,8 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
             conecta.executaSQL("SELECT * FROM SALDO_BANCARIO "
                     + "INNER JOIN BANCOS_CONTAS "
                     + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
-                    + "WHERE BANCOS_CONTAS.IdBanco='" + pCODIGO_BANCO + "' "
-                    + "AND Agencia='" + jComboBoxAgenciaBaixa.getSelectedItem().toString().trim() + "'");
+                    + "WHERE SALDO_BANCARIO.IdBanco='" + pCODIGO_BANCO + "' "
+                    + "AND Agencia='" + jComboBoxAgenciaBaixa.getSelectedItem().toString().trim() + "' ");
             conecta.rs.last();
             pSALDO_BANCARIO = conecta.rs.getFloat("SaldoAtual");
         } catch (Exception e) {
