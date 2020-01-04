@@ -92,16 +92,17 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     //
     int acao = 0;
     int flag = 0;
-    String dataInicial, dataFinal, dataVenc;
-    int count = 0;
+    String dataInicial, dataFinal;
+    public static String dataVenc;
+    public static int count_MOV_PR = 0;
     //
     String pTIPO_OPERCAO_DEBITO = "D";
     String pTIPO_OPERCAO_CREDITO = "C";
     String pSTATUS_BANCO = "Ativo";
-    String pVALOR_DOCUMENTO = "";
-    float pVALOR_DOCUMENTO_REAL = 0;
-    String pOPERACAO_PAGAR = "Pagar";
-    String pOPERACAO_RECEBER = "Receber";
+    public static String pVALOR_DOCUMENTO = "";
+    public static float pVALOR_DOCUMENTO_REAL = 0;
+    public static String pOPERACAO_PAGAR = "Pagar";
+    public static String pOPERACAO_RECEBER = "Receber";
     String pOPERACAO_PAGAR_RECEBER = "";
     String pCODIGO_MOV_BAIXA = "";
     String pCONTA_BAIXADA = "Não";
@@ -1714,7 +1715,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     public static javax.swing.JComboBox<Object> jComboBoxTipoPagamento;
     public static com.toedter.calendar.JDateChooser jDataEmissao;
     public static com.toedter.calendar.JDateChooser jDataVencimento;
-    private javax.swing.JTextArea jHistorico;
+    public static javax.swing.JTextArea jHistorico;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2056,9 +2057,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         try {
             conecta.executaSQL(sql);
             conecta.rs.first();
-            count = 0;
+            count_MOV_PR = 0;
             do {
-                count = count + 1;
+                count_MOV_PR = count_MOV_PR + 1;
                 // Formatar a data no formato Brasil
                 dataVenc = conecta.rs.getString("DataVenc");
                 String dia = dataVenc.substring(8, 10);
@@ -2071,7 +2072,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
                 pVALOR_DOCUMENTO = vlDoc;
                 //
-                jtotalRegistros.setText(Integer.toString(count));
+                jtotalRegistros.setText(Integer.toString(count_MOV_PR));
                 dados.add(new Object[]{conecta.rs.getString("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
@@ -2110,9 +2111,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         try {
             conecta.executaSQL(sql);
             conecta.rs.first();
-            count = 0;
+            count_MOV_PR = 0;
             do {
-                count = count + 1;
+                count_MOV_PR = count_MOV_PR + 1;
                 // Formatar a data no formato Brasil
                 dataVenc = conecta.rs.getString("DataVenc");
                 String dia = dataVenc.substring(8, 10);
@@ -2125,7 +2126,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
                 pVALOR_DOCUMENTO = vlDoc;
                 //
-                jtotalRegistros.setText(Integer.toString(count));
+                jtotalRegistros.setText(Integer.toString(count_MOV_PR));
                 dados.add(new Object[]{conecta.rs.getInt("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {

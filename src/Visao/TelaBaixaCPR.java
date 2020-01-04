@@ -18,6 +18,9 @@ import Modelo.EmpresaUnidade;
 import Modelo.FormaPagamento;
 import Modelo.Fornecedor;
 import Modelo.TipoConta;
+import Util.ModeloTabela;
+import static Visao.TelaMovimentacaoContasPR.count_MOV_PR;
+import static Visao.TelaMovimentacaoContasPR.dataVenc;
 import static Visao.TelaMovimentacaoContasPR.jCodigo;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxBanco;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxCentroCusto;
@@ -28,18 +31,28 @@ import static Visao.TelaMovimentacaoContasPR.jComboBoxTipoDespesa;
 import static Visao.TelaMovimentacaoContasPR.jComboBoxTipoPagamento;
 import static Visao.TelaMovimentacaoContasPR.jDataEmissao;
 import static Visao.TelaMovimentacaoContasPR.jDataVencimento;
+import static Visao.TelaMovimentacaoContasPR.jHistorico;
 import static Visao.TelaMovimentacaoContasPR.jNumeroDocumento;
+import static Visao.TelaMovimentacaoContasPR.jTabelaMovimentacao;
 import static Visao.TelaMovimentacaoContasPR.jValorDocumento;
+import static Visao.TelaMovimentacaoContasPR.jtotalRegistros;
 import static Visao.TelaMovimentacaoContasPR.pCODIGO_BANCO;
+import static Visao.TelaMovimentacaoContasPR.pVALOR_DOCUMENTO;
+import static Visao.TelaMovimentacaoContasPR.pVALOR_DOCUMENTO_REAL;
 import java.awt.Color;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -58,20 +71,20 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     BaixaCPR objBaixa = new BaixaCPR();
     BaixaDAO control = new BaixaDAO();
     //
-    float pVALOR_JUROS;
-    float pVALOR_TOTAL_OPERACAO;
-    float pVALOR_TOTAL_PARCIAL;
-    float pVALOR_DIARIO;
-    String pCODIGO_MOV_BAIXA = "";
-    String pTIPO_OPERACAO_PAGAR = "D";
-    String pTIPO_OPERACAO_RECEBER = "C";
-    float pVALOR_DOCUMENTO_REAL;
-    float pVALOR_BAIXA;
-    float pJUROS_PESQUISA;
-    float pVALOR_JUROS_PESQUISA;
-    float pSALDO_BANCARIO;
-    float pSALDO_ATUAL;
-    String pCONTA_BAIXADA = "Sim";
+    float pVALOR_JUROS_BB;
+    float pVALOR_TOTAL_OPERACAO_BB;
+    float pVALOR_TOTAL_PARCIAL_BB;
+    float pVALOR_DIARIO_BB;
+    String pCODIGO_MOV_BAIXA_BB = "";
+    String pTIPO_OPERACAO_PAGAR_BB = "D";
+    String pTIPO_OPERACAO_RECEBER_BB = "C";
+    float pVALOR_DOCUMENTO_REAL_BB;
+    float pVALOR_BAIXA_BB;
+    float pJUROS_PESQUISA_BB;
+    float pVALOR_JUROS_PESQUISA_BB;
+    float pSALDO_BANCARIO_BB;
+    float pSALDO_ATUAL_BB;
+    String pCONTA_BAIXADA_BB = "Sim";
 
     /**
      * Creates new form TelaBaixaCPR
@@ -86,7 +99,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         corCampos();
         buscarOperacao();
         verificarBaixa();
-        if (jCodigo.getText().equals(pCODIGO_MOV_BAIXA)) {
+        if (jCodigo.getText().equals(pCODIGO_MOV_BAIXA_BB)) {
             mostrarBaixa();
             Confirmar();
         }
@@ -572,7 +585,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         //VERIFICAR SE REGISTRO JÁ FOI DADO BAIXA.
         //NÃO PERMITE QUE SEJA DADO BAIXA DUAS VEZES PARA O MESMO REGISTRO.
         verificarBaixa();
-        if (jCodigo.getText().equals(pCODIGO_MOV_BAIXA)) {
+        if (jCodigo.getText().equals(pCODIGO_MOV_BAIXA_BB)) {
             JOptionPane.showMessageDialog(rootPane, "Esse registro já foi baixado.");
         } else {
             pesquisarRegistros();
@@ -592,7 +605,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 objBaixa.setDataOperacao(jDataOperacao.getDate());
                 objBaixa.setDocumentoBaixa(jDocumentoBaixa.getText());
                 objBaixa.setDiasAtraso(Integer.valueOf(jDiasAtraso.getText()));
-                objBaixa.setAgencia(pCODIGO_MOV_BAIXA);
+                objBaixa.setAgencia(pCODIGO_MOV_BAIXA_BB);
                 try {
                     objBaixa.setValorOperacao(VALOR_REAL.parse(jValorOperacao.getText()).floatValue());
                     objBaixa.setJurosDias(VALOR_REAL.parse(jJurosDia.getText()).floatValue());
@@ -647,25 +660,56 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 // INCLUIR SALDO NA TABELA DE SALDO_BANCARIO
                 if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
                     objBaixa.setIdBaixa(Integer.valueOf(jCodigoOperacao.getText()));
-                    objBaixa.setTipoOperacao(pTIPO_OPERACAO_PAGAR);
-                    pSALDO_ATUAL = pSALDO_BANCARIO - objBaixa.getValorOperacao();
-                    objBaixa.setValorSaldo(pSALDO_ATUAL);
+                    objBaixa.setTipoOperacao(pTIPO_OPERACAO_PAGAR_BB);
+                    pSALDO_ATUAL_BB = pSALDO_BANCARIO_BB - objBaixa.getValorOperacao();
+                    objBaixa.setValorSaldo(pSALDO_ATUAL_BB);
                     control.incluirSaldoCPR(objBaixa);
                 } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
                     objBaixa.setIdBaixa(Integer.valueOf(jCodigoOperacao.getText()));
-                    objBaixa.setTipoOperacao(pTIPO_OPERACAO_RECEBER);
-                    pSALDO_ATUAL = pSALDO_BANCARIO + objBaixa.getValorOperacao();
-                    objBaixa.setValorSaldo(pSALDO_ATUAL);
+                    objBaixa.setTipoOperacao(pTIPO_OPERACAO_RECEBER_BB);
+                    pSALDO_ATUAL_BB = pSALDO_BANCARIO_BB + objBaixa.getValorOperacao();
+                    objBaixa.setValorSaldo(pSALDO_ATUAL_BB);
                     control.incluirSaldoCPR(objBaixa);
                 }
                 // ATUALIZAR A MOVIMENTAÇÃO DE CONTAS A PAGAR E RECEBER INFORMANDO A BAIXA
                 // PARA NÃO TRAZER AS CONTAS PAGAS.
                 objBaixa.setIdMov(Integer.valueOf(jCodigo.getText()));
-                objBaixa.setContaBaixada(pCONTA_BAIXADA);
+                objBaixa.setContaBaixada(pCONTA_BAIXADA_BB);
                 control.atualizarMovimentoCPR(objBaixa);
                 Confirmar();
-                JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
             }
+            //ATUALIZAR TABELA DE CONTAS A PAGAR E RECEBER
+            limparCampos();
+            if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+                preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                        + "INNER JOIN CLIENTES "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
+                        + "INNER JOIN BANCOS_CONTAS "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                        + "INNER JOIN CENTRO_CUSTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                        + "INNER JOIN TIPO_CONTA "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                        + "INNER JOIN TIPO_PAGAMENTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                        + "WHERE IdMov='" + jCodigo.getText() + "' "
+                        + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
+            } else if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+                preencherTabelaMovimentacaoCP("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                        + "INNER JOIN FORNECEDORES_AC "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
+                        + "INNER JOIN BANCOS_CONTAS "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                        + "INNER JOIN CENTRO_CUSTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                        + "INNER JOIN TIPO_CONTA "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                        + "INNER JOIN TIPO_PAGAMENTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                        + "WHERE IdMov='" + jCodigo.getText() + "' "
+                        + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
+            }
+            JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
         }
     }//GEN-LAST:event_jBtConfirmarActionPerformed
 
@@ -686,19 +730,19 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
             Logger.getLogger(TelaBaixaCPR.class.getName()).log(Level.SEVERE, null, ex);
         }
         objBaixa.setDiasAtraso(Integer.valueOf(jDiasAtraso.getText()));
-        pVALOR_DIARIO = (objBaixa.getValorPRBaixa() / 30);// ACHA O VALOR DO DIA   
+        pVALOR_DIARIO_BB = (objBaixa.getValorPRBaixa() / 30);// ACHA O VALOR DO DIA   
         //
-        pVALOR_TOTAL_PARCIAL = (pVALOR_DIARIO * objBaixa.getDiasAtraso()); // VALOR TOTAL DOS DIAS
-        pVALOR_JUROS = (pVALOR_TOTAL_PARCIAL * objBaixa.getJurosDias() / 100); // VALOR TOTAL DOS JUROS
-        pVALOR_TOTAL_OPERACAO = ((pVALOR_TOTAL_PARCIAL * objBaixa.getJurosDias()) / 100);
-        pVALOR_TOTAL_OPERACAO = pVALOR_TOTAL_OPERACAO + objBaixa.getValorPRBaixa();
-        objBaixa.setValorOperacao(pVALOR_TOTAL_OPERACAO);
+        pVALOR_TOTAL_PARCIAL_BB = (pVALOR_DIARIO_BB * objBaixa.getDiasAtraso()); // VALOR TOTAL DOS DIAS
+        pVALOR_JUROS_BB = (pVALOR_TOTAL_PARCIAL_BB * objBaixa.getJurosDias() / 100); // VALOR TOTAL DOS JUROS
+        pVALOR_TOTAL_OPERACAO_BB = ((pVALOR_TOTAL_PARCIAL_BB * objBaixa.getJurosDias()) / 100);
+        pVALOR_TOTAL_OPERACAO_BB = pVALOR_TOTAL_OPERACAO_BB + objBaixa.getValorPRBaixa();
+        objBaixa.setValorOperacao(pVALOR_TOTAL_OPERACAO_BB);
         DecimalFormat vd = new DecimalFormat("#,##0.00");
-        String vlDoc = vd.format(pVALOR_TOTAL_OPERACAO);
+        String vlDoc = vd.format(pVALOR_TOTAL_OPERACAO_BB);
         jValorOperacao.setText(vlDoc);
         //
         DecimalFormat vj = new DecimalFormat("#,##0.00");
-        String vlDocj = vj.format(pVALOR_JUROS);
+        String vlDocj = vj.format(pVALOR_JUROS_BB);
         jValorJuros.setText(vlDocj);
     }//GEN-LAST:event_jBtCalcularActionPerformed
 
@@ -854,28 +898,28 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 jCentroCustoBaixa.addItem(conecta.rs.getString("DescricaoCentro"));
 //                pCODIGO_BANCO = conecta.rs.getString("IdBanco");
                 //
-                pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorBaixa");
+                pVALOR_DOCUMENTO_REAL_BB = conecta.rs.getFloat("ValorBaixa");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
-                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL_BB);
                 jValorOperacao.setText(vlDoc);
                 //
-                pVALOR_BAIXA = conecta.rs.getFloat("ValorDoc");
+                pVALOR_BAIXA_BB = conecta.rs.getFloat("ValorDoc");
                 DecimalFormat vdB = new DecimalFormat("#,##0.00");
-                String vlDocBaixa = vdB.format(pVALOR_BAIXA);
+                String vlDocBaixa = vdB.format(pVALOR_BAIXA_BB);
                 jValorPRBaixa.setText(vlDocBaixa);
                 //
                 jClienteFornecedorBaixa.addItem(conecta.rs.getString("RazaoSocial"));
                 jTipoPagamentoBaixa.addItem(conecta.rs.getString("DescricaoForma"));
                 jDiasAtraso.setText(conecta.rs.getString("DiasAtraso"));
                 //
-                pJUROS_PESQUISA = conecta.rs.getFloat("JurosDia");
+                pJUROS_PESQUISA_BB = conecta.rs.getFloat("JurosDia");
                 DecimalFormat vdJP = new DecimalFormat("#,##0.00");
-                String vl_JUROS = vdJP.format(pJUROS_PESQUISA);
+                String vl_JUROS = vdJP.format(pJUROS_PESQUISA_BB);
                 jJurosDia.setText(vl_JUROS);
                 //
-                pVALOR_JUROS_PESQUISA = conecta.rs.getFloat("ValorJuros");
+                pVALOR_JUROS_PESQUISA_BB = conecta.rs.getFloat("ValorJuros");
                 DecimalFormat vJP = new DecimalFormat("#,##0.00");
-                String vl_JUROS_PESQUISA = vJP.format(pVALOR_JUROS_PESQUISA);
+                String vl_JUROS_PESQUISA = vJP.format(pVALOR_JUROS_PESQUISA_BB);
                 jValorJuros.setText(vl_JUROS_PESQUISA);
                 //
                 jComboBoxAgenciaBaixa.addItem(conecta.rs.getString("Agencia"));
@@ -911,28 +955,28 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 jCentroCustoBaixa.addItem(conecta.rs.getString("DescricaoCentro"));
 //                pCODIGO_BANCO = conecta.rs.getString("IdBanco");
                 //
-                pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorBaixa");
+                pVALOR_DOCUMENTO_REAL_BB = conecta.rs.getFloat("ValorBaixa");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
-                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL_BB);
                 jValorOperacao.setText(vlDoc);
                 //
-                pVALOR_BAIXA = conecta.rs.getFloat("ValorDoc");
+                pVALOR_BAIXA_BB = conecta.rs.getFloat("ValorDoc");
                 DecimalFormat vdB = new DecimalFormat("#,##0.00");
-                String vlDocBaixa = vdB.format(pVALOR_BAIXA);
+                String vlDocBaixa = vdB.format(pVALOR_BAIXA_BB);
                 jValorPRBaixa.setText(vlDocBaixa);
                 //
                 jClienteFornecedorBaixa.addItem(conecta.rs.getString("RazaoSocial"));
                 jTipoPagamentoBaixa.addItem(conecta.rs.getString("DescricaoForma"));
                 jDiasAtraso.setText(conecta.rs.getString("DiasAtraso"));
                 //
-                pJUROS_PESQUISA = conecta.rs.getFloat("ValorJuros");
+                pJUROS_PESQUISA_BB = conecta.rs.getFloat("ValorJuros");
                 DecimalFormat vdJP = new DecimalFormat("#,##0.00");
-                String vl_JUROS = vdJP.format(pVALOR_BAIXA);
+                String vl_JUROS = vdJP.format(pVALOR_BAIXA_BB);
                 jJurosDia.setText(vl_JUROS);
                 //
-                pVALOR_JUROS_PESQUISA = conecta.rs.getFloat("ValorJuros");
+                pVALOR_JUROS_PESQUISA_BB = conecta.rs.getFloat("ValorJuros");
                 DecimalFormat vJP = new DecimalFormat("#,##0.00");
-                String vl_JUROS_PESQUISA = vJP.format(pVALOR_JUROS_PESQUISA);
+                String vl_JUROS_PESQUISA = vJP.format(pVALOR_JUROS_PESQUISA_BB);
                 jValorJuros.setText(vl_JUROS_PESQUISA);
                 //
                 jComboBoxAgenciaBaixa.addItem(conecta.rs.getString("Agencia"));
@@ -949,7 +993,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
             conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
                     + "WHERE IdMov='" + jCodigo.getText() + "'");
             conecta.rs.first();
-            pCODIGO_MOV_BAIXA = conecta.rs.getString("IdMov");
+            pCODIGO_MOV_BAIXA_BB = conecta.rs.getString("IdMov");
         } catch (Exception e) {
         }
         conecta.desconecta();
@@ -964,7 +1008,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                     + "WHERE SALDO_BANCARIO.IdBanco='" + pCODIGO_BANCO + "' "
                     + "AND Agencia='" + jComboBoxAgenciaBaixa.getSelectedItem().toString().trim() + "' ");
             conecta.rs.last();
-            pSALDO_BANCARIO = conecta.rs.getFloat("SaldoAtual");
+            pSALDO_BANCARIO_BB = conecta.rs.getFloat("SaldoAtual");
         } catch (Exception e) {
         }
         conecta.desconecta();
@@ -1020,5 +1064,171 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         } catch (Exception e) {
         }
         conecta.desconecta();
+    }
+
+    public void preencherTabelaMovimentacaoCP(String sql) {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código ", "Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo Pagto", "Centro Custo", "Despesa/Receita", "Cliente/Fornecedor"};
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL(sql);
+            conecta.rs.first();
+            count_MOV_PR = 0;
+            do {
+                count_MOV_PR = count_MOV_PR + 1;
+                // Formatar a data no formato Brasil
+                dataVenc = conecta.rs.getString("DataVenc");
+                String dia = dataVenc.substring(8, 10);
+                String mes = dataVenc.substring(5, 7);
+                String ano = dataVenc.substring(0, 4);
+                dataVenc = dia + "/" + mes + "/" + ano;
+                //
+                pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
+                DecimalFormat vd = new DecimalFormat("#,##0.00");
+                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                pVALOR_DOCUMENTO = vlDoc;
+                //
+                jtotalRegistros.setText(Integer.toString(count_MOV_PR));
+                dados.add(new Object[]{conecta.rs.getString("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
+            } while (conecta.rs.next());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
+        }
+        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+        jTabelaMovimentacao.setModel(modelo);
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(90);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(300);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setPreferredWidth(350);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setResizable(false);
+        jTabelaMovimentacao.setAutoResizeMode(jTabelaMovimentacao.AUTO_RESIZE_OFF);
+        jTabelaMovimentacao.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        alinharCamposTabelaCPR();
+        conecta.desconecta();
+    }
+
+    public void preencherTabelaMovimentacaoCR(String sql) {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código ", "Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo Pagto", "Centro Custo", "Despesa/Receita", "Cliente/Fornecedor"};
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL(sql);
+            conecta.rs.first();
+            count_MOV_PR = 0;
+            do {
+                count_MOV_PR = count_MOV_PR + 1;
+                // Formatar a data no formato Brasil
+                dataVenc = conecta.rs.getString("DataVenc");
+                String dia = dataVenc.substring(8, 10);
+                String mes = dataVenc.substring(5, 7);
+                String ano = dataVenc.substring(0, 4);
+                dataVenc = dia + "/" + mes + "/" + ano;
+                //
+                pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
+                DecimalFormat vd = new DecimalFormat("#,##0.00");
+                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                pVALOR_DOCUMENTO = vlDoc;
+                //
+                jtotalRegistros.setText(Integer.toString(count_MOV_PR));
+                dados.add(new Object[]{conecta.rs.getInt("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
+            } while (conecta.rs.next());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
+        }
+        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+        jTabelaMovimentacao.setModel(modelo);
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(90);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(300);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setPreferredWidth(350);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setResizable(false);
+        jTabelaMovimentacao.setAutoResizeMode(jTabelaMovimentacao.AUTO_RESIZE_OFF);
+        jTabelaMovimentacao.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        alinharCamposTabelaCPR();
+        conecta.desconecta();
+    }
+
+    public void limparTabelaCPR() {
+        ArrayList dados = new ArrayList();
+        String[] Colunas = new String[]{"Código ", "Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo Pagto", "Centro Custo", "Despesa/Receita", "Cliente/Fornecedor"};
+        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
+        jTabelaMovimentacao.setModel(modelo);
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setPreferredWidth(90);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setPreferredWidth(100);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setPreferredWidth(80);
+        jTabelaMovimentacao.getColumnModel().getColumn(4).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(5).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setPreferredWidth(300);
+        jTabelaMovimentacao.getColumnModel().getColumn(6).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setPreferredWidth(250);
+        jTabelaMovimentacao.getColumnModel().getColumn(7).setResizable(false);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setPreferredWidth(350);
+        jTabelaMovimentacao.getColumnModel().getColumn(8).setResizable(false);
+        jTabelaMovimentacao.setAutoResizeMode(jTabelaMovimentacao.AUTO_RESIZE_OFF);
+        jTabelaMovimentacao.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        modelo.getLinhas().clear();
+    }
+
+    public void alinharCamposTabelaCPR() {
+        DefaultTableCellRenderer esquerda = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer direita = new DefaultTableCellRenderer();
+        esquerda.setHorizontalAlignment(SwingConstants.LEFT);
+        centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+        direita.setHorizontalAlignment(SwingConstants.RIGHT);
+        //
+        jTabelaMovimentacao.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+        jTabelaMovimentacao.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+        jTabelaMovimentacao.getColumnModel().getColumn(2).setCellRenderer(centralizado);
+        jTabelaMovimentacao.getColumnModel().getColumn(3).setCellRenderer(direita);
+    }
+
+    public void limparCampos() {
+        jCodigo.setText("");
+        jComboBoxOperacao.setSelectedItem("Selecione...");
+        jDataEmissao.setDate(null);
+        jDataVencimento.setDate(null);
+        jNumeroDocumento.setText("");
+        jValorDocumento.setText("");
+        jComboBoxBanco.removeAllItems();
+        jComboBoxContaCorrente.removeAllItems();
+        jComboBoxFornecedorCliente.removeAllItems();
+        jComboBoxTipoPagamento.removeAllItems();
+        jComboBoxCentroCusto.removeAllItems();
+        jComboBoxTipoDespesa.removeAllItems();
+        jHistorico.setText("");
     }
 }
