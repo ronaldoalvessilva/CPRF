@@ -1555,136 +1555,270 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jComboBoxCentroCusto.removeAllItems();
         jComboBoxTipoDespesa.removeAllItems();
         jComboBoxTipoDespesa.removeAllItems();
-        if (jComboBoxOperacao.getSelectedItem().equals("Selecione...")) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione uma operação...");
-        } else if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
-            FornecedoresDAO dao = new FornecedoresDAO();
-            try {
-                for (Fornecedor p : dao.read()) {
-                    jComboBoxFornecedorCliente.addItem(p);
+        if (acao == 1 || acao == 2) {
+            if (jComboBoxOperacao.getSelectedItem().equals("Selecione...")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecione uma operação...");
+            } else if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+                FornecedoresDAO dao = new FornecedoresDAO();
+                try {
+                    for (Fornecedor p : dao.read()) {
+                        jComboBoxFornecedorCliente.addItem(p);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorCliente.getSelectedItem();
-            fornecedor.getIdForn();
-            fornecedor.getRazaoSocial();
-            objMov.setIdForn(fornecedor.getIdForn());
-            //
-            BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
-            try {
-                for (BancosContas b : daoBanc.read()) {
-                    jComboBoxBanco.addItem(b);
+                Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorCliente.getSelectedItem();
+                fornecedor.getIdForn();
+                fornecedor.getRazaoSocial();
+                objMov.setIdForn(fornecedor.getIdForn());
+                //
+                BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
+                try {
+                    for (BancosContas b : daoBanc.read()) {
+                        jComboBoxBanco.addItem(b);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
-            banco.getIdBanco();
-            objMov.setIdBanco(banco.getIdBanco());
-            //
-            FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
-            try {
-                for (FormaPagamento f : daoFor.read()) {
-                    jComboBoxTipoPagamento.addItem(f);
+                BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+                banco.getIdBanco();
+                objMov.setIdBanco(banco.getIdBanco());
+                //
+                FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
+                try {
+                    for (FormaPagamento f : daoFor.read()) {
+                        jComboBoxTipoPagamento.addItem(f);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
-            forma.getIdForma();
-            forma.getDescricaoForma();
-            objMov.setIdForma(forma.getIdForma());
-            //
-            CentroCustoDAO daoCentro = new CentroCustoDAO();
-            try {
-                for (CentroCusto c : daoCentro.read()) {
-                    jComboBoxCentroCusto.addItem(c);
+                FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+                forma.getIdForma();
+                forma.getDescricaoForma();
+                objMov.setIdForma(forma.getIdForma());
+                //
+                CentroCustoDAO daoCentro = new CentroCustoDAO();
+                try {
+                    for (CentroCusto c : daoCentro.read()) {
+                        jComboBoxCentroCusto.addItem(c);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
-            centro.getIdCentro();
-            centro.getDescricaoCentro();
-            objMov.setIdCentro(centro.getIdCentro());
-            //
-            TipoContasDAO daoContas = new TipoContasDAO();
-            try {
-                for (TipoConta t : daoContas.read()) {
-                    jComboBoxTipoDespesa.addItem(t);
+                CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+                centro.getIdCentro();
+                centro.getDescricaoCentro();
+                objMov.setIdCentro(centro.getIdCentro());
+                //
+                TipoContasDAO daoContas = new TipoContasDAO();
+                try {
+                    for (TipoConta t : daoContas.read()) {
+                        jComboBoxTipoDespesa.addItem(t);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
-            tipo.getIdConta();
-            tipo.getDescricaoConta();
-            objMov.setIdConta(tipo.getIdConta());
-        } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
-            ClientesDAO dao = new ClientesDAO();
-            try {
-                for (Clientes c : dao.read()) {
-                    jComboBoxFornecedorCliente.addItem(c);
+                TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+                tipo.getIdConta();
+                tipo.getDescricaoConta();
+                objMov.setIdConta(tipo.getIdConta());
+            } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+                ClientesDAO dao = new ClientesDAO();
+                try {
+                    for (Clientes c : dao.read()) {
+                        jComboBoxFornecedorCliente.addItem(c);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            Clientes cliente = (Clientes) jComboBoxFornecedorCliente.getSelectedItem();
-            cliente.getIdForn();
-            cliente.getRazaoSocial();
-            objMov.setIdForn(cliente.getIdForn());
-            //
-            BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
-            try {
-                for (BancosContas b : daoBanc.read()) {
-                    jComboBoxBanco.addItem(b);
+                Clientes cliente = (Clientes) jComboBoxFornecedorCliente.getSelectedItem();
+                cliente.getIdForn();
+                cliente.getRazaoSocial();
+                objMov.setIdForn(cliente.getIdForn());
+                //
+                BancosContasBancariasDAO daoBanc = new BancosContasBancariasDAO();
+                try {
+                    for (BancosContas b : daoBanc.read()) {
+                        jComboBoxBanco.addItem(b);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
-            banco.getIdBanco();
-            objMov.setIdBanco(banco.getIdBanco());
-            //
-            FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
-            try {
-                for (FormaPagamento f : daoFor.read()) {
-                    jComboBoxTipoPagamento.addItem(f);
+                BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+                banco.getIdBanco();
+                objMov.setIdBanco(banco.getIdBanco());
+                //
+                FormaPagamentoDAO daoFor = new FormaPagamentoDAO();
+                try {
+                    for (FormaPagamento f : daoFor.read()) {
+                        jComboBoxTipoPagamento.addItem(f);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
-            forma.getIdForma();
-            forma.getDescricaoForma();
-            objMov.setIdForma(forma.getIdForma());
-            //
-            CentroCustoDAO daoCentro = new CentroCustoDAO();
-            try {
-                for (CentroCusto c : daoCentro.read()) {
-                    jComboBoxCentroCusto.addItem(c);
+                FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+                forma.getIdForma();
+                forma.getDescricaoForma();
+                objMov.setIdForma(forma.getIdForma());
+                //
+                CentroCustoDAO daoCentro = new CentroCustoDAO();
+                try {
+                    for (CentroCusto c : daoCentro.read()) {
+                        jComboBoxCentroCusto.addItem(c);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
-            centro.getIdCentro();
-            centro.getDescricaoCentro();
-            objMov.setIdCentro(centro.getIdCentro());
-            //
-            TipoContasDAO daoContas = new TipoContasDAO();
-            try {
-                for (TipoConta t : daoContas.read()) {
-                    jComboBoxTipoDespesa.addItem(t);
+                CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+                centro.getIdCentro();
+                centro.getDescricaoCentro();
+                objMov.setIdCentro(centro.getIdCentro());
+                //
+                TipoContasDAO daoContas = new TipoContasDAO();
+                try {
+                    for (TipoConta t : daoContas.read()) {
+                        jComboBoxTipoDespesa.addItem(t);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+                tipo.getIdConta();
+                tipo.getDescricaoConta();
+                objMov.setIdConta(tipo.getIdConta());
             }
-            TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
-            tipo.getIdConta();
-            tipo.getDescricaoConta();
-            objMov.setIdConta(tipo.getIdConta());
+        } else {
+            if (jComboBoxOperacao.getSelectedItem().equals("Selecione...")) {
+                JOptionPane.showMessageDialog(rootPane, "Selecione uma operação...");
+            } else if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+                ListarFornecedorDAO_CP listaDAO = new ListarFornecedorDAO_CP();
+                try {
+                    for (Fornecedor p : listaDAO.read()) {
+                        jComboBoxFornecedorCliente.addItem(p);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Fornecedor fornecedor = (Fornecedor) jComboBoxFornecedorCliente.getSelectedItem();
+                fornecedor.getIdForn();
+                fornecedor.getRazaoSocial();
+                objMov.setIdForn(fornecedor.getIdForn());
+                //
+                ListarBancosDAO_CP listaBancos = new ListarBancosDAO_CP();
+                try {
+                    for (BancosContas b : listaBancos.read()) {
+                        jComboBoxBanco.addItem(b);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+                banco.getIdBanco();
+                objMov.setIdBanco(banco.getIdBanco());
+                //
+                ListarFormaPagamentoDAO_CP listaForma = new ListarFormaPagamentoDAO_CP();
+                try {
+                    for (FormaPagamento f : listaForma.read()) {
+                        jComboBoxTipoPagamento.addItem(f);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+                forma.getIdForma();
+                forma.getDescricaoForma();
+                objMov.setIdForma(forma.getIdForma());
+                //
+                ListaCentroCustoDAO_CP listaDAOCentro = new ListaCentroCustoDAO_CP();
+                try {
+                    for (CentroCusto c : listaDAOCentro.read()) {
+                        jComboBoxCentroCusto.addItem(c);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+                centro.getIdCentro();
+                centro.getDescricaoCentro();
+                objMov.setIdCentro(centro.getIdCentro());
+                //
+                ListarTiposContasDAO_CP listarDAOContas = new ListarTiposContasDAO_CP();
+                try {
+                    for (TipoConta t : listarDAOContas.read()) {
+                        jComboBoxTipoDespesa.addItem(t);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+                tipo.getIdConta();
+                tipo.getDescricaoConta();
+                objMov.setIdConta(tipo.getIdConta());
+            } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+                ListarClientesDAO listaClientesDAO = new ListarClientesDAO();
+                try {
+                    for (Clientes p : listaClientesDAO.read()) {
+                        jComboBoxFornecedorCliente.addItem(p);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Clientes cliente = (Clientes) jComboBoxFornecedorCliente.getSelectedItem();
+                cliente.getIdForn();
+                cliente.getRazaoSocial();
+                objMov.setIdForn(cliente.getIdForn());
+                //
+                ListarBancosDAO_CP listaBancos = new ListarBancosDAO_CP();
+                try {
+                    for (BancosContas b : listaBancos.read()) {
+                        jComboBoxBanco.addItem(b);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                BancosContas banco = (BancosContas) jComboBoxBanco.getSelectedItem();
+                banco.getIdBanco();
+                objMov.setIdBanco(banco.getIdBanco());
+                //
+                ListarFormaPagamentoDAO_CP listaForma = new ListarFormaPagamentoDAO_CP();
+                try {
+                    for (FormaPagamento f : listaForma.read()) {
+                        jComboBoxTipoPagamento.addItem(f);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                FormaPagamento forma = (FormaPagamento) jComboBoxTipoPagamento.getSelectedItem();
+                forma.getIdForma();
+                forma.getDescricaoForma();
+                objMov.setIdForma(forma.getIdForma());
+                //
+                ListaCentroCustoDAO_CP listaDAOCentro = new ListaCentroCustoDAO_CP();
+                try {
+                    for (CentroCusto c : listaDAOCentro.read()) {
+                        jComboBoxCentroCusto.addItem(c);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                CentroCusto centro = (CentroCusto) jComboBoxCentroCusto.getSelectedItem();
+                centro.getIdCentro();
+                centro.getDescricaoCentro();
+                objMov.setIdCentro(centro.getIdCentro());
+                //
+                ListarTiposContasDAO_CR listarDAOContas = new ListarTiposContasDAO_CR();
+                try {
+                    for (TipoConta t : listarDAOContas.read()) {
+                        jComboBoxTipoDespesa.addItem(t);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaMovimentacaoContasPR.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                TipoConta tipo = (TipoConta) jComboBoxTipoDespesa.getSelectedItem();
+                tipo.getIdConta();
+                tipo.getDescricaoConta();
+                objMov.setIdConta(tipo.getIdConta());
+            }
         }
     }//GEN-LAST:event_jBtRefreshActionPerformed
 
