@@ -972,6 +972,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                                 + "WHERE IdMov='" + jCodigo.getText() + "' "
                                 + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
                     }
+                    limparCampos();
                     JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
                 if (acao == 2) {
@@ -1015,6 +1016,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                                 + "WHERE IdMov='" + jCodigo.getText() + "' "
                                 + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
                     }
+                    limparCampos();
                     JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
                 }
             }
