@@ -678,8 +678,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 control.atualizarMovimentoCPR(objBaixa);
                 Confirmar();
             }
-            //ATUALIZAR TABELA DE CONTAS A PAGAR E RECEBER
-            limparCampos();
+            //ATUALIZAR TABELA DE CONTAS A PAGAR E RECEBER            
             if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
                 preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                         + "INNER JOIN CLIENTES "
@@ -709,6 +708,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                         + "WHERE IdMov='" + jCodigo.getText() + "' "
                         + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
             }
+            limparCampos();
             JOptionPane.showMessageDialog(rootPane, "Registro gravado com sucesso.");
         }
     }//GEN-LAST:event_jBtConfirmarActionPerformed

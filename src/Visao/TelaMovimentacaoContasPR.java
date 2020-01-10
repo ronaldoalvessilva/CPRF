@@ -108,7 +108,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     String pCONTA_BAIXADA = "Não";
     public static int pCODIGO_BANCO;
     //
-
+    public static float pVALOR_TOTAL_RECEITAS_DESPESAS = 0;
+    public static String pVALOR_TOTAL_TABELA;
+    //
     public static TelaBaixaCPR pBAIXA_CPR;
 
     /**
@@ -187,6 +189,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jtotalRegistros = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jTotalReceitasDespesas = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -698,7 +702,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jPanel35.setLayout(jPanel35Layout);
         jPanel35Layout.setHorizontalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 261, Short.MAX_VALUE)
         );
         jPanel35Layout.setVerticalGroup(
             jPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -760,6 +764,17 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 .addGap(3, 3, 3))
         );
 
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(204, 0, 0));
+        jLabel15.setText("TOTAL RECEITAS/DESPESAS R$:");
+
+        jTotalReceitasDespesas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalReceitasDespesas.setForeground(new java.awt.Color(204, 0, 0));
+        jTotalReceitasDespesas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalReceitasDespesas.setDisabledTextColor(new java.awt.Color(204, 0, 0));
+        jTotalReceitasDespesas.setEnabled(false);
+        jTotalReceitasDespesas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -774,7 +789,11 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel15)
+                        .addGap(10, 10, 10)
+                        .addComponent(jTotalReceitasDespesas))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -791,13 +810,15 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 .addGap(3, 3, 3)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                .addGap(3, 3, 3)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3))
+                    .addComponent(jPanel35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(jTotalReceitasDespesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel1, jPanel3});
@@ -1858,6 +1879,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1877,6 +1899,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JTable jTabelaMovimentacao;
+    public static javax.swing.JFormattedTextField jTotalReceitasDespesas;
     public static javax.swing.JFormattedTextField jValorDocumento;
     public static javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
@@ -1895,6 +1918,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jComboBoxCentroCusto.setBackground(Color.white);
         jComboBoxTipoDespesa.setBackground(Color.white);
         jHistorico.setBackground(Color.white);
+        jTotalReceitasDespesas.setBackground(Color.white);
     }
 
     public void formatarCampos() {
@@ -2194,8 +2218,12 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             conecta.executaSQL(sql);
             conecta.rs.first();
             count_MOV_PR = 0;
+            pVALOR_TOTAL_RECEITAS_DESPESAS = 0;
             do {
                 count_MOV_PR = count_MOV_PR + 1;
+                pVALOR_TOTAL_TABELA = "0,00";                
+                jTotalReceitasDespesas.setText(pVALOR_TOTAL_TABELA);
+                jTotalReceitasDespesas.setForeground(Color.red);
                 // Formatar a data no formato Brasil
                 dataVenc = conecta.rs.getString("DataVenc");
                 String dia = dataVenc.substring(8, 10);
@@ -2209,9 +2237,17 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 pVALOR_DOCUMENTO = vlDoc;
                 //
                 jtotalRegistros.setText(Integer.toString(count_MOV_PR));
+                //TOTALIZADOR DAS RECEITAS/DESPESAS
+                pVALOR_TOTAL_RECEITAS_DESPESAS = pVALOR_TOTAL_RECEITAS_DESPESAS + pVALOR_DOCUMENTO_REAL;
+                //CONVERTER PARA MOSTRAR NA TELA
+                DecimalFormat vtrd = new DecimalFormat("#,##0.00");
+                String vltrd = vtrd.format(pVALOR_TOTAL_RECEITAS_DESPESAS);
+                pVALOR_TOTAL_TABELA = vltrd;
+                jTotalReceitasDespesas.setText(pVALOR_TOTAL_TABELA);
                 dados.add(new Object[]{conecta.rs.getString("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
+//            pVALOR_TOTAL_TABELA = "";
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
         }
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
@@ -2248,8 +2284,12 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             conecta.executaSQL(sql);
             conecta.rs.first();
             count_MOV_PR = 0;
+            pVALOR_TOTAL_RECEITAS_DESPESAS = 0;
             do {
                 count_MOV_PR = count_MOV_PR + 1;
+                pVALOR_TOTAL_TABELA = "0,00";
+                jTotalReceitasDespesas.setText(pVALOR_TOTAL_TABELA);
+                jTotalReceitasDespesas.setForeground(Color.blue);
                 // Formatar a data no formato Brasil
                 dataVenc = conecta.rs.getString("DataVenc");
                 String dia = dataVenc.substring(8, 10);
@@ -2263,6 +2303,13 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 pVALOR_DOCUMENTO = vlDoc;
                 //
                 jtotalRegistros.setText(Integer.toString(count_MOV_PR));
+                //TOTALIZADOR DAS RECEITAS/DESPESAS
+                pVALOR_TOTAL_RECEITAS_DESPESAS = pVALOR_TOTAL_RECEITAS_DESPESAS + pVALOR_DOCUMENTO_REAL;
+                //CONVERTER PARA MOSTRAR NA TELA
+                DecimalFormat vtrd = new DecimalFormat("#,##0.00");
+                String vltrd = vtrd.format(pVALOR_TOTAL_RECEITAS_DESPESAS);
+                pVALOR_TOTAL_TABELA = vltrd;
+                jTotalReceitasDespesas.setText(pVALOR_TOTAL_TABELA);
                 dados.add(new Object[]{conecta.rs.getInt("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
