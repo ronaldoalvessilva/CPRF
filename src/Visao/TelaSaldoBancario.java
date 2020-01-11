@@ -613,7 +613,8 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
         conecta.abrirConexao();
         try {
             conecta.executaSQL("SELECT * FROM SALDO_BANCARIO "
-                    + "WHERE SALDO_BANCARIO.IdBanco='" + pID_BANCO + "'");
+                    + "WHERE SALDO_BANCARIO.IdBanco='" + pID_BANCO + "' "
+                    + "ORDER BY DataSaldo");
             conecta.rs.last();
             pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("SaldoAtual");
             DecimalFormat vd = new DecimalFormat("#,##0.00");
