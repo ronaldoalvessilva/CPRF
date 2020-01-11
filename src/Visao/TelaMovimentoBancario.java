@@ -10,10 +10,12 @@ import Dao.BancosContasBancariasDAO;
 import Dao.ConexaoBancoDados;
 import Dao.ListarClientesDAO;
 import Dao.ListarFornecedorDAO_CP;
+import Dao.ListarFornecedorPesquisaDAO_CP;
 import Dao.LogSistemaDAO;
 import Dao.MovimentoBancarioDAO;
 import Dao.listaFornecedorMovBanco;
 import Dao.listarClienteMovBanco;
+import Dao.listarClienteMovBancoPesquisa;
 import Modelo.BaixaCPR;
 import Modelo.BancosContas;
 import Modelo.Clientes;
@@ -67,6 +69,9 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
     Fornecedor forn = new Fornecedor();
     ListarClientesDAO listaClieDao = new ListarClientesDAO();
     ListarFornecedorDAO_CP listaFornDao = new ListarFornecedorDAO_CP();
+    //
+    listarClienteMovBancoPesquisa listaClienteDao = new listarClienteMovBancoPesquisa();
+    ListarFornecedorPesquisaDAO_CP listaFornecedorDao = new ListarFornecedorPesquisaDAO_CP();
     MovimentoBancario objMovBanc = new MovimentoBancario();
     MovimentoBancarioDAO movBancoDAO = new MovimentoBancarioDAO();
     BaixaCPR objBaixa = new BaixaCPR();
@@ -87,6 +92,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
     float pSALDO_ATUAL = 0;
     String pTIPO_OPERACAO_PAGAR = "D";
     String pTIPO_OPERACAO_RECEBER = "C";
+    public static int pCODIGO_BANCO = 0;
 
     /**
      * Creates new form TelaMovimentoBancario
@@ -773,6 +779,7 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                 jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusRegistro"));
                 jComboBoxTipoPessoa.setSelectedItem(conecta.rs.getString("TipoPessoa"));
                 jDataRegistro.setDate(conecta.rs.getDate("DataRegistro"));
+                pCODIGO_BANCO = conecta.rs.getInt("IdBanco");
                 jComboBoxAgencia.addItem(conecta.rs.getString("Agencia"));
                 jComboBoxContaCorrente.addItem(conecta.rs.getString("ContaCorrente"));
                 jDepositanteSacado.setText(conecta.rs.getString("Depositante"));
@@ -784,9 +791,9 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                     jComboBoxContaCorrente.removeAllItems();
                     jComboBoxAgencia.removeAllItems();
                     jComboBoxFavorecido.removeAllItems();
-                    listaFornecedorMovBanco listaFornecedorDAO = new listaFornecedorMovBanco();
+//                    ListarFornecedorPesquisaDAO_CP listaFornecedorDao = new ListarFornecedorPesquisaDAO_CP();
                     try {
-                        for (Fornecedor f : listaFornecedorDAO.read()) {
+                        for (Fornecedor f : listaFornecedorDao.read()) {
                             jComboBoxFavorecido.addItem(f);
                         }
                     } catch (Exception ex) {
@@ -807,9 +814,9 @@ public class TelaMovimentoBancario extends javax.swing.JInternalFrame {
                     jComboBoxContaCorrente.removeAllItems();
                     jComboBoxAgencia.removeAllItems();
                     jComboBoxFavorecido.removeAllItems();
-                    listarClienteMovBanco listaClientesDAO = new listarClienteMovBanco();
+//                    listarClienteMovBancoPesquisa listaClienteDao = new listarClienteMovBancoPesquisa();
                     try {
-                        for (Clientes c : listaClientesDAO.read()) {
+                        for (Clientes c : listaClienteDao.read()) {
                             jComboBoxFavorecido.addItem(c);
                         }
                     } catch (Exception ex) {

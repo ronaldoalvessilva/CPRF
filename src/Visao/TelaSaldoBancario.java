@@ -532,7 +532,8 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
                         + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
                         + "WHERE DataSaldo BETWEEN'" + dataInicial + "' "
                         + "AND '" + dataFinal + "' "
-                        + "AND Agencia='" + jAgencia.getText().trim() + "'");
+                        + "AND Agencia='" + jAgencia.getText().trim() + "' "
+                        + "ORDER BY DataSaldo");
             }
         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
             if (jDataPesqInicial.getDate() == null) {
@@ -552,7 +553,8 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
                         + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
                         + "WHERE DataSaldo BETWEEN'" + dataInicial + "' "
                         + "AND '" + dataFinal + "' "
-                        + "AND Agencia='" + jAgencia.getText().trim() + "'");
+                        + "AND Agencia='" + jAgencia.getText().trim() + "' "
+                        + "ORDER BY DataSaldo");
             }
         }
     }//GEN-LAST:event_jBtPesquisarMovActionPerformed

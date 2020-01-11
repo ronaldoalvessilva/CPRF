@@ -37,6 +37,7 @@ import static Visao.TelaMovimentacaoContasPR.jTabelaMovimentacao;
 import static Visao.TelaMovimentacaoContasPR.jValorDocumento;
 import static Visao.TelaMovimentacaoContasPR.jtotalRegistros;
 import static Visao.TelaMovimentacaoContasPR.pCODIGO_BANCO;
+import static Visao.TelaMovimentacaoContasPR.pOPERACAO_PAGAR;
 import static Visao.TelaMovimentacaoContasPR.pVALOR_DOCUMENTO;
 import static Visao.TelaMovimentacaoContasPR.pVALOR_DOCUMENTO_REAL;
 import java.awt.Color;
@@ -85,6 +86,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     float pSALDO_BANCARIO_BB;
     float pSALDO_ATUAL_BB;
     String pCONTA_BAIXADA_BB = "Sim";
+    String pCONTA_BAIXADA = "Não";
 
     /**
      * Creates new form TelaBaixaCPR
@@ -681,8 +683,8 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
             //ATUALIZAR TABELA DE CONTAS A PAGAR E RECEBER            
             if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
                 preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                        + "INNER JOIN CLIENTES "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
+                        + "INNER JOIN FORNECEDORES_AC "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
                         + "INNER JOIN BANCOS_CONTAS "
                         + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
                         + "INNER JOIN CENTRO_CUSTO "
@@ -691,7 +693,8 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                         + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
                         + "INNER JOIN TIPO_PAGAMENTO "
                         + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
-                        + "WHERE IdMov='" + jCodigo.getText() + "' "
+                        + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.Operacao='" + pOPERACAO_PAGAR + "' "
+                        + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
                         + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
             } else if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
                 preencherTabelaMovimentacaoCP("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
@@ -705,7 +708,8 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                         + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
                         + "INNER JOIN TIPO_PAGAMENTO "
                         + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
-                        + "WHERE IdMov='" + jCodigo.getText() + "' "
+                        + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.Operacao='" + pOPERACAO_PAGAR + "' "
+                        + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
                         + "ORDER BY MOVIMENTO_CONTAS_PAGAR_RECEBER.DataVenc");
             }
             limparCampos();
