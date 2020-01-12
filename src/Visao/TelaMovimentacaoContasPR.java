@@ -1368,8 +1368,11 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     jComboBoxOperacao.setSelectedItem(conecta.rs.getString("Operacao"));
                     jDataEmissao.setDate(conecta.rs.getDate("DataEmissao"));
                     jDataVencimento.setDate(conecta.rs.getDate("DataVenc"));
-                    jNumeroDocumento.setText(conecta.rs.getString("Documento"));
-                    jValorDocumento.setText(conecta.rs.getString("ValorDoc"));
+                    jNumeroDocumento.setText(conecta.rs.getString("Documento"));                   
+                    pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
+                    DecimalFormat vd = new DecimalFormat("#,##0.00");
+                    String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                    jValorDocumento.setText(vlDoc);
                     jHistorico.setText(conecta.rs.getString("Historico"));
                 } catch (Exception e) {
                 }

@@ -900,7 +900,6 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 jDataVencimentoOperacao.setDate(conecta.rs.getDate("DataVenc"));
                 jTipoDespesaBaixa.addItem(conecta.rs.getString("DescricaoConta"));
                 jCentroCustoBaixa.addItem(conecta.rs.getString("DescricaoCentro"));
-//                pCODIGO_BANCO = conecta.rs.getString("IdBanco");
                 //
                 pVALOR_DOCUMENTO_REAL_BB = conecta.rs.getFloat("ValorBaixa");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
@@ -957,7 +956,6 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 jDataVencimentoOperacao.setDate(conecta.rs.getDate("DataVenc"));
                 jTipoDespesaBaixa.addItem(conecta.rs.getString("DescricaoConta"));
                 jCentroCustoBaixa.addItem(conecta.rs.getString("DescricaoCentro"));
-//                pCODIGO_BANCO = conecta.rs.getString("IdBanco");
                 //
                 pVALOR_DOCUMENTO_REAL_BB = conecta.rs.getFloat("ValorBaixa");
                 DecimalFormat vd = new DecimalFormat("#,##0.00");
@@ -1095,8 +1093,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 jtotalRegistros.setText(Integer.toString(count_MOV_PR));
                 dados.add(new Object[]{conecta.rs.getString("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
             } while (conecta.rs.next());
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
+        } catch (SQLException ex) {            
         }
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTabelaMovimentacao.setModel(modelo);
@@ -1149,8 +1146,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
                 jtotalRegistros.setText(Integer.toString(count_MOV_PR));
                 dados.add(new Object[]{conecta.rs.getInt("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
             } while (conecta.rs.next());
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
+        } catch (SQLException ex) {            
         }
         ModeloTabela modelo = new ModeloTabela(dados, Colunas);
         jTabelaMovimentacao.setModel(modelo);
