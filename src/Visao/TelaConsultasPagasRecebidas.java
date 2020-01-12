@@ -408,7 +408,8 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
                             + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
                             + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
                             + "AND '" + dataFinal + "' "
-                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "'");
+                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
+                            + "AND Operacao='" + pOPERACAO_RECEBER + "'");
                 }
             } else if (jComboBoxContas.getSelectedItem().equals("CONTAS PAGAS")) {
                 if (jComboBoxContas.getSelectedItem().equals("Selecione...")) {
@@ -438,7 +439,8 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
                             + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
                             + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
                             + "AND '" + dataFinal + "' "
-                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "'");
+                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
+                            + "AND Operacao='" + pOPERACAO_PAGAR + "'");
                 }
             }
         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
@@ -470,7 +472,8 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
                             + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
                             + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
                             + "AND '" + dataFinal + "' "
-                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "'");
+                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
+                            + "AND Operacao='" + pOPERACAO_RECEBER + "'");
                 }
             } else if (jComboBoxContas.getSelectedItem().equals("CONTAS PAGAS")) {
                 if (jComboBoxContas.getSelectedItem().equals("Selecione...")) {
@@ -500,7 +503,8 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
                             + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
                             + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
                             + "AND '" + dataFinal + "' "
-                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "'");
+                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
+                            + "AND Operacao='" + pOPERACAO_PAGAR + "'");
                 }
             }
         }
