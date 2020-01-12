@@ -5,8 +5,8 @@
  */
 package Dao;
 
-import Modelo.Clientes;
-import static Visao.TelaMovimentacaoContasPR.jCodigo;
+import Modelo.FormaPagamento;
+import static Visao.TelaConsultasPagasRecebidas.idLanc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,29 +17,28 @@ import java.util.logging.Logger;
  *
  * @author ronal
  */
-public class ListarClientesDAO {
+public class ListarFormaPagamentoDAO_CR_CONSULTAS {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
-    Clientes objClie = new Clientes();
-    //
+
     String pOPERACAO_RECEBER = "Receber";
 
-    public List<Clientes> read() throws Exception {
+    public List<FormaPagamento> read() throws Exception {
         conecta.abrirConexao();
-        List<Clientes> listaFornecedores = new ArrayList<Clientes>();
+        List<FormaPagamento> listaFormaPagto = new ArrayList<FormaPagamento>();
         try {
             conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                    + "INNER JOIN CLIENTES "
-                    + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
-                    + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov='" + jCodigo.getText() + "' "
+                    + "INNER JOIN TIPO_PAGAMENTO "
+                    + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                    + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov='" + idLanc + "' "
                     + "AND Operacao='" + pOPERACAO_RECEBER + "'");
             while (conecta.rs.next()) {
-                Clientes pListaClientesMovCR = new Clientes();
-                pListaClientesMovCR.setIdForn(conecta.rs.getInt("IdClie"));
-                pListaClientesMovCR.setRazaoSocial(conecta.rs.getString("RazaoSocial"));
-                listaFornecedores.add(pListaClientesMovCR);
+                FormaPagamento pDigiForma = new FormaPagamento();
+                pDigiForma.setIdForma(conecta.rs.getInt("IdForma"));
+                pDigiForma.setDescricaoForma(conecta.rs.getString("DescricaoForma"));
+                listaFormaPagto.add(pDigiForma);
             }
-            return listaFornecedores;
+            return listaFormaPagto;
         } catch (SQLException ex) {
             Logger.getLogger(FornecedoresDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

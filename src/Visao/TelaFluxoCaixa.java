@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  *
  * @author ronal
  */
-public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
+public class TelaFluxoCaixa extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
 
@@ -43,29 +43,29 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
     String pCODIGO_MOV_BAIXA = "";
     String pCONTA_BAIXADA = "Sim";
     //
-    public static String idLanc;
+    public static String idLancFluxo;
     //
     float pVALOR_TOTAL_RECEITAS_DESPESAS = 0;
     String pVALOR_TOTAL_TABELA;
 
-    public static TelaBaixaConsultaCPR pBAIXA_CPR;
-    public static TelaConsultaContasPagasRecebidas pCONSULTAS_CONTAS_PAGAS;
+    public static TelaBaixaConsultaFluxo pBAIXA_CPR;
+    public static TelaConsultaContasPagasRecebidasFluxo pCONSULTAS_CONTAS_PAGAS;
 
     /**
      * Creates new form TelaConsultasPagasRecebidas
      */
-    public TelaConsultasPagasRecebidas() {
+    public TelaFluxoCaixa() {
         initComponents();
         corCampos();
     }
 
     public void mostraTelaBaixa() {
-        pBAIXA_CPR = new TelaBaixaConsultaCPR(this, true);
+        pBAIXA_CPR = new TelaBaixaConsultaFluxo(this, true);
         pBAIXA_CPR.setVisible(true);
     }
 
     public void mostraTelaContas() {
-        pCONSULTAS_CONTAS_PAGAS = new TelaConsultaContasPagasRecebidas(this, true);
+        pCONSULTAS_CONTAS_PAGAS = new TelaConsultaContasPagasRecebidasFluxo(this, true);
         pCONSULTAS_CONTAS_PAGAS.setVisible(true);
     }
 
@@ -79,8 +79,6 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jComboBoxContas = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jDataPesqInicial = new com.toedter.calendar.JDateChooser();
@@ -90,7 +88,9 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
         jBtPesquisarDocumento = new javax.swing.JButton();
         jBtPesquisarContaData = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jTotalReceitasDespesasPagas = new javax.swing.JFormattedTextField();
+        jTotalDespesas = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jTotalReceitas = new javax.swing.JFormattedTextField();
         jPanel33 = new javax.swing.JPanel();
         jLabel67 = new javax.swing.JLabel();
         jPanel35 = new javax.swing.JPanel();
@@ -104,16 +104,9 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("...::: Consultas de Contas Pagas e Recebidas :::...");
+        setTitle("...::: Fluxo de Caixa :::...");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText("SELECIONE TIPO CONTA");
-
-        jComboBoxContas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CONTAS PAGAS", "CONTAS RECEBIDAS" }));
-        jComboBoxContas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("DATA INICIAL");
@@ -150,14 +143,21 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
         });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel5.setText("TOTAL DAS DESPESAS/RECEITAS");
+        jLabel5.setText("TOTAL DAS DESPESAS");
 
-        jTotalReceitasDespesasPagas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jTotalReceitasDespesasPagas.setForeground(new java.awt.Color(204, 0, 0));
-        jTotalReceitasDespesasPagas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTotalReceitasDespesasPagas.setDisabledTextColor(new java.awt.Color(204, 0, 0));
-        jTotalReceitasDespesasPagas.setEnabled(false);
-        jTotalReceitasDespesasPagas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jTotalDespesas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalDespesas.setForeground(new java.awt.Color(204, 0, 0));
+        jTotalDespesas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalDespesas.setDisabledTextColor(new java.awt.Color(204, 0, 0));
+        jTotalDespesas.setEnabled(false);
+        jTotalDespesas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText("TOTAL DAS RECEITAS");
+
+        jTotalReceitas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalReceitas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalReceitas.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -165,12 +165,14 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1)
-                            .addComponent(jComboBoxContas, 0, 178, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jDocumento, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtPesquisarDocumento))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -180,20 +182,13 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
                                 .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBtPesquisarContaData))
-                            .addComponent(jLabel3)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jDocumento, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtPesquisarDocumento)
-                                .addGap(3, 3, 3)
-                                .addComponent(jTotalReceitasDespesasPagas, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(103, 103, 103)
-                                .addComponent(jLabel5)))))
+                            .addComponent(jLabel3))))
+                .addGap(48, 48, 48)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTotalDespesas, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTotalReceitas))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -201,15 +196,16 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jComboBoxContas, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtPesquisarContaData))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jBtPesquisarContaData))
+                    .addComponent(jTotalReceitas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -218,7 +214,7 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtPesquisarDocumento)
-                    .addComponent(jTotalReceitasDespesasPagas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTotalDespesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -340,24 +336,24 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(71, Short.MAX_VALUE)
                 .addComponent(jBtBuscarBaixa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtSair)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addGap(60, 60, 60))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtBuscarBaixa, jBtSair});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBtBuscarBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGap(21, 21, 21))
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jBtBuscarBaixa, jBtSair});
@@ -386,9 +382,9 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -408,182 +404,84 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
         if (tipoServidor == null || tipoServidor.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
         } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
-            if (jComboBoxContas.getSelectedItem().equals("CONTAS RECEBIDAS")) {
-                if (jComboBoxContas.getSelectedItem().equals("Selecione...")) {
-                    JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de conta.");
-                } else if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else if (jDataPesqFinal.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                    jDataPesqFinal.requestFocus();
-                } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
-                    JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                } else {
-                    SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
-                    dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                    dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                    preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                            + "INNER JOIN CLIENTES "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
-                            + "INNER JOIN BANCOS_CONTAS "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
-                            + "INNER JOIN CENTRO_CUSTO "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
-                            + "INNER JOIN TIPO_CONTA "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
-                            + "INNER JOIN TIPO_PAGAMENTO "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
-                            + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
-                            + "AND '" + dataFinal + "' "
-                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
-                            + "AND Operacao='" + pOPERACAO_RECEBER_CONSULTA + "'");
-                }
-            } else if (jComboBoxContas.getSelectedItem().equals("CONTAS PAGAS")) {
-                if (jComboBoxContas.getSelectedItem().equals("Selecione...")) {
-                    JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de conta.");
-                } else if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else if (jDataPesqFinal.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                    jDataPesqFinal.requestFocus();
-                } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
-                    JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                } else {
-                    SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
-                    dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                    dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                    preencherTabelaMovimentacaoCP("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                            + "INNER JOIN FORNECEDORES_AC "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
-                            + "INNER JOIN BANCOS_CONTAS "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
-                            + "INNER JOIN CENTRO_CUSTO "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
-                            + "INNER JOIN TIPO_CONTA "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
-                            + "INNER JOIN TIPO_PAGAMENTO "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
-                            + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
-                            + "AND '" + dataFinal + "' "
-                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
-                            + "AND Operacao='" + pOPERACAO_PAGAR_CONSULTA + "'");
-                }
+            if (jDataPesqInicial.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                jDataPesqInicial.requestFocus();
+            } else if (jDataPesqFinal.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                jDataPesqFinal.requestFocus();
+            } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
+                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+            } else {
+                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
+                preencherTabelaMovimentacaoCPR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                        + "INNER JOIN BANCOS_CONTAS "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                        + "INNER JOIN CENTRO_CUSTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                        + "INNER JOIN TIPO_CONTA "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                        + "INNER JOIN TIPO_PAGAMENTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                        + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
+                        + "AND '" + dataFinal + "' "
+                        + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "'");
             }
         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
-            if (jComboBoxContas.getSelectedItem().equals("CONTAS RECEBIDAS")) {
-                if (jComboBoxContas.getSelectedItem().equals("Selecione...")) {
-                    JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de conta.");
-                } else if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else if (jDataPesqFinal.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                    jDataPesqFinal.requestFocus();
-                } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
-                    JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                } else {
-                    SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                    dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                    dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                    preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                            + "INNER JOIN CLIENTES "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
-                            + "INNER JOIN BANCOS_CONTAS "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
-                            + "INNER JOIN CENTRO_CUSTO "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
-                            + "INNER JOIN TIPO_CONTA "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
-                            + "INNER JOIN TIPO_PAGAMENTO "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
-                            + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
-                            + "AND '" + dataFinal + "' "
-                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
-                            + "AND Operacao='" + pOPERACAO_RECEBER_CONSULTA + "'");
-                }
-            } else if (jComboBoxContas.getSelectedItem().equals("CONTAS PAGAS")) {
-                if (jComboBoxContas.getSelectedItem().equals("Selecione...")) {
-                    JOptionPane.showMessageDialog(rootPane, "Selecione o tipo de conta.");
-                } else if (jDataPesqInicial.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
-                    jDataPesqInicial.requestFocus();
-                } else if (jDataPesqFinal.getDate() == null) {
-                    JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
-                    jDataPesqFinal.requestFocus();
-                } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
-                    JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
-                } else {
-                    SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-                    dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
-                    dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
-                    preencherTabelaMovimentacaoCP("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                            + "INNER JOIN FORNECEDORES_AC "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
-                            + "INNER JOIN BANCOS_CONTAS "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
-                            + "INNER JOIN CENTRO_CUSTO "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
-                            + "INNER JOIN TIPO_CONTA "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
-                            + "INNER JOIN TIPO_PAGAMENTO "
-                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
-                            + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
-                            + "AND '" + dataFinal + "' "
-                            + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
-                            + "AND Operacao='" + pOPERACAO_PAGAR_CONSULTA + "'");
-                }
+            if (jDataPesqInicial.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                jDataPesqInicial.requestFocus();
+            } else if (jDataPesqFinal.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                jDataPesqFinal.requestFocus();
+            } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
+                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+            } else {
+                SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
+                preencherTabelaMovimentacaoCPR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                        + "INNER JOIN BANCOS_CONTAS "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                        + "INNER JOIN CENTRO_CUSTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                        + "INNER JOIN TIPO_CONTA "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                        + "INNER JOIN TIPO_PAGAMENTO "
+                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                        + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
+                        + "AND '" + dataFinal + "' "
+                        + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' ");
             }
         }
     }//GEN-LAST:event_jBtPesquisarContaDataActionPerformed
 
     private void jBtPesquisarDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisarDocumentoActionPerformed
         // TODO add your handling code here:
-        if (jComboBoxContas.getSelectedItem().equals("CONTAS RECEBIDAS")) {
-            if (jDocumento.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Informe o número do documento para pesquisa.");
-            } else {
-                preencherTabelaMovimentacaoCR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                        + "INNER JOIN CLIENTES "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
-                        + "INNER JOIN BANCOS_CONTAS "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
-                        + "INNER JOIN CENTRO_CUSTO "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
-                        + "INNER JOIN TIPO_CONTA "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
-                        + "INNER JOIN TIPO_PAGAMENTO "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
-                        + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.Documento='" + jDocumento.getText() + "' "
-                        + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "'");
-            }
-        } else if (jComboBoxContas.getSelectedItem().equals("CONTAS PAGAS")) {
-            if (jDocumento.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Informe o número do documento para pesquisa.");
-            } else {
-                preencherTabelaMovimentacaoCP("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                        + "INNER JOIN FORNECEDORES_AC "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
-                        + "INNER JOIN BANCOS_CONTAS "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
-                        + "INNER JOIN CENTRO_CUSTO "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
-                        + "INNER JOIN TIPO_CONTA "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
-                        + "INNER JOIN TIPO_PAGAMENTO "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
-                        + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.Documento='" + jDocumento.getText() + "' "
-                        + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "'");
-            }
+        if (jDocumento.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Informe o número do documento para pesquisa.");
+        } else {
+            preencherTabelaMovimentacaoCPR("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                    + "INNER JOIN BANCOS_CONTAS "
+                    + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                    + "INNER JOIN CENTRO_CUSTO "
+                    + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                    + "INNER JOIN TIPO_CONTA "
+                    + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                    + "INNER JOIN TIPO_PAGAMENTO "
+                    + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                    + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.Documento='" + jDocumento.getText() + "' "
+                    + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "'");
         }
     }//GEN-LAST:event_jBtPesquisarDocumentoActionPerformed
 
     private void jBtBuscarBaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtBuscarBaixaActionPerformed
         // TODO add your handling code here:
-        if (idLanc == null) {
+        if (idLancFluxo == null) {
             JOptionPane.showMessageDialog(rootPane, "Selecione um registro para consultar a baixa.");
-        } else if (idLanc.equals("")) {
+        } else if (idLancFluxo.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Selecione um registro para consultar a baixa.");
         } else {
             mostraTelaBaixa();
@@ -599,9 +497,9 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         flag = 1;
         if (flag == 1) {
-            idLanc = "" + jTabelaContas.getValueAt(jTabelaContas.getSelectedRow(), 0);
+            idLancFluxo = "" + jTabelaContas.getValueAt(jTabelaContas.getSelectedRow(), 0);
             pOPERACAO_CONTAS_PR = "" + jTabelaContas.getValueAt(jTabelaContas.getSelectedRow(), 4);
-            mostraTelaContas();
+//            mostraTelaContas();
         }
     }//GEN-LAST:event_jTabelaContasMouseClicked
 
@@ -611,7 +509,6 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtPesquisarContaData;
     private javax.swing.JButton jBtPesquisarDocumento;
     private javax.swing.JButton jBtSair;
-    public static javax.swing.JComboBox<String> jComboBoxContas;
     private com.toedter.calendar.JDateChooser jDataPesqFinal;
     private com.toedter.calendar.JDateChooser jDataPesqInicial;
     private javax.swing.JFormattedTextField jDocumento;
@@ -628,17 +525,19 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel35;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JTable jTabelaContas;
-    private javax.swing.JFormattedTextField jTotalReceitasDespesasPagas;
+    private javax.swing.JFormattedTextField jTotalDespesas;
+    private javax.swing.JFormattedTextField jTotalReceitas;
     public static javax.swing.JLabel jtotalRegistros;
     // End of variables declaration//GEN-END:variables
 
     public void corCampos() {
-        jTotalReceitasDespesasPagas.setBackground(Color.white);
+        jTotalReceitas.setBackground(Color.white);
+        jTotalDespesas.setBackground(Color.white);
     }
 
-    public void preencherTabelaMovimentacaoCP(String sql) {
+    public void preencherTabelaMovimentacaoCPR(String sql) {
         ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código ", "Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo Pagto", "Centro Custo", "Despesa/Receita", "Cliente/Fornecedor"};
+        String[] Colunas = new String[]{"Código ", "Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo Pagto", "Centro Custo", "Despesa/Receita"};
         conecta.abrirConexao();
         try {
             conecta.executaSQL(sql);
@@ -648,8 +547,8 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
             do {
                 count = count + 1;
                 pVALOR_TOTAL_TABELA = "0,00";
-                jTotalReceitasDespesasPagas.setText(pVALOR_TOTAL_TABELA);
-                jTotalReceitasDespesasPagas.setForeground(Color.red);
+                jTotalDespesas.setText(pVALOR_TOTAL_TABELA);
+                jTotalDespesas.setForeground(Color.red);
                 // Formatar a data no formato Brasil
                 dataVenc = conecta.rs.getString("DataVenc");
                 String dia = dataVenc.substring(8, 10);
@@ -669,8 +568,8 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
                 DecimalFormat vtrd = new DecimalFormat("#,##0.00");
                 String vltrd = vtrd.format(pVALOR_TOTAL_RECEITAS_DESPESAS);
                 pVALOR_TOTAL_TABELA = vltrd;
-                jTotalReceitasDespesasPagas.setText(pVALOR_TOTAL_TABELA);
-                dados.add(new Object[]{conecta.rs.getString("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
+                jTotalDespesas.setText(pVALOR_TOTAL_TABELA);
+                dados.add(new Object[]{conecta.rs.getString("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
@@ -693,73 +592,6 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
         jTabelaContas.getColumnModel().getColumn(6).setResizable(false);
         jTabelaContas.getColumnModel().getColumn(7).setPreferredWidth(250);
         jTabelaContas.getColumnModel().getColumn(7).setResizable(false);
-        jTabelaContas.getColumnModel().getColumn(8).setPreferredWidth(350);
-        jTabelaContas.getColumnModel().getColumn(8).setResizable(false);
-        jTabelaContas.setAutoResizeMode(jTabelaContas.AUTO_RESIZE_OFF);
-        jTabelaContas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        alinharCamposTabelaCPR();
-        conecta.desconecta();
-    }
-
-    public void preencherTabelaMovimentacaoCR(String sql) {
-        ArrayList dados = new ArrayList();
-        String[] Colunas = new String[]{"Código ", "Venc. ", "NºDoc.", "Valor R$", "Operação", "Tipo Pagto", "Centro Custo", "Despesa/Receita", "Cliente/Fornecedor"};
-        conecta.abrirConexao();
-        try {
-            conecta.executaSQL(sql);
-            conecta.rs.first();
-            count = 0;
-            pVALOR_TOTAL_RECEITAS_DESPESAS = 0;
-            do {
-                count = count + 1;
-                pVALOR_TOTAL_TABELA = "0,00";
-                jTotalReceitasDespesasPagas.setText(pVALOR_TOTAL_TABELA);
-                jTotalReceitasDespesasPagas.setForeground(Color.red);
-                // Formatar a data no formato Brasil
-                dataVenc = conecta.rs.getString("DataVenc");
-                String dia = dataVenc.substring(8, 10);
-                String mes = dataVenc.substring(5, 7);
-                String ano = dataVenc.substring(0, 4);
-                dataVenc = dia + "/" + mes + "/" + ano;
-                //
-                pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
-                DecimalFormat vd = new DecimalFormat("#,##0.00");
-                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
-                pVALOR_DOCUMENTO = vlDoc;
-                //
-                jtotalRegistros.setText(Integer.toString(count));
-                //TOTALIZADOR DAS RECEITAS/DESPESAS
-                pVALOR_TOTAL_RECEITAS_DESPESAS = pVALOR_TOTAL_RECEITAS_DESPESAS + pVALOR_DOCUMENTO_REAL;
-                //CONVERTER PARA MOSTRAR NA TELA
-                DecimalFormat vtrd = new DecimalFormat("#,##0.00");
-                String vltrd = vtrd.format(pVALOR_TOTAL_RECEITAS_DESPESAS);
-                pVALOR_TOTAL_TABELA = vltrd;
-                jTotalReceitasDespesasPagas.setText(pVALOR_TOTAL_TABELA);
-                dados.add(new Object[]{conecta.rs.getInt("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta"), conecta.rs.getString("RazaoSocial")});
-            } while (conecta.rs.next());
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Não existem dados a serem EXIBIDOS!!!");
-        }
-        ModeloTabela modelo = new ModeloTabela(dados, Colunas);
-        jTabelaContas.setModel(modelo);
-        jTabelaContas.getColumnModel().getColumn(0).setPreferredWidth(80);
-        jTabelaContas.getColumnModel().getColumn(0).setResizable(false);
-        jTabelaContas.getColumnModel().getColumn(1).setPreferredWidth(80);
-        jTabelaContas.getColumnModel().getColumn(1).setResizable(false);
-        jTabelaContas.getColumnModel().getColumn(2).setPreferredWidth(90);
-        jTabelaContas.getColumnModel().getColumn(2).setResizable(false);
-        jTabelaContas.getColumnModel().getColumn(3).setPreferredWidth(100);
-        jTabelaContas.getColumnModel().getColumn(3).setResizable(false);
-        jTabelaContas.getColumnModel().getColumn(4).setPreferredWidth(80);
-        jTabelaContas.getColumnModel().getColumn(4).setResizable(false);
-        jTabelaContas.getColumnModel().getColumn(5).setPreferredWidth(250);
-        jTabelaContas.getColumnModel().getColumn(5).setResizable(false);
-        jTabelaContas.getColumnModel().getColumn(6).setPreferredWidth(300);
-        jTabelaContas.getColumnModel().getColumn(6).setResizable(false);
-        jTabelaContas.getColumnModel().getColumn(7).setPreferredWidth(250);
-        jTabelaContas.getColumnModel().getColumn(7).setResizable(false);
-        jTabelaContas.getColumnModel().getColumn(8).setPreferredWidth(350);
-        jTabelaContas.getColumnModel().getColumn(8).setResizable(false);
         jTabelaContas.setAutoResizeMode(jTabelaContas.AUTO_RESIZE_OFF);
         jTabelaContas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         alinharCamposTabelaCPR();
@@ -787,8 +619,6 @@ public class TelaConsultasPagasRecebidas extends javax.swing.JInternalFrame {
         jTabelaContas.getColumnModel().getColumn(6).setResizable(false);
         jTabelaContas.getColumnModel().getColumn(7).setPreferredWidth(250);
         jTabelaContas.getColumnModel().getColumn(7).setResizable(false);
-        jTabelaContas.getColumnModel().getColumn(8).setPreferredWidth(350);
-        jTabelaContas.getColumnModel().getColumn(8).setResizable(false);
         jTabelaContas.setAutoResizeMode(jTabelaContas.AUTO_RESIZE_OFF);
         jTabelaContas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         modelo.getLinhas().clear();

@@ -112,6 +112,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     public static String pVALOR_TOTAL_TABELA;
     //
     public static TelaBaixaCPR pBAIXA_CPR;
+    public static TelaPesquisaReceitasDepesasData pPESQUISA_POR_DATA;
 
     /**
      * Creates new form TelaMovimentacaoContasPR
@@ -125,6 +126,11 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     public void mostraTelaBaixa() {
         pBAIXA_CPR = new TelaBaixaCPR(this, true);
         pBAIXA_CPR.setVisible(true);
+    }
+
+    public void mostrarPesquisaPorDatas() {
+        pPESQUISA_POR_DATA = new TelaPesquisaReceitasDepesasData(this, true);
+        pPESQUISA_POR_DATA.setVisible(true);
     }
 
     /**
@@ -189,6 +195,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jtotalRegistros = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
+        jBtPesquisaDespesasReceitasPeriodo = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         jTotalReceitasDespesas = new javax.swing.JFormattedTextField();
 
@@ -284,11 +291,11 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 .addComponent(jBtSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(jBtCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
+                .addGap(38, 38, 38)
                 .addComponent(jBtSair, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtBaixa, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBtAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -576,10 +583,11 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel11)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jBtPesquisaCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jBtPesquisaCR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jBtRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jBtPesquisaCR)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jBtPesquisaCP, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jBtRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -590,6 +598,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         );
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBoxCentroCusto, jComboBoxFornecedorCliente});
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jBtPesquisaCP, jBtPesquisaCR, jBtRefresh});
 
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -747,20 +757,38 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         jLabel14.setForeground(new java.awt.Color(204, 0, 0));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        jBtPesquisaDespesasReceitasPeriodo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jBtPesquisaDespesasReceitasPeriodo.setForeground(new java.awt.Color(0, 102, 51));
+        jBtPesquisaDespesasReceitasPeriodo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/pound-sterling.png"))); // NOI18N
+        jBtPesquisaDespesasReceitasPeriodo.setText("Pesquisa Despesas/Receiras por Data");
+        jBtPesquisaDespesasReceitasPeriodo.setToolTipText("Pesquisar Despsas a Pagar e Receiras a Receber Por Período");
+        jBtPesquisaDespesasReceitasPeriodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtPesquisaDespesasReceitasPeriodoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
+                .addComponent(jBtPesquisaDespesasReceitasPeriodo)
+                .addGap(140, 140, 140)
                 .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jBtPesquisaDespesasReceitasPeriodo))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(3, 3, 3))
         );
 
@@ -795,9 +823,9 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                         .addGap(10, 10, 10)
                         .addComponent(jTotalReceitasDespesas))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -820,8 +848,6 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     .addComponent(jTotalReceitasDespesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(2, 2, 2))
         );
-
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPanel1, jPanel3});
 
         setBounds(300, 10, 793, 536);
     }// </editor-fold>//GEN-END:initComponents
@@ -1368,7 +1394,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                     jComboBoxOperacao.setSelectedItem(conecta.rs.getString("Operacao"));
                     jDataEmissao.setDate(conecta.rs.getDate("DataEmissao"));
                     jDataVencimento.setDate(conecta.rs.getDate("DataVenc"));
-                    jNumeroDocumento.setText(conecta.rs.getString("Documento"));                   
+                    jNumeroDocumento.setText(conecta.rs.getString("Documento"));
                     pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
                     DecimalFormat vd = new DecimalFormat("#,##0.00");
                     String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
@@ -1848,6 +1874,11 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jBtRefreshActionPerformed
 
+    private void jBtPesquisaDespesasReceitasPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtPesquisaDespesasReceitasPeriodoActionPerformed
+        // TODO add your handling code here:
+        mostrarPesquisaPorDatas();
+    }//GEN-LAST:event_jBtPesquisaDespesasReceitasPeriodoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtAlterar;
@@ -1862,6 +1893,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBtNovo;
     private javax.swing.JButton jBtPesquisaCP;
     private javax.swing.JButton jBtPesquisaCR;
+    private javax.swing.JButton jBtPesquisaDespesasReceitasPeriodo;
     private javax.swing.JButton jBtRefresh;
     private javax.swing.JButton jBtSair;
     private javax.swing.JButton jBtSalvar;
@@ -2224,7 +2256,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             pVALOR_TOTAL_RECEITAS_DESPESAS = 0;
             do {
                 count_MOV_PR = count_MOV_PR + 1;
-                pVALOR_TOTAL_TABELA = "0,00";                
+                pVALOR_TOTAL_TABELA = "0,00";
                 jTotalReceitasDespesas.setText(pVALOR_TOTAL_TABELA);
                 jTotalReceitasDespesas.setForeground(Color.red);
                 // Formatar a data no formato Brasil

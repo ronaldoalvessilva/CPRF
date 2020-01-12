@@ -6,7 +6,7 @@
 package Dao;
 
 import Modelo.Clientes;
-import static Visao.TelaMovimentacaoContasPR.jCodigo;
+import static Visao.TelaConsultasPagasRecebidas.idLanc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author ronal
  */
-public class ListarClientesDAO {
+public class ListarClientesDAO_CONSULTAS {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     Clientes objClie = new Clientes();
@@ -31,7 +31,7 @@ public class ListarClientesDAO {
             conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                     + "INNER JOIN CLIENTES "
                     + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
-                    + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov='" + jCodigo.getText() + "' "
+                    + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov='" + idLanc + "' "
                     + "AND Operacao='" + pOPERACAO_RECEBER + "'");
             while (conecta.rs.next()) {
                 Clientes pListaClientesMovCR = new Clientes();

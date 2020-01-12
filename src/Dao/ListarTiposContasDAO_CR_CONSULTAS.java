@@ -5,8 +5,8 @@
  */
 package Dao;
 
-import Modelo.Clientes;
-import static Visao.TelaMovimentacaoContasPR.jCodigo;
+import Modelo.TipoConta;
+import static Visao.TelaConsultasPagasRecebidas.idLanc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,29 +17,28 @@ import java.util.logging.Logger;
  *
  * @author ronal
  */
-public class ListarClientesDAO {
+public class ListarTiposContasDAO_CR_CONSULTAS {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
-    Clientes objClie = new Clientes();
-    //
+
     String pOPERACAO_RECEBER = "Receber";
 
-    public List<Clientes> read() throws Exception {
+    public List<TipoConta> read() throws Exception {
         conecta.abrirConexao();
-        List<Clientes> listaFornecedores = new ArrayList<Clientes>();
+        List<TipoConta> listaContas = new ArrayList<TipoConta>();
         try {
             conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                    + "INNER JOIN CLIENTES "
-                    + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
-                    + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov='" + jCodigo.getText() + "' "
+                    + "INNER JOIN TIPO_CONTA "
+                    + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                    + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov='" + idLanc + "' "
                     + "AND Operacao='" + pOPERACAO_RECEBER + "'");
             while (conecta.rs.next()) {
-                Clientes pListaClientesMovCR = new Clientes();
-                pListaClientesMovCR.setIdForn(conecta.rs.getInt("IdClie"));
-                pListaClientesMovCR.setRazaoSocial(conecta.rs.getString("RazaoSocial"));
-                listaFornecedores.add(pListaClientesMovCR);
+                TipoConta pDigiContas = new TipoConta();
+                pDigiContas.setIdConta(conecta.rs.getInt("IdConta"));
+                pDigiContas.setDescricaoConta(conecta.rs.getString("DescricaoConta"));
+                listaContas.add(pDigiContas);
             }
-            return listaFornecedores;
+            return listaContas;
         } catch (SQLException ex) {
             Logger.getLogger(FornecedoresDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

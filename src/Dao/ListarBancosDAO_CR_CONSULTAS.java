@@ -5,8 +5,8 @@
  */
 package Dao;
 
-import Modelo.Clientes;
-import static Visao.TelaMovimentacaoContasPR.jCodigo;
+import Modelo.BancosContas;
+import static Visao.TelaConsultasPagasRecebidas.idLanc;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,29 +17,30 @@ import java.util.logging.Logger;
  *
  * @author ronal
  */
-public class ListarClientesDAO {
+public class ListarBancosDAO_CR_CONSULTAS {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
-    Clientes objClie = new Clientes();
-    //
+
     String pOPERACAO_RECEBER = "Receber";
 
-    public List<Clientes> read() throws Exception {
+    public List<BancosContas> read() throws Exception {
         conecta.abrirConexao();
-        List<Clientes> listaFornecedores = new ArrayList<Clientes>();
+        List<BancosContas> listaBancos = new ArrayList<BancosContas>();
         try {
             conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                    + "INNER JOIN CLIENTES "
-                    + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
-                    + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov='" + jCodigo.getText() + "' "
+                    + "INNER JOIN BANCOS_CONTAS "
+                    + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                    + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov='" + idLanc + "' "
                     + "AND Operacao='" + pOPERACAO_RECEBER + "'");
             while (conecta.rs.next()) {
-                Clientes pListaClientesMovCR = new Clientes();
-                pListaClientesMovCR.setIdForn(conecta.rs.getInt("IdClie"));
-                pListaClientesMovCR.setRazaoSocial(conecta.rs.getString("RazaoSocial"));
-                listaFornecedores.add(pListaClientesMovCR);
+                BancosContas pDigiBanco = new BancosContas();
+                pDigiBanco.setIdBanco(conecta.rs.getInt("IdBanco"));
+                pDigiBanco.setAgencia(conecta.rs.getString("Agencia"));
+                pDigiBanco.setDescricaoBanco(conecta.rs.getString("DescricaoBanco"));
+                pDigiBanco.setContaCorrente(conecta.rs.getString("ContaCorrente"));
+                listaBancos.add(pDigiBanco);
             }
-            return listaFornecedores;
+            return listaBancos;
         } catch (SQLException ex) {
             Logger.getLogger(FornecedoresDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
