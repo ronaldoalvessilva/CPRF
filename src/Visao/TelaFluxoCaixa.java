@@ -45,8 +45,10 @@ public class TelaFluxoCaixa extends javax.swing.JInternalFrame {
     //
     public static String idLancFluxo;
     //
-    float pVALOR_TOTAL_RECEITAS_DESPESAS = 0;
-    String pVALOR_TOTAL_TABELA;
+    float pVALOR_TOTAL_DESPESAS = 0;
+    float pVALOR_TOTAL_RECEITAS = 0;
+    String pVALOR_TOTAL_TABELA_DESPESAS;
+    String pVALOR_TOTAL_TABELA_RECEITAS;
 
     public static TelaBaixaConsultaFluxo pBAIXA_CPR;
     public static TelaConsultaContasPagasRecebidasFluxo pCONSULTAS_CONTAS_PAGAS;
@@ -156,39 +158,42 @@ public class TelaFluxoCaixa extends javax.swing.JInternalFrame {
         jLabel1.setText("TOTAL DAS RECEITAS");
 
         jTotalReceitas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jTotalReceitas.setForeground(new java.awt.Color(0, 0, 204));
         jTotalReceitas.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTotalReceitas.setDisabledTextColor(new java.awt.Color(0, 0, 204));
         jTotalReceitas.setEnabled(false);
+        jTotalReceitas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jDocumento, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtPesquisarDocumento))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jBtPesquisarContaData))
-                            .addComponent(jLabel3))))
-                .addGap(48, 48, 48)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTotalDespesas, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTotalReceitas))
+                                .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBtPesquisarDocumento)
+                            .addComponent(jBtPesquisarContaData))
+                        .addGap(48, 48, 48)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTotalDespesas, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTotalReceitas)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
+                        .addComponent(jLabel3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -200,11 +205,10 @@ public class TelaFluxoCaixa extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jBtPesquisarContaData))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jDataPesqInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDataPesqFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtPesquisarContaData)
                     .addComponent(jTotalReceitas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -500,6 +504,7 @@ public class TelaFluxoCaixa extends javax.swing.JInternalFrame {
             idLancFluxo = "" + jTabelaContas.getValueAt(jTabelaContas.getSelectedRow(), 0);
             pOPERACAO_CONTAS_PR = "" + jTabelaContas.getValueAt(jTabelaContas.getSelectedRow(), 4);
 //            mostraTelaContas();
+            mostraTelaBaixa();
         }
     }//GEN-LAST:event_jTabelaContasMouseClicked
 
@@ -543,11 +548,12 @@ public class TelaFluxoCaixa extends javax.swing.JInternalFrame {
             conecta.executaSQL(sql);
             conecta.rs.first();
             count = 0;
-            pVALOR_TOTAL_RECEITAS_DESPESAS = 0;
+            pVALOR_TOTAL_DESPESAS = 0;
+            pVALOR_TOTAL_RECEITAS = 0;
             do {
                 count = count + 1;
-                pVALOR_TOTAL_TABELA = "0,00";
-                jTotalDespesas.setText(pVALOR_TOTAL_TABELA);
+                pVALOR_TOTAL_TABELA_DESPESAS = "0,00";
+                jTotalDespesas.setText(pVALOR_TOTAL_TABELA_DESPESAS);
                 jTotalDespesas.setForeground(Color.red);
                 // Formatar a data no formato Brasil
                 dataVenc = conecta.rs.getString("DataVenc");
@@ -556,19 +562,33 @@ public class TelaFluxoCaixa extends javax.swing.JInternalFrame {
                 String ano = dataVenc.substring(0, 4);
                 dataVenc = dia + "/" + mes + "/" + ano;
                 //
-                pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
-                DecimalFormat vd = new DecimalFormat("#,##0.00");
-                String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
-                pVALOR_DOCUMENTO = vlDoc;
-                //
+                pOPERACAO_PAGAR_RECEBER = conecta.rs.getString("Operacao");
+                if (pOPERACAO_PAGAR_RECEBER.equals("Pagar")) {
+                    pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
+                    DecimalFormat vd = new DecimalFormat("#,##0.00");
+                    String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                    pVALOR_DOCUMENTO = vlDoc;
+                    //TOTALIZADOR DAS RECEITAS/DESPESAS
+                    pVALOR_TOTAL_DESPESAS = pVALOR_TOTAL_DESPESAS + pVALOR_DOCUMENTO_REAL;
+                    //CONVERTER PARA MOSTRAR NA TELA
+                    DecimalFormat vtrd = new DecimalFormat("#,##0.00");
+                    String vltrd = vtrd.format(pVALOR_TOTAL_DESPESAS);
+                    pVALOR_TOTAL_TABELA_DESPESAS = vltrd;
+                } else if (pOPERACAO_PAGAR_RECEBER.equals("Receber")) {
+                    pVALOR_DOCUMENTO_REAL = conecta.rs.getFloat("ValorDoc");
+                    DecimalFormat vd = new DecimalFormat("#,##0.00");
+                    String vlDoc = vd.format(pVALOR_DOCUMENTO_REAL);
+                    pVALOR_DOCUMENTO = vlDoc;
+                    //TOTALIZADOR DAS RECEITAS/DESPESAS
+                    pVALOR_TOTAL_RECEITAS = pVALOR_TOTAL_RECEITAS + pVALOR_DOCUMENTO_REAL;
+                    //CONVERTER PARA MOSTRAR NA TELA
+                    DecimalFormat vtrd0 = new DecimalFormat("#,##0.00");
+                    String vltrd0 = vtrd0.format(pVALOR_TOTAL_RECEITAS);
+                    pVALOR_TOTAL_TABELA_RECEITAS = vltrd0;
+                }
+                jTotalReceitas.setText(pVALOR_TOTAL_TABELA_RECEITAS);
+                jTotalDespesas.setText(pVALOR_TOTAL_TABELA_DESPESAS);
                 jtotalRegistros.setText(Integer.toString(count));
-                //TOTALIZADOR DAS RECEITAS/DESPESAS
-                pVALOR_TOTAL_RECEITAS_DESPESAS = pVALOR_TOTAL_RECEITAS_DESPESAS + pVALOR_DOCUMENTO_REAL;
-                //CONVERTER PARA MOSTRAR NA TELA
-                DecimalFormat vtrd = new DecimalFormat("#,##0.00");
-                String vltrd = vtrd.format(pVALOR_TOTAL_RECEITAS_DESPESAS);
-                pVALOR_TOTAL_TABELA = vltrd;
-                jTotalDespesas.setText(pVALOR_TOTAL_TABELA);
                 dados.add(new Object[]{conecta.rs.getString("IdMov"), dataVenc, conecta.rs.getString("Documento"), pVALOR_DOCUMENTO, conecta.rs.getString("Operacao"), conecta.rs.getString("DescricaoForma"), conecta.rs.getString("DescricaoCentro"), conecta.rs.getString("DescricaoConta")});
             } while (conecta.rs.next());
         } catch (SQLException ex) {
