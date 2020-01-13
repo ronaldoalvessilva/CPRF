@@ -2490,6 +2490,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jRelatorioContasRecebidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRelatorioContasRecebidasActionPerformed
         // TODO add your handling code here:
+        TelaRelatorioContasPagar objRelaPagas = new TelaRelatorioContasPagar();
+        TelaPrincipal.jPainelPrincipal.add(objRelaPagas);
+        objRelaPagas.show();
     }//GEN-LAST:event_jRelatorioContasRecebidasActionPerformed
 
     private void jRelatorioContasPagasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRelatorioContasPagasActionPerformed
