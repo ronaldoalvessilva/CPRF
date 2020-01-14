@@ -52,6 +52,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -762,35 +763,72 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         if (jCodigoOperacao.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário ter um registro baixado para realizar a impressão.");
         } else {
-            try {
-                conecta.abrirConexao();
-                String path = "reports/RelatorioBaixaTitulos.jasper";
-                conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
-                        + "INNER JOIN MOVIMENTO_CONTAS_PAGAR_RECEBER "
-                        + "INNER JOIN TIPO_CONTA "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
-                        + "INNER JOIN CENTRO_CUSTO "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
-                        + "INNER JOIN BANCOS_CONTAS "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
-                        + "INNER JOIN TIPO_PAGAMENTO "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
-                        + "INNER JOIN FORNECEDORES_AC "
-                        + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
-                        + "WHERE IdBaixa='" + jCodigoOperacao.getText() + "'");
-                HashMap parametros = new HashMap();
-                parametros.put("pCODIGO_BAIXA", jCodigoOperacao.getText());
-                parametros.put("pUSUARIO", nameUser);
-                JRResultSetDataSource relatResul = new JRResultSetDataSource(conecta.rs); // Passa o resulSet Preenchido para o relatorio                                   
-                JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
-                JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
-                jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
-                jv.setTitle("Relatório de Baixa de Titulos");
-                jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
-                jv.toFront(); // Traz o relatorio para frente da aplicação    
-                conecta.desconecta();
-            } catch (JRException e) {
-                JOptionPane.showMessageDialog(rootPane, "Erro ao chamar o Relatório \n\nERRO :" + e);
+            if (jComboBoxOperacaoBaixa.getSelectedItem().equals("Pagar")) {
+                try {
+                    conecta.abrirConexao();
+                    String path = "reports/RelatorioBaixaTitulosPago.jasper";
+                    conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
+                            + "INNER JOIN MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                            + "ON BAIXA_CONTAS_PAGAR_RECEBER.IdMov=MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov "
+                            + "INNER JOIN TIPO_CONTA "
+                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                            + "INNER JOIN CENTRO_CUSTO "
+                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                            + "INNER JOIN BANCOS_CONTAS "
+                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                            + "INNER JOIN TIPO_PAGAMENTO "
+                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                            + "INNER JOIN FORNECEDORES_AC "
+                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
+                            + "WHERE IdBaixa='" + jCodigoOperacao.getText() + "'");
+                    HashMap parametros = new HashMap();
+                    parametros.put("pCODIGO_BAIXA", jCodigoOperacao.getText());
+                    parametros.put("pUSUARIO", nameUser);
+                    JDialog viewer = new JDialog(new javax.swing.JFrame(), "Visualização do Relatório", true);
+                    viewer.setSize(800, 600);
+                    viewer.setLocationRelativeTo(null);
+                    JRResultSetDataSource relatResul = new JRResultSetDataSource(conecta.rs); // Passa o resulSet Preenchido para o relatorio                                   
+                    JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
+                    JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
+                    viewer.getContentPane().add(jv.getContentPane());
+                    viewer.setVisible(true);
+                    conecta.desconecta();
+                } catch (JRException e) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao chamar o Relatório \n\nERRO :" + e);
+                }
+            } else if (jComboBoxOperacaoBaixa.getSelectedItem().equals("Receber")) {
+                try {
+                    conecta.abrirConexao();
+                    String path = "reports/RelatorioBaixaTitulosRecebidos.jasper";
+                    conecta.executaSQL("SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER "
+                            + "INNER JOIN MOVIMENTO_CONTAS_PAGAR_RECEBER "
+                            + "ON BAIXA_CONTAS_PAGAR_RECEBER.IdMov=MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov "
+                            + "INNER JOIN TIPO_CONTA "
+                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta "
+                            + "INNER JOIN CENTRO_CUSTO "
+                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro "
+                            + "INNER JOIN BANCOS_CONTAS "
+                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco "
+                            + "INNER JOIN TIPO_PAGAMENTO "
+                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma "
+                            + "INNER JOIN CLIENTES "
+                            + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
+                            + "WHERE IdBaixa='" + jCodigoOperacao.getText() + "'");
+                    HashMap parametros = new HashMap();
+                    parametros.put("pCODIGO_BAIXA", jCodigoOperacao.getText());
+                    parametros.put("pUSUARIO", nameUser);
+                    JDialog viewer = new JDialog(new javax.swing.JFrame(), "Visualização do Relatório", true);
+                    viewer.setSize(800, 600);
+                    viewer.setLocationRelativeTo(null);
+                    JRResultSetDataSource relatResul = new JRResultSetDataSource(conecta.rs); // Passa o resulSet Preenchido para o relatorio                                   
+                    JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
+                    JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
+                    viewer.getContentPane().add(jv.getContentPane());
+                    viewer.setVisible(true);
+                    conecta.desconecta();
+                } catch (JRException e) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao chamar o Relatório \n\nERRO :" + e);
+                }
             }
         }
     }//GEN-LAST:event_jBtImprimirActionPerformed
