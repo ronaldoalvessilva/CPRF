@@ -21,7 +21,7 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author ronal
  */
-public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
+public class TelaRelatorioContasReceber extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
 
@@ -37,7 +37,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
     /**
      * Creates new form TelaRelatorioContasPagar
      */
-    public TelaRelatorioContasPagar() {
+    public TelaRelatorioContasReceber() {
         initComponents();
     }
 
@@ -69,7 +69,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
         jLabel1.setText("SELECIONE TIPO CONTA");
 
         jComboBoxContas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CONTAS A PAGAR" }));
+        jComboBoxContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CONTAS A RECEBER" }));
         jComboBoxContas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -191,7 +191,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                     dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
                     try {
                         conecta.abrirConexao();
-                        String path = "reports/RelatorioContasReceber.jasper";
+                        String path = "reports/RelatorioContasRecebidas.jasper";
                         conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN CLIENTES "
                                 + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
@@ -206,7 +206,8 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                                 + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
                                 + "AND '" + dataFinal + "' "
                                 + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
-                                + "AND Operacao='" + pOPERACAO_RECEBER_CONSULTA + "'");
+                                + "AND Operacao='" + pOPERACAO_RECEBER_CONSULTA + "' "
+                                + "ORDER BY DataVenc");
                         HashMap parametros = new HashMap();
                         parametros.put("pDATA_INICIAL", dataInicial);
                         parametros.put("pDATA_FINAL", dataFinal);
@@ -240,7 +241,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                     dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
                     try {
                         conecta.abrirConexao();
-                        String path = "reports/RelatorioContasPagar.jasper";
+                        String path = "reports/RelatorioContasPagas.jasper";
                         conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN FORNECEDORES_AC "
                                 + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
@@ -255,7 +256,8 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                                 + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
                                 + "AND '" + dataFinal + "' "
                                 + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
-                                + "AND Operacao='" + pOPERACAO_PAGAR_CONSULTA + "'");
+                                + "AND Operacao='" + pOPERACAO_RECEBER_CONSULTA + "' "
+                                + "ORDER BY DataVenc");
                         HashMap parametros = new HashMap();
                         parametros.put("pDATA_INICIAL", dataInicial);
                         parametros.put("pDATA_FINAL", dataFinal);
@@ -291,7 +293,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                     dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
                     try {
                         conecta.abrirConexao();
-                        String path = "reports/RelatorioContasReceber.jasper";
+                        String path = "reports/RelatorioContasRecebidas.jasper";
                         conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN CLIENTES "
                                 + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
@@ -306,7 +308,8 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                                 + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
                                 + "AND '" + dataFinal + "' "
                                 + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
-                                + "AND Operacao='" + pOPERACAO_RECEBER_CONSULTA + "'");
+                                + "AND Operacao='" + pOPERACAO_RECEBER_CONSULTA + "' "
+                                + "ORDER BY DataVenc");
                         HashMap parametros = new HashMap();
                         parametros.put("pDATA_INICIAL", dataInicial);
                         parametros.put("pDATA_FINAL", dataFinal);
@@ -340,7 +343,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                     dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
                     try {
                         conecta.abrirConexao();
-                        String path = "reports/RelatorioContasPagar.jasper";
+                        String path = "reports/RelatorioContasPagas.jasper";
                         conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN FORNECEDORES_AC "
                                 + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
@@ -355,7 +358,8 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                                 + "WHERE MOVIMENTO_CONTAS_PAGAR_RECEBER.DataEmissao BETWEEN'" + dataInicial + "' "
                                 + "AND '" + dataFinal + "' "
                                 + "AND MOVIMENTO_CONTAS_PAGAR_RECEBER.ContaBaixada='" + pCONTA_BAIXADA + "' "
-                                + "AND Operacao='" + pOPERACAO_PAGAR_CONSULTA + "'");
+                                + "AND Operacao='" + pOPERACAO_RECEBER_CONSULTA + "' "
+                                + "ORDER BY DataVenc");
                         HashMap parametros = new HashMap();
                         parametros.put("pDATA_INICIAL", dataInicial);
                         parametros.put("pDATA_FINAL", dataFinal);

@@ -1820,12 +1820,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void listagemChamadosSuporteTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listagemChamadosSuporteTecnicoActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(rootPane, "Em desenvolvimento...");
+        TelaRelatorioContasReceber objRelReceber = new TelaRelatorioContasReceber();
+        TelaPrincipal.jPainelPrincipal.add(objRelReceber);
+        objRelReceber.show();
     }//GEN-LAST:event_listagemChamadosSuporteTecnicoActionPerformed
 
     private void jRelatorioContasPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRelatorioContasPagarActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(rootPane, "Em desenvolvimento...");
+        TelaRelatorioContasPagar objRelPagar = new TelaRelatorioContasPagar();
+        TelaPrincipal.jPainelPrincipal.add(objRelPagar);
+        objRelPagar.show();
     }//GEN-LAST:event_jRelatorioContasPagarActionPerformed
 
     private void jBtCargosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCargosActionPerformed
@@ -2490,13 +2494,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jRelatorioContasRecebidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRelatorioContasRecebidasActionPerformed
         // TODO add your handling code here:
-        TelaRelatorioContasPagar objRelaPagas = new TelaRelatorioContasPagar();
-        TelaPrincipal.jPainelPrincipal.add(objRelaPagas);
-        objRelaPagas.show();
+        TelaRelatorioContasRecebidas objRelRecebidas = new TelaRelatorioContasRecebidas();
+        TelaPrincipal.jPainelPrincipal.add(objRelRecebidas);
+        objRelRecebidas.show();
     }//GEN-LAST:event_jRelatorioContasRecebidasActionPerformed
 
     private void jRelatorioContasPagasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRelatorioContasPagasActionPerformed
         // TODO add your handling code here:
+        TelaRelatorioContasPagas objRelPagas = new TelaRelatorioContasPagas();
+        TelaPrincipal.jPainelPrincipal.add(objRelPagas);
+        objRelPagas.show();
     }//GEN-LAST:event_jRelatorioContasPagasActionPerformed
 
     /**

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioBaixaTitulos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0680df7a-36b3-497f-bb13-29129d1e2adf">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="172"/>
+	<property name="ireport.y" value="284"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="pCODIGO_BAIXA" class="java.lang.String"/>
+	<parameter name="pUSUARIO" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT * FROM BAIXA_CONTAS_PAGAR_RECEBER INNER JOIN MOVIMENTO_CONTAS_PAGAR_RECEBER ON BAIXA_CONTAS_PAGAR_RECEBER.IdMov=MOVIMENTO_CONTAS_PAGAR_RECEBER.IdMov INNER JOIN TIPO_CONTA ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdConta=TIPO_CONTA.IdConta INNER JOIN CENTRO_CUSTO ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdCentro=CENTRO_CUSTO.IdCentro INNER JOIN BANCOS_CONTAS ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco INNER JOIN TIPO_PAGAMENTO ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma INNER JOIN FORNECEDORES_AC ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn WHERE IdBaixa=$P{pCODIGO_BAIXA}]]>
+	</queryString>
+	<field name="IdBaixa" class="java.lang.Integer"/>
+	<field name="IdMov" class="java.lang.Integer"/>
+	<field name="IdForn" class="java.lang.Integer"/>
+	<field name="DataBaixa" class="java.sql.Timestamp"/>
+	<field name="TipoConta" class="java.lang.String"/>
+	<field name="DiasAtraso" class="java.lang.Integer"/>
+	<field name="JurosDia" class="java.lang.Double"/>
+	<field name="ValorJuros" class="java.lang.Float"/>
+	<field name="ValorBaixa" class="java.lang.Float"/>
+	<field name="IdForma" class="java.lang.Integer"/>
+	<field name="IdBanco" class="java.lang.Integer"/>
+	<field name="IdCentro" class="java.lang.Integer"/>
+	<field name="IdConta" class="java.lang.Integer"/>
+	<field name="Operacao" class="java.lang.String"/>
+	<field name="DataEmissao" class="java.sql.Timestamp"/>
+	<field name="DataVenc" class="java.sql.Timestamp"/>
+	<field name="Documento" class="java.lang.String"/>
+	<field name="ValorDoc" class="java.lang.Float"/>
+	<field name="Historico" class="java.lang.String"/>
+	<field name="UsuarioInsert" class="java.lang.String"/>
+	<field name="UsuarioUp" class="java.lang.String"/>
+	<field name="DataInsert" class="java.lang.String"/>
+	<field name="DataUp" class="java.lang.String"/>
+	<field name="HorarioInsert" class="java.lang.String"/>
+	<field name="HorarioUp" class="java.lang.String"/>
+	<field name="ContaBaixada" class="java.lang.String"/>
+	<field name="StatusConta" class="java.lang.String"/>
+	<field name="DataConta" class="java.sql.Timestamp"/>
+	<field name="DescricaoConta" class="java.lang.String"/>
+	<field name="Observacao" class="java.lang.String"/>
+	<field name="StatusCentro" class="java.lang.String"/>
+	<field name="DataCentro" class="java.sql.Timestamp"/>
+	<field name="DescricaoCentro" class="java.lang.String"/>
+	<field name="StatusBanco" class="java.lang.String"/>
+	<field name="DataBanco" class="java.sql.Timestamp"/>
+	<field name="DescricaoBanco" class="java.lang.String"/>
+	<field name="Agencia" class="java.lang.String"/>
+	<field name="ContaCorrente" class="java.lang.String"/>
+	<field name="OperacaoBanco" class="java.lang.String"/>
+	<field name="Endereco" class="java.lang.String"/>
+	<field name="Cidade" class="java.lang.String"/>
+	<field name="Estado" class="java.lang.String"/>
+	<field name="TipoFavorecido" class="java.lang.String"/>
+	<field name="StatusForma" class="java.lang.String"/>
+	<field name="DataForma" class="java.sql.Timestamp"/>
+	<field name="DescricaoForma" class="java.lang.String"/>
+	<field name="CreditCar" class="java.lang.Integer"/>
+	<field name="Visa" class="java.lang.Integer"/>
+	<field name="MasterC" class="java.lang.Integer"/>
+	<field name="Outros" class="java.lang.Integer"/>
+	<field name="Deposito" class="java.lang.Integer"/>
+	<field name="Dinheiro" class="java.lang.Integer"/>
+	<field name="Cheque" class="java.lang.Integer"/>
+	<field name="Boleto" class="java.lang.Integer"/>
+	<field name="DebitoC" class="java.lang.Integer"/>
+	<field name="Avista" class="java.lang.Integer"/>
+	<field name="PagtoCartao" class="java.lang.Integer"/>
+	<field name="PagtoDeposito" class="java.lang.Integer"/>
+	<field name="PagtoBoleto" class="java.lang.Integer"/>
+	<field name="PagtoDebito" class="java.lang.Integer"/>
+	<field name="ClassFor" class="java.lang.String"/>
+	<field name="StatusFor" class="java.lang.String"/>
+	<field name="RazaoSocial" class="java.lang.String"/>
+	<field name="NomeFantasia" class="java.lang.String"/>
+	<field name="Departamento" class="java.lang.String"/>
+	<field name="Cnpj" class="java.lang.String"/>
+	<field name="InsEstadual" class="java.lang.String"/>
+	<field name="CpfFor" class="java.lang.String"/>
+	<field name="NomeContato" class="java.lang.String"/>
+	<field name="RgFor" class="java.lang.String"/>
+	<field name="Telefone" class="java.lang.String"/>
+	<field name="Telefone1" class="java.lang.String"/>
+	<field name="Celular" class="java.lang.String"/>
+	<field name="Email" class="java.lang.String"/>
+	<field name="Fax" class="java.lang.String"/>
+	<field name="Compl" class="java.lang.String"/>
+	<field name="Cep" class="java.lang.String"/>
+	<field name="EnderecoCob" class="java.lang.String"/>
+	<field name="ComplCob" class="java.lang.String"/>
+	<field name="CepCob" class="java.lang.String"/>
+	<field name="CidadeCob" class="java.lang.String"/>
+	<field name="EstadoCob" class="java.lang.String"/>
+	<field name="UsuarioDelete" class="java.lang.String"/>
+	<field name="DataDelete" class="java.lang.String"/>
+	<field name="Modulo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="53" splitType="Stretch">
+			<staticText>
+				<reportElement x="11" y="11" width="319" height="20" uuid="89949ee3-2163-46ad-b91b-2ec07fb5e42a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPRF - Contas a Pagar/Receber e Fluxo de Caixa]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="aaa79449-29f5-47a3-bb6e-a64d7fb817e8"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="16" uuid="09bb5036-2f15-4076-b510-29639ade03a7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BAIXA DE TITULOS A RECEBER/PAGAR]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="248" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="f803f3cb-5c04-477a-b452-ed72c55cacf2"/>
+			</frame>
+			<staticText>
+				<reportElement style="Column header" x="87" y="8" width="81" height="15" forecolor="#000000" uuid="8d375174-032d-4b5e-b043-6b418b54e56e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Operação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="175" y="10" width="86" height="15" forecolor="#000000" uuid="5d180bf3-2ead-4dbb-a5e9-fc070345ea6b"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data Emissão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="267" y="8" width="101" height="15" forecolor="#000000" uuid="5fdd894f-8e19-482f-8497-df5006bdf8d8"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="373" y="8" width="75" height="15" forecolor="#000000" uuid="3328f66a-7c8d-4dd0-9ce6-b0abf564345d"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data Venc.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="87" y="23" width="81" height="15" uuid="be7e3c07-6eb4-4226-9ff2-3bf02e099650"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Operacao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement style="Detail" x="175" y="25" width="86" height="15" uuid="eb65aefa-c820-4240-8185-7b4c96649e2e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DataEmissao}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="267" y="23" width="101" height="15" uuid="f1271424-d8d8-434b-99a2-60fd584ee121"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Documento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement style="Detail" x="373" y="23" width="75" height="15" uuid="26146236-3e8d-4b7b-a1e9-c68473aa2cb8"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DataVenc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="456" y="8" width="79" height="15" forecolor="#000000" uuid="57d164fe-c7fb-47fa-beef-94c9d4e780cc"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data Baixa]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement style="Detail" x="456" y="24" width="79" height="15" uuid="9493edf9-7862-4d75-9e85-b3edd6d61d3f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DataBaixa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="11" y="51" width="122" height="15" forecolor="#000000" uuid="7ee55baa-1b02-4b39-a359-e311bf6962f6"/>
+				<text><![CDATA[Tipo Despesa]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="11" y="67" width="407" height="15" uuid="f715da91-3323-42bb-b42f-32f810e94dae"/>
+				<textFieldExpression><![CDATA[$F{DescricaoCentro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="433" y="50" width="102" height="15" forecolor="#000000" uuid="47b1f305-7297-4188-bc12-95e3e5446c3b"/>
+				<text><![CDATA[Valor Documento]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="433" y="66" width="102" height="15" uuid="98675d53-408f-4ad8-a133-6cd77df5bc8f"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{ValorDoc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="11" y="88" width="122" height="15" forecolor="#000000" uuid="093b9814-9471-422a-a699-3ac7720de285"/>
+				<text><![CDATA[Plano de Contas]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="11" y="104" width="407" height="15" uuid="a53ee2e7-4015-42fc-845d-9da8c5328d6f"/>
+				<textFieldExpression><![CDATA[$F{DescricaoConta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="432" y="88" width="103" height="15" forecolor="#000000" uuid="42e3e4c7-40c1-46de-be22-85cc1618ba28"/>
+				<text><![CDATA[Valor Operação]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="432" y="104" width="103" height="15" uuid="f083325b-4a66-426c-8297-7ceef3637068"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{ValorBaixa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="11" y="126" width="210" height="15" forecolor="#000000" uuid="68f409b9-e393-417e-84ae-5d67003f72cb"/>
+				<text><![CDATA[Cliente/Fornecedor]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="11" y="142" width="501" height="15" uuid="3ccc4fa5-a72d-4236-ba52-22d6ab84e495"/>
+				<textFieldExpression><![CDATA[$F{RazaoSocial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="11" y="171" width="122" height="15" forecolor="#000000" uuid="2c0065b9-a0cb-443c-97f5-06a2ae7f5fd0"/>
+				<text><![CDATA[Tipo de àgamento]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="11" y="186" width="501" height="15" uuid="014c14d7-ebfa-45c6-bdcb-ee43ed85c105"/>
+				<textFieldExpression><![CDATA[$F{DescricaoForma}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="11" y="209" width="71" height="15" forecolor="#000000" uuid="f7b93ef4-bcec-4198-8d65-deec13f30b5a"/>
+				<text><![CDATA[Dias Atraso]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="11" y="225" width="71" height="15" uuid="bee41cfe-5402-4382-865f-ba53fdf8254f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{DiasAtraso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="92" y="207" width="39" height="15" forecolor="#000000" uuid="d8ecf984-d64a-43a6-accd-5bebb3766ca9"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[JurosDia]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00 %" isBlankWhenNull="true">
+				<reportElement style="Detail" x="92" y="223" width="39" height="15" uuid="32662fa6-4191-4920-9a9d-36725e250a96"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{JurosDia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="143" y="208" width="78" height="15" forecolor="#000000" uuid="0617ffa1-4588-47e7-9191-b1b8be87c6f8"/>
+				<text><![CDATA[Valor Juros]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement style="Detail" x="143" y="224" width="66" height="15" uuid="bfbad79d-bcc5-4d1f-a6c0-540291fcf1e1"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{ValorJuros}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="23" width="68" height="16" uuid="78a15bd7-12d1-4e68-b2b9-36c7be08a482"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IdBaixa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="11" y="9" width="67" height="15" uuid="2d02e144-da1b-4557-aff3-e2dcdba6fd75"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="18" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="e7bf8a0d-be6c-44f2-9c1c-cc40324f07fb"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="276d0885-08b6-4f9e-9de1-c387b18b6641"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="6018e25e-cc5d-4e9c-876f-28f90a75488c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="3d728a6d-08cd-43d0-a821-ec72b8c4656a"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="258e38f5-ccdc-45d6-a74c-10e3618cbbd6"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="219" y="0" width="235" height="20" uuid="685a6f1b-a270-47a9-817a-72fa99af27a5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{pUSUARIO}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

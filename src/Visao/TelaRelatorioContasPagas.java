@@ -21,7 +21,7 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author ronal
  */
-public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
+public class TelaRelatorioContasPagas extends javax.swing.JInternalFrame {
 
     ConexaoBancoDados conecta = new ConexaoBancoDados();
 
@@ -32,12 +32,12 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
     String pOPERACAO_PAGAR_CONSULTA = "Pagar";
     String pOPERACAO_RECEBER_CONSULTA = "Receber";
     String pOPERACAO_CONTAS_PR = "";
-    String pCONTA_BAIXADA = "Não";
+    String pCONTA_BAIXADA = "Sim";
 
     /**
      * Creates new form TelaRelatorioContasPagar
      */
-    public TelaRelatorioContasPagar() {
+    public TelaRelatorioContasPagas() {
         initComponents();
     }
 
@@ -69,7 +69,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
         jLabel1.setText("SELECIONE TIPO CONTA");
 
         jComboBoxContas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jComboBoxContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CONTAS A PAGAR" }));
+        jComboBoxContas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CONTAS PAGAS" }));
         jComboBoxContas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -176,7 +176,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
         if (tipoServidor == null || tipoServidor.equals("")) {
             JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
         } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
-            if (jComboBoxContas.getSelectedItem().equals("CONTAS A RECEBER")) {
+            if (jComboBoxContas.getSelectedItem().equals("CONTAS RECEBIDAS")) {
                 if (jDataPesqInicial.getDate() == null) {
                     JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
                     jDataPesqInicial.requestFocus();
@@ -191,7 +191,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                     dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
                     try {
                         conecta.abrirConexao();
-                        String path = "reports/RelatorioContasReceber.jasper";
+                        String path = "reports/RelatorioContasRecebidas.jasper";
                         conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN CLIENTES "
                                 + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
@@ -217,7 +217,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                         JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
                         JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
                         jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
-                        jv.setTitle("Relatório de Contas a Receber");
+                        jv.setTitle("Relatório de Contas Recebidas");
                         jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
                         jv.toFront(); // Traz o relatorio para frente da aplicação    
                         conecta.desconecta();
@@ -225,7 +225,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(rootPane, "Erro ao chamar o Relatório \n\nERRO :" + e);
                     }
                 }
-            } else if (jComboBoxContas.getSelectedItem().equals("CONTAS A PAGAR")) {
+            } else if (jComboBoxContas.getSelectedItem().equals("CONTAS PAGAS")) {
                 if (jDataPesqInicial.getDate() == null) {
                     JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
                     jDataPesqInicial.requestFocus();
@@ -240,7 +240,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                     dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
                     try {
                         conecta.abrirConexao();
-                        String path = "reports/RelatorioContasPagar.jasper";
+                        String path = "reports/RelatorioContasPagas.jasper";
                         conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN FORNECEDORES_AC "
                                 + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
@@ -266,7 +266,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                         JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
                         JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
                         jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
-                        jv.setTitle("Relatório de Contas a Pagar");
+                        jv.setTitle("Relatório de Contas Recebidas");
                         jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
                         jv.toFront(); // Traz o relatorio para frente da aplicação    
                         conecta.desconecta();
@@ -276,7 +276,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                 }
             }
         } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
-            if (jComboBoxContas.getSelectedItem().equals("CONTAS A RECEBER")) {
+            if (jComboBoxContas.getSelectedItem().equals("CONTAS RECEBIDAS")) {
                 if (jDataPesqInicial.getDate() == null) {
                     JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
                     jDataPesqInicial.requestFocus();
@@ -291,7 +291,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                     dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
                     try {
                         conecta.abrirConexao();
-                        String path = "reports/RelatorioContasReceber.jasper";
+                        String path = "reports/RelatorioContasRecebidas.jasper";
                         conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN CLIENTES "
                                 + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie "
@@ -317,7 +317,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                         JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
                         JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
                         jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
-                        jv.setTitle("Relatório de Contas a Receber");
+                        jv.setTitle("Relatório de Contas Recebidas");
                         jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
                         jv.toFront(); // Traz o relatorio para frente da aplicação    
                         conecta.desconecta();
@@ -325,7 +325,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(rootPane, "Erro ao chamar o Relatório \n\nERRO :" + e);
                     }
                 }
-            } else if (jComboBoxContas.getSelectedItem().equals("CONTAS A PAGAR")) {
+            } else if (jComboBoxContas.getSelectedItem().equals("CONTAS PAGAS")) {
                 if (jDataPesqInicial.getDate() == null) {
                     JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
                     jDataPesqInicial.requestFocus();
@@ -340,7 +340,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                     dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
                     try {
                         conecta.abrirConexao();
-                        String path = "reports/RelatorioContasPagar.jasper";
+                        String path = "reports/RelatorioContasPagas.jasper";
                         conecta.executaSQL("SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER "
                                 + "INNER JOIN FORNECEDORES_AC "
                                 + "ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn "
@@ -366,7 +366,7 @@ public class TelaRelatorioContasPagar extends javax.swing.JInternalFrame {
                         JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
                         JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
                         jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
-                        jv.setTitle("Relatório de Contas a Pagar");
+                        jv.setTitle("Relatório de Contas Recebidas");
                         jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
                         jv.toFront(); // Traz o relatorio para frente da aplicação    
                         conecta.desconecta();

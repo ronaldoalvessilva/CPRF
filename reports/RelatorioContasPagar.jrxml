@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioContasRecebidas" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f9045da6-8b2d-4f1b-a7bb-6f3636288f9a">
-	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="387"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="52"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -20,8 +20,8 @@
 	<parameter name="pCONTA_BAIXADA" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT * FROM MOVIMENTO_CONTAS_PAGAR_RECEBER
-INNER JOIN CLIENTES
-ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=CLIENTES.IdClie
+INNER JOIN FORNECEDORES_AC
+ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForn=FORNECEDORES_AC.IdForn
 INNER JOIN BANCOS_CONTAS
 ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdBanco=BANCOS_CONTAS.IdBanco
 INNER JOIN CENTRO_CUSTO
@@ -50,17 +50,16 @@ ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma WHERE DataVenc 
 	<field name="HorarioInsert" class="java.lang.String"/>
 	<field name="HorarioUp" class="java.lang.String"/>
 	<field name="ContaBaixada" class="java.lang.String"/>
-	<field name="IdClie" class="java.lang.Integer"/>
-	<field name="ClassClie" class="java.lang.String"/>
-	<field name="StatusClie" class="java.lang.String"/>
+	<field name="ClassFor" class="java.lang.String"/>
+	<field name="StatusFor" class="java.lang.String"/>
 	<field name="RazaoSocial" class="java.lang.String"/>
 	<field name="NomeFantasia" class="java.lang.String"/>
 	<field name="Departamento" class="java.lang.String"/>
 	<field name="Cnpj" class="java.lang.String"/>
 	<field name="InsEstadual" class="java.lang.String"/>
-	<field name="CpfClie" class="java.lang.String"/>
+	<field name="CpfFor" class="java.lang.String"/>
 	<field name="NomeContato" class="java.lang.String"/>
-	<field name="RgClie" class="java.lang.String"/>
+	<field name="RgFor" class="java.lang.String"/>
 	<field name="Telefone" class="java.lang.String"/>
 	<field name="Telefone1" class="java.lang.String"/>
 	<field name="Celular" class="java.lang.String"/>
@@ -115,7 +114,7 @@ ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma WHERE DataVenc 
 		<variableExpression><![CDATA[1]]></variableExpression>
 		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
-	<variable name="pVALOR_TOTAL" class="java.lang.Integer" calculation="Sum">
+	<variable name="pVALOR_TOTAL" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{ValorDoc}]]></variableExpression>
 		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
@@ -128,7 +127,7 @@ ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma WHERE DataVenc 
 				<reportElement x="0" y="0" width="802" height="96" uuid="933c69ee-60cb-42da-b462-aa0f4282deb2"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="288" y="65" width="213" height="20" uuid="db933f71-c7f9-4523-8464-581be19c11eb"/>
+				<reportElement x="295" y="65" width="207" height="20" uuid="db933f71-c7f9-4523-8464-581be19c11eb"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="12" y="10" width="301" height="20" uuid="16769293-e7c0-4858-9fc5-c7fefd6e8a5c"/>
@@ -142,17 +141,17 @@ ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma WHERE DataVenc 
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Relatório de Contas Recebidas por Período]]></text>
+				<text><![CDATA[Relatório de Contas Pagar por Período]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="294" y="67" width="61" height="15" uuid="44385503-814d-4b2d-9ff4-6e986d6c551a"/>
+				<reportElement x="298" y="67" width="61" height="15" uuid="44385503-814d-4b2d-9ff4-6e986d6c551a"/>
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Período:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="356" y="67" width="65" height="15" uuid="55334b2b-a701-4982-96ae-2d43984b48a2"/>
+				<reportElement x="355" y="67" width="69" height="15" uuid="55334b2b-a701-4982-96ae-2d43984b48a2"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
@@ -166,7 +165,7 @@ ON MOVIMENTO_CONTAS_PAGAR_RECEBER.IdForma=TIPO_PAGAMENTO.IdForma WHERE DataVenc 
 				<text><![CDATA[à]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="434" y="67" width="64" height="15" uuid="8e5372b7-f9b7-45e1-a3b0-bc712a4f9791"/>
+				<reportElement x="434" y="67" width="67" height="15" uuid="8e5372b7-f9b7-45e1-a3b0-bc712a4f9791"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
