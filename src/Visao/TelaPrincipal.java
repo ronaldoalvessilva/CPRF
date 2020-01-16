@@ -287,7 +287,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jBtCargos = new javax.swing.JButton();
         jBtDepartamentos = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        jBtConsultasDB = new javax.swing.JButton();
+        jBtConsultasFluxo = new javax.swing.JButton();
         jBtRelatorios = new javax.swing.JButton();
         jBtMovimentacaoCPR = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -559,6 +559,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
 
         jBtCargos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/briefcase32.png"))); // NOI18N
+        jBtCargos.setToolTipText("Cargos");
         jBtCargos.setContentAreaFilled(false);
         jBtCargos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -606,12 +607,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204))));
         jPanel6.setToolTipText("Desenvolvimento");
 
-        jBtConsultasDB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/money_32.png"))); // NOI18N
-        jBtConsultasDB.setToolTipText("Consultas SQL");
-        jBtConsultasDB.setContentAreaFilled(false);
-        jBtConsultasDB.addActionListener(new java.awt.event.ActionListener() {
+        jBtConsultasFluxo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/money_32.png"))); // NOI18N
+        jBtConsultasFluxo.setToolTipText("Consultas Fluxo de Caixa");
+        jBtConsultasFluxo.setContentAreaFilled(false);
+        jBtConsultasFluxo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtConsultasDBActionPerformed(evt);
+                jBtConsultasFluxoActionPerformed(evt);
             }
         });
 
@@ -639,7 +640,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBtConsultasDB, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBtConsultasFluxo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtMovimentacaoCPR, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -648,7 +649,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jBtConsultasDB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jBtConsultasFluxo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jBtRelatorios)
             .addComponent(jBtMovimentacaoCPR)
         );
@@ -1769,16 +1770,39 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jBtTiposContasActionPerformed
 
-    private void jBtConsultasDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtConsultasDBActionPerformed
+    private void jBtConsultasFluxoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtConsultasFluxoActionPerformed
         // TODO add your handling code here:
-//        buscarAcessoUsuario(telaConsultasSql);
-//        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaConsultasSql) && codAbrir == 1) {
-//            TableExample objSQL = new TableExample();
-//            objSQL.createConnectionDialog();
-//        } else {
-//            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
-//        }
-    }//GEN-LAST:event_jBtConsultasDBActionPerformed
+        buscarAcessoUsuario(telaMovimentacaoCPR);
+        if (nameUser.equals("ADMINISTRADOR DO SISTEMA") || codigoUser == codUserAcesso && nomeTela.equals(telaMovimentacaoCPR) && codAbrir == 1) {
+            if (objFluxo == null || objFluxo.isClosed()) {
+                objFluxo = new TelaFluxoCaixa();
+                TelaPrincipal.jPainelPrincipal.add(objFluxo);
+                objFluxo.setVisible(true);
+            } else {
+                if (objFluxo.isVisible()) {
+                    if (objFluxo.isIcon()) { // Se esta minimizado
+                        try {
+                            objFluxo.setIcon(false); // maximiniza
+                        } catch (PropertyVetoException ex) {
+                        }
+                    } else {
+                        objFluxo.toFront(); // traz para frente
+                        objFluxo.pack();//volta frame 
+                    }
+                } else {
+                    objFluxo = new TelaFluxoCaixa();
+                    TelaPrincipal.jPainelPrincipal.add(objFluxo);//adicona frame ao JDesktopPane  
+                    objFluxo.setVisible(true);
+                }
+            }
+            try {
+                objFluxo.setSelected(true);
+            } catch (java.beans.PropertyVetoException e) {
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Usuário não tem acesso ao registro.");
+        }
+    }//GEN-LAST:event_jBtConsultasFluxoActionPerformed
 
     private void jBtMovimentacaoCPRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtMovimentacaoCPRActionPerformed
         // TODO add your handling code here:
@@ -2551,7 +2575,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jBtCadastroFornecedores;
     private javax.swing.JButton jBtCargos;
     private javax.swing.JButton jBtConfiguracoes;
-    private javax.swing.JButton jBtConsultasDB;
+    private javax.swing.JButton jBtConsultasFluxo;
     private javax.swing.JButton jBtDepartamentos;
     private javax.swing.JButton jBtEmpresa;
     private javax.swing.JButton jBtLogoff;
