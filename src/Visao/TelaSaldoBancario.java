@@ -11,18 +11,25 @@ import Dao.listarFornecedorSaldoBancoDAO;
 import Modelo.Clientes;
 import Modelo.Fornecedor;
 import Util.ModeloTabela;
+import static Visao.TelaLoginSenhaCPRF.nameUser;
 import static Visao.TelaPrincipal.tipoServidor;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -561,6 +568,94 @@ public class TelaSaldoBancario extends javax.swing.JInternalFrame {
 
     private void jBtImpressaoExtratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtImpressaoExtratoActionPerformed
         // TODO add your handling code here:
+        flag = 1;
+        if (tipoServidor == null || tipoServidor.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "É necessário definir o parâmtero para o sistema operacional utilizado no servidor, (UBUNTU-LINUX ou WINDOWS SERVER).");
+        } else if (tipoServidor.equals("Servidor Linux (Ubuntu)/MS-SQL Server")) {
+            if (jDataPesqInicial.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                jDataPesqInicial.requestFocus();
+            } else if (jDataPesqFinal.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                jDataPesqFinal.requestFocus();
+            } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
+                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+            } else {
+                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
+                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
+                try {
+                    conecta.abrirConexao();
+                    String path = "reports/ExtratoBancarioConta.jasper";
+                    conecta.executaSQL("SELECT * FROM SALDO_BANCARIO "
+                            + "INNER JOIN BANCOS_CONTAS "
+                            + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
+                            + "INNER JOIN CLIENTES "
+                            + "ON BANCOS_CONTAS.IdForn=CLIENTES.IdClie "
+                            + "WHERE DataSaldo BETWEEN'" + dataInicial + "' "
+                            + "AND '" + dataFinal + "' "
+                            + "AND Agencia='" + jAgencia.getText().trim() + "' "
+                            + "ORDER BY DataSaldo");
+                    HashMap parametros = new HashMap();
+                    parametros.put("pDATA_INICIAL", dataInicial);
+                    parametros.put("pDATA_FINAL", dataFinal);
+                    parametros.put("pAGENCIA", jAgencia.getText().trim());
+                    parametros.put("pNOME_USUARIO", nameUser);
+                    JRResultSetDataSource relatResul = new JRResultSetDataSource(conecta.rs); // Passa o resulSet Preenchido para o relatorio                                   
+                    JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
+                    JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
+                    jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
+                    jv.setTitle("Extrato Bancário para Simples Conferência");
+                    jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
+                    jv.toFront(); // Traz o relatorio para frente da aplicação    
+                    conecta.desconecta();
+                } catch (JRException e) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao chamar o Relatório \n\nERRO :" + e);
+                }
+            }
+        } else if (tipoServidor.equals("Servidor Windows/MS-SQL Server")) {
+            if (jDataPesqInicial.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data inicial para pesquisa.");
+                jDataPesqInicial.requestFocus();
+            } else if (jDataPesqFinal.getDate() == null) {
+                JOptionPane.showMessageDialog(rootPane, "Informe a data final para pesquisa.");
+                jDataPesqFinal.requestFocus();
+            } else if (jDataPesqInicial.getDate().after(jDataPesqFinal.getDate())) {
+                JOptionPane.showMessageDialog(rootPane, "Data Inicial não pode ser maior que data final");
+            } else {
+                SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
+                dataInicial = formatoAmerica.format(jDataPesqInicial.getDate().getTime());
+                dataFinal = formatoAmerica.format(jDataPesqFinal.getDate().getTime());
+                try {
+                    conecta.abrirConexao();
+                    String path = "reports/ExtratoBancarioConta.jasper";
+                    conecta.executaSQL("SELECT * FROM SALDO_BANCARIO "
+                            + "INNER JOIN BANCOS_CONTAS "
+                            + "ON SALDO_BANCARIO.IdBanco=BANCOS_CONTAS.IdBanco "
+                            + "INNER JOIN CLIENTES "
+                            + "ON BANCOS_CONTAS.IdForn=CLIENTES.IdClie "
+                            + "WHERE DataSaldo BETWEEN'" + dataInicial + "' "
+                            + "AND '" + dataFinal + "' "
+                            + "AND Agencia='" + jAgencia.getText().trim() + "' "
+                            + "ORDER BY DataSaldo");
+                    HashMap parametros = new HashMap();
+                    parametros.put("pDATA_INICIAL", dataInicial);
+                    parametros.put("pDATA_FINAL", dataFinal);
+                    parametros.put("pAGENCIA", jAgencia.getText().trim());
+                    parametros.put("pNOME_USUARIO", nameUser);
+                    JRResultSetDataSource relatResul = new JRResultSetDataSource(conecta.rs); // Passa o resulSet Preenchido para o relatorio                                   
+                    JasperPrint jpPrint = JasperFillManager.fillReport(path, parametros, relatResul); // indica o caminmhodo relatório
+                    JasperViewer jv = new JasperViewer(jpPrint, false); // Cria instancia para impressao          
+                    jv.setExtendedState(JasperViewer.MAXIMIZED_BOTH); // Maximizar o relatório
+                    jv.setTitle("Extrato Bancário para Simples Conferência");
+                    jv.setVisible(true); // Chama o relatorio para ser visualizado                                    
+                    jv.toFront(); // Traz o relatorio para frente da aplicação    
+                    conecta.desconecta();
+                } catch (JRException e) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao chamar o Relatório \n\nERRO :" + e);
+                }
+            }
+        }
     }//GEN-LAST:event_jBtImpressaoExtratoActionPerformed
 
 
