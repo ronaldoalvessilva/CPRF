@@ -102,6 +102,8 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jObservacao = new javax.swing.JTextArea();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBoxTipoCentroCusto = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jBtNovo = new javax.swing.JButton();
         jBtAlterar = new javax.swing.JButton();
@@ -258,7 +260,7 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jPanel33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -308,32 +310,47 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
         jObservacao.setEnabled(false);
         jScrollPane2.setViewportView(jObservacao);
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Tipo Centro Custo");
+
+        jComboBoxTipoCentroCusto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jComboBoxTipoCentroCusto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione...", "Receitas", "Despesas" }));
+        jComboBoxTipoCentroCusto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        jComboBoxTipoCentroCusto.setEnabled(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane2)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel5)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jDescricaoCentro, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBoxTipoCentroCusto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane2)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jDataRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jDataRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel3)))))
+                            .addComponent(jLabel6))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jDescricaoCentro, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,14 +371,18 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
                             .addGap(24, 24, 24))
                         .addComponent(jDataRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxTipoCentroCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jDescricaoCentro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(4, 4, 4)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                .addGap(5, 5, 5))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true)));
@@ -479,8 +500,7 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
                 .addGap(4, 4, 4)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Manutenção", jPanel2);
@@ -493,10 +513,10 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jTabbedPane1)
         );
 
-        setBounds(300, 60, 411, 338);
+        setBounds(300, 60, 411, 386);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtCodigoPesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtCodigoPesqActionPerformed
@@ -547,6 +567,7 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
                 jComboBoxStatus.setSelectedItem(conecta.rs.getString("StatusCentro"));
                 jDataRegistro.setDate(conecta.rs.getDate("DataCentro"));
                 jDescricaoCentro.setText(conecta.rs.getString("DescricaoCentro"));
+                jComboBoxTipoCentroCusto.setSelectedItem(conecta.rs.getString("TipoCentroCusto"));
                 jObservacao.setText(conecta.rs.getString("Observacao"));
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(rootPane, "ERRO na pesquisa..." + e);
@@ -622,10 +643,15 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(rootPane, "Selecione o status do centro de custo.");
             } else if (jDescricaoCentro.getText().equals("")) {
                 JOptionPane.showMessageDialog(rootPane, "Informe o nome do centro de custo.");
+            } else if (jComboBoxTipoCentroCusto.getSelectedItem().equals("Selecione...")) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o tipo de centro de custo.");
+            } else if (jComboBoxTipoCentroCusto.getSelectedItem().equals(null)) {
+                JOptionPane.showMessageDialog(rootPane, "Informe o tipo de centro de custo.");
             } else {
                 objCentro.setStatusCentro((String) jComboBoxStatus.getSelectedItem());
                 objCentro.setDataCentro(jDataRegistro.getDate());
                 objCentro.setDescricaoCentro(jDescricaoCentro.getText());
+                objCentro.setTipoCentroCusto((String) jComboBoxTipoCentroCusto.getSelectedItem());
                 objCentro.setObservacao(jObservacao.getText());
                 if (acao == 1) {
                     objCentro.setUsuarioInsert(nameUser);
@@ -692,6 +718,7 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
     public static javax.swing.JTextField jCodigo;
     private javax.swing.JTextField jCodigoPesq;
     private javax.swing.JComboBox<String> jComboBoxStatus;
+    private javax.swing.JComboBox<String> jComboBoxTipoCentroCusto;
     private com.toedter.calendar.JDateChooser jDataRegistro;
     private javax.swing.JTextField jDescricaoCentro;
     private javax.swing.JLabel jLabel1;
@@ -700,6 +727,7 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JTextArea jObservacao;
     private javax.swing.JPanel jPanel1;
@@ -730,12 +758,14 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
         jComboBoxStatus.setEnabled(!true);
         jDataRegistro.setEnabled(!true);
         jDescricaoCentro.setEnabled(!true);
+        jComboBoxTipoCentroCusto.setEnabled(!true);
         jObservacao.setEnabled(!true);
     }
 
     public void desbloquearCampos() {
         jComboBoxStatus.setEnabled(true);
         jDescricaoCentro.setEnabled(true);
+        jComboBoxTipoCentroCusto.setEnabled(true);
         jObservacao.setEnabled(true);
     }
 
@@ -744,6 +774,7 @@ public class TelaCentroCusto extends javax.swing.JInternalFrame {
         jComboBoxStatus.setSelectedItem("Selecione...");
         jDataRegistro.setDate(null);
         jDescricaoCentro.setText("");
+        jComboBoxTipoCentroCusto.setSelectedItem("Selecione...");
         jObservacao.setText("");
     }
 

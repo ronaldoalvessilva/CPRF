@@ -6,6 +6,7 @@
 package Dao;
 
 import Modelo.TipoConta;
+import static Visao.TelaMovimentacaoContasPR.pTIPO_CENTRO_custo;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -90,7 +91,9 @@ public class TipoContasDAO {
         List<TipoConta> listaContas = new ArrayList<TipoConta>();
         try {
             conecta.executaSQL("SELECT * FROM TIPO_CONTA "
-                    + "WHERE StatusConta='" + pSTATUS_CONTAS + "'");
+                    + "WHERE StatusConta='" + pSTATUS_CONTAS + "' "
+                    + "AND TipoConta='" + pTIPO_CENTRO_custo + "' "
+                    + "ORDER BY DescricaoConta");
             while (conecta.rs.next()) {
                 TipoConta pDigiContas = new TipoConta();
                 pDigiContas.setIdConta(conecta.rs.getInt("IdConta"));

@@ -17,6 +17,7 @@ public class CentroCusto {
     private String statusCentro;
     private Date dataCentro;
     private String descricaoCentro;
+    private String tipoCentroCusto;
     private String observacao;
     private String usuarioInsert;
     private String usuarioUp;
@@ -28,11 +29,12 @@ public class CentroCusto {
     public CentroCusto() {
     }
 
-    public CentroCusto(int idCentro, String statusCentro, Date dataCentro, String descricaoCentro, String observacao, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
+    public CentroCusto(int idCentro, String statusCentro, Date dataCentro, String descricaoCentro, String tipoCentroCusto, String observacao, String usuarioInsert, String usuarioUp, String dataInsert, String dataUp, String horarioInsert, String horarioUp) {
         this.idCentro = idCentro;
         this.statusCentro = statusCentro;
         this.dataCentro = dataCentro;
         this.descricaoCentro = descricaoCentro;
+        this.tipoCentroCusto = tipoCentroCusto;
         this.observacao = observacao;
         this.usuarioInsert = usuarioInsert;
         this.usuarioUp = usuarioUp;
@@ -96,6 +98,20 @@ public class CentroCusto {
      */
     public void setDescricaoCentro(String descricaoCentro) {
         this.descricaoCentro = descricaoCentro;
+    }
+
+    /**
+     * @return the tipoCentroCusto
+     */
+    public String getTipoCentroCusto() {
+        return tipoCentroCusto;
+    }
+
+    /**
+     * @param tipoCentroCusto the tipoCentroCusto to set
+     */
+    public void setTipoCentroCusto(String tipoCentroCusto) {
+        this.tipoCentroCusto = tipoCentroCusto;
     }
 
     /**
@@ -199,5 +215,5 @@ public class CentroCusto {
     @Override
     public String toString() {
         return getDescricaoCentro(); //To change body of generated methods, choose Tools | Templates.
-    }    
+}
 }

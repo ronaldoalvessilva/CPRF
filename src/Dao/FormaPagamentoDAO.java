@@ -106,7 +106,8 @@ public class FormaPagamentoDAO {
         List<FormaPagamento> listaForma = new ArrayList<FormaPagamento>();
         try {
             conecta.executaSQL("SELECT * FROM TIPO_PAGAMENTO "
-                    + "WHERE StatusForma='" + pSTATUS_FORMA + "'");
+                    + "WHERE StatusForma='" + pSTATUS_FORMA + "' "
+                    + "ORDER BY DescricaoForma");
             while (conecta.rs.next()) {
                 FormaPagamento pDigiForma = new FormaPagamento();
                 pDigiForma.setIdForma(conecta.rs.getInt("IdForma"));

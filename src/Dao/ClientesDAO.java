@@ -115,7 +115,8 @@ public class ClientesDAO {
         List<Clientes> listaClientes = new ArrayList<Clientes>();
         try {
             conecta.executaSQL("SELECT * FROM CLIENTES "
-                    + "WHERE StatusClie='" + pSTATUS_FORNECEDOR + "'");
+                    + "WHERE StatusClie='" + pSTATUS_FORNECEDOR + "' "
+                    + "ORDER BY RazaoSocial");
             while (conecta.rs.next()) {
                 Clientes pDigiClie = new Clientes();
                 pDigiClie.setIdForn(conecta.rs.getInt("IdClie"));

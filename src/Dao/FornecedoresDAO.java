@@ -114,7 +114,8 @@ public class FornecedoresDAO {
         List<Fornecedor> listaFornecedores = new ArrayList<Fornecedor>();
         try {
             conecta.executaSQL("SELECT * FROM FORNECEDORES_AC "
-                    + "WHERE StatusFor='" + pSTATUS_FORNECEDOR + "'");
+                    + "WHERE StatusFor='" + pSTATUS_FORNECEDOR + "' "
+                    + "ORDER BY RazaoSocial");
             while (conecta.rs.next()) {
                 Fornecedor pDigiForn = new Fornecedor();
                 pDigiForn.setIdForn(conecta.rs.getInt("IdForn"));

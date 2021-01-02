@@ -113,6 +113,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
     //
     public static TelaBaixaCPR pBAIXA_CPR;
     public static TelaPesquisaReceitasDepesasData pPESQUISA_POR_DATA;
+    //
+    public static String pTIPO_CENTRO_custo = "";
 
     /**
      * Creates new form TelaMovimentacaoContasPR
@@ -1089,6 +1091,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Pagar") && acao == 1
                 || evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Pagar") && acao == 2) {
+            pTIPO_CENTRO_custo = "Despesas";
+            jComboBoxFornecedorCliente.removeAllItems();
             FornecedoresDAO dao = new FornecedoresDAO();
             try {
                 for (Fornecedor p : dao.read()) {
@@ -1128,6 +1132,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             forma.getDescricaoForma();
             objMov.setIdForma(forma.getIdForma());
             //
+            jComboBoxCentroCusto.removeAllItems();
             CentroCustoDAO daoCentro = new CentroCustoDAO();
             try {
                 for (CentroCusto c : daoCentro.read()) {
@@ -1141,6 +1146,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             centro.getDescricaoCentro();
             objMov.setIdCentro(centro.getIdCentro());
             //
+            jComboBoxTipoDespesa.removeAllItems();
             TipoContasDAO daoContas = new TipoContasDAO();
             try {
                 for (TipoConta t : daoContas.read()) {
@@ -1155,6 +1161,8 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             objMov.setIdConta(tipo.getIdConta());
         } else if (evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Receber") && acao == 1
                 || evt.getStateChange() == evt.SELECTED && jComboBoxOperacao.getSelectedItem().equals("Receber") && acao == 2) {
+            jComboBoxFornecedorCliente.removeAllItems();
+            pTIPO_CENTRO_custo = "Receitas";
             ClientesDAO dao = new ClientesDAO();
             try {
                 for (Clientes c : dao.read()) {
@@ -1194,6 +1202,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             forma.getDescricaoForma();
             objMov.setIdForma(forma.getIdForma());
             //
+            jComboBoxCentroCusto.removeAllItems();
             CentroCustoDAO daoCentro = new CentroCustoDAO();
             try {
                 for (CentroCusto c : daoCentro.read()) {
@@ -1208,6 +1217,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             centro.getDescricaoCentro();
             objMov.setIdCentro(centro.getIdCentro());
             //
+            jComboBoxTipoDespesa.removeAllItems();
             TipoContasDAO daoContas = new TipoContasDAO();
             try {
                 for (TipoConta t : daoContas.read()) {
@@ -1607,6 +1617,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             if (jComboBoxOperacao.getSelectedItem().equals("Selecione...")) {
                 JOptionPane.showMessageDialog(rootPane, "Selecione uma operação...");
             } else if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+                pTIPO_CENTRO_custo = "Despesas";
                 FornecedoresDAO dao = new FornecedoresDAO();
                 try {
                     for (Fornecedor p : dao.read()) {
@@ -1671,6 +1682,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 tipo.getDescricaoConta();
                 objMov.setIdConta(tipo.getIdConta());
             } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+                pTIPO_CENTRO_custo = "Receitas";
                 ClientesDAO dao = new ClientesDAO();
                 try {
                     for (Clientes c : dao.read()) {
@@ -1739,6 +1751,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             if (jComboBoxOperacao.getSelectedItem().equals("Selecione...")) {
                 JOptionPane.showMessageDialog(rootPane, "Selecione uma operação...");
             } else if (jComboBoxOperacao.getSelectedItem().equals("Pagar")) {
+                pTIPO_CENTRO_custo = "Despesas";
                 ListarFornecedorDAO_CP listaDAO = new ListarFornecedorDAO_CP();
                 try {
                     for (Fornecedor p : listaDAO.read()) {
@@ -1803,6 +1816,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
                 tipo.getDescricaoConta();
                 objMov.setIdConta(tipo.getIdConta());
             } else if (jComboBoxOperacao.getSelectedItem().equals("Receber")) {
+                pTIPO_CENTRO_custo = "Receitas";
                 ListarClientesDAO listaClientesDAO = new ListarClientesDAO();
                 try {
                     for (Clientes p : listaClientesDAO.read()) {
@@ -2088,6 +2102,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             centro.getDescricaoCentro();
             objMov.setIdCentro(centro.getIdCentro());
             //
+            jComboBoxTipoDespesa.removeAllItems();
             TipoContasDAO daoContas = new TipoContasDAO();
             try {
                 for (TipoConta t : daoContas.read()) {
@@ -2150,6 +2165,7 @@ public class TelaMovimentacaoContasPR extends javax.swing.JInternalFrame {
             centro.getDescricaoCentro();
             objMov.setIdCentro(centro.getIdCentro());
             //
+            jComboBoxTipoDespesa.removeAllItems();
             TipoContasDAO daoContas = new TipoContasDAO();
             try {
                 for (TipoConta t : daoContas.read()) {

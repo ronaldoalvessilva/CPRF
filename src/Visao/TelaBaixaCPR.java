@@ -187,7 +187,6 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
         jDataVencimentoOperacao.setEnabled(false);
 
         jDataOperacao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        jDataOperacao.setEnabled(false);
 
         jDocumentoBaixa.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jDocumentoBaixa.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
@@ -1121,6 +1120,7 @@ public class TelaBaixaCPR extends javax.swing.JDialog {
     }
 
     public void Confirmar() {
+        jDataOperacao.setEnabled(!true);
         jValorPRBaixa.setEnabled(!true);
         jValorOperacao.setEnabled(!true);
         jDiasAtraso.setEnabled(!true);
